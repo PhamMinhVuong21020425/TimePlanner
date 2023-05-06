@@ -9,9 +9,15 @@ import Menu from "../components/Menu";
 
 const Home = () => {
   const [selectedOption, setSelectedOption] = useState("");
+  const [show, setShow] = useState(false);
 
   const handleOptionButton = (option: string) => {
     setSelectedOption(option);
+    if (option === "AddTask") setShow(true);
+  };
+
+  const handleShow = () => {
+    setShow(!show);
   };
 
   const renderContent = () => {
@@ -24,7 +30,15 @@ const Home = () => {
       case "Report":
         return <Report />;
       case "AddTask":
-        return <AddTask option={selectedOption} />;
+        return (
+          <div>
+            {show && <ToDoList />}
+            {show && (
+              <AddTask option={selectedOption} showFunction={handleShow} />
+            )}
+            {!show && <ToDoList />}
+          </div>
+        );
       default:
         return <ToDoList />;
     }

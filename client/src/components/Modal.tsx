@@ -7,13 +7,36 @@ type Props = {
 };
 
 export default function Modal({ isVisible }: Props) {
+  const [data, setData] = useState({
+    taskName: "",
+    projectName: "",
+    description: "",
+    startTime: "",
+    priority: "LOW",
+    finishTime: "",
+  });
   const navigate = useNavigate();
+
   if (!isVisible) {
     return null;
   }
 
-  const handleSave = () => {
+  const handleDataChange = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    let name = event.target.name;
+    let value = event.target.value;
+    setData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleSave = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     isVisible = true;
+    const res = await request.post("task", data);
+    console.log(res.data);
+    navigate("/");
   };
 
   const handleCancel = () => {
@@ -38,6 +61,9 @@ export default function Modal({ isVisible }: Props) {
                   className="appearance-none block w-full bg-gray-100 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="text"
+                  name="taskName"
+                  onChange={handleDataChange}
+                  value={data.taskName}
                   placeholder=""
                 />
                 <p className="text-red-500 text-xs italic">
@@ -55,6 +81,9 @@ export default function Modal({ isVisible }: Props) {
                   className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-last-name"
                   type="text"
+                  name="projectName"
+                  onChange={handleDataChange}
+                  value={data.projectName}
                   placeholder=""
                 />
               </div>
@@ -71,6 +100,9 @@ export default function Modal({ isVisible }: Props) {
                   className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-password"
                   type="text"
+                  name="description"
+                  onChange={handleDataChange}
+                  value={data.description}
                   placeholder=""
                 />
                 <p className="text-gray-600 text-xs italic">
@@ -90,6 +122,9 @@ export default function Modal({ isVisible }: Props) {
                   className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-city"
                   type="datetime-local"
+                  name="startTime"
+                  onChange={handleDataChange}
+                  value={data.startTime}
                   placeholder="Albuquerque"
                 />
               </div>
@@ -104,6 +139,9 @@ export default function Modal({ isVisible }: Props) {
                   <select
                     className="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-state"
+                    name="priority"
+                    onChange={handleDataChange}
+                    value={data.priority}
                   >
                     <option>LOW</option>
                     <option>MEDIUM</option>
@@ -131,19 +169,21 @@ export default function Modal({ isVisible }: Props) {
                   className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-zip"
                   type="datetime-local"
+                  name="finishTime"
+                  onChange={handleDataChange}
+                  value={data.finishTime}
                   placeholder="90210"
                 />
               </div>
             </div>
             <button
-              className="bg-emerald-500 px-2 py-1 rounded-sm text-white text-xs mx-2 my-4"
+              className="bg-emerald-500 px-2 py-1 rounded-sm text-white text-xs mx-2 my-4 cursor-pointer"
               type="submit"
-              onClick={() => handleSave}
             >
               Save
             </button>
             <button
-              className="bg-red-500 px-2 py-1 rounded-sm text-white text-xs mx-2"
+              className="bg-red-500 px-2 py-1 rounded-sm text-white text-xs mx-2 cursor-pointer"
               onClick={handleCancel}
             >
               Cancel

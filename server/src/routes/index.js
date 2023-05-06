@@ -2,6 +2,7 @@ const newsRouter = require('./newsRouter');
 const searchRouter = require('./searchRouter');
 const siteRouter = require('./siteRouter');
 const authRouter = require('./authRouter');
+const taskRouter = require('./taskRouter');
 function route(app) {
 
     app.use('/', function isAuthenticated(req, res, next) {
@@ -9,16 +10,11 @@ function route(app) {
         else next('route')
     }, siteRouter);
 
-    app.use('/api', (req, res) => {
-        const users = {
-            "users": ['One', 'Two', 'Three']
-        }
-        res.status(200).json(users)
-    })
-
     app.use('/news', newsRouter);
 
     app.use('/search', searchRouter);
+
+    app.use('/task', taskRouter);
 
     app.use('/login', authRouter);
 
