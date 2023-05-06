@@ -48,7 +48,7 @@ function TimeLine({ todo }: Props) {
                 ) : null}
               </div>
             </div>
-            <div className="w-[70%] bg-gray-100 rounded-md p-4 ml-4">
+            <div className="w-[70%] bg-purple-50 rounded-md p-4 ml-4">
               <div className="font-bold text-base">{i.title}</div>
               <div className="text-gray-600 text-xs">{i.description}</div>
               {i.status === "STOPPED" ? (
@@ -67,7 +67,7 @@ function TimeLine({ todo }: Props) {
             </div>
           </div>
           <div className="flex items-center justify-center">
-            <hr className="w-1/2" />
+            <hr className="w-full" />
           </div>
         </div>
       ))}

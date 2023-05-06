@@ -51,7 +51,7 @@ function SideBar() {
   // Query data
   // TODO:
   // const todo = ...
-  
+
   return (
     <div className="border-2 shadow-md rounded-md m-3 font-poppins">
       <div className="flex items-center justify-between my-3 px-4">
