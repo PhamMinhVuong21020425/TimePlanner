@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Report {
+  report_id    String    @id @default(cuid())
+  user_id      String
+  started_time DateTime? @db.DateTime(3)
+  to_time      DateTime? @db.DateTime(3)
+  Judge        String?   @db.VarChar(255)
+  user         User      @relation(fields: [user_id], references: [id], map: "FK_report")
+
+  @@index([user_id], map: "FK_report")
+}
+
+model Shared_Task {
+  task_id String
+  user_id String
+  task    Task   @relation(fields: [task_id], references: [task_id], map: "FK_share_task")
+  user    User   @relation(fields: [user_id], references: [id], map: "FK_user_id")
+
+  @@id([task_id, user_id])
+  @@index([user_id], map: "FK_user_id")
+}
+
+model Task {
+  task_id            String        @id @default(cuid())
+  user_id            String?
+  task_name          String        @db.VarChar(150)
+  description        String?       @db.VarChar(255)
+  location           String?
+  started_time       DateTime?     @db.DateTime(3)
+  finished_time      DateTime?     @db.DateTime(3)
+  status             Status?       @default(INPROGRESS)
+  priority           Priority?     @default(MEDIUM)
+  type               Task_Type?    @default(BASIC_NEED)
+  created_at         DateTime      @default(now())
+  parent_task_id     String?
+  self_relation_task Task?         @relation("ParentTask", fields: [parent_task_id], references: [task_id], map: "Fk_task_1")
+  parent_task        Task[]        @relation("ParentTask")
+  user               User?         @relation(fields: [user_id], references: [id], onDelete: Restrict, map: "FK_user_and_task")
+  shared_tasks       Shared_Task[]
+
+  @@index([user_id], map: "FK_user_and_task")
+  @@index([parent_task_id], map: "FK_task_1")
+}
+
+//Next auth
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String        @id @default(cuid())
+  name          String?
+  age           Int?
+  email         String?       @unique
+  emailVerified DateTime?
+  image         String?
+  address       String?
+  phone_number  String?
+  company       String?
+  job           String?
+  accounts      Account[]
+  sessions      Session[]
+  shared_tasks  Shared_Task[]
+  report        Report[]
+  task          Task[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+enum Status {
+  STOPPED
+  INPROGRESS
+  COMPLETED
+}
+
+enum Priority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum Task_Type {
+  WORK_OR_STUDY
+  ENTERTAINMENT_OR_HOBBY
+  BASIC_NEED
+  HOUSEWORK
+  HEALTH
+  SPORT_OR_WORKOUT
+  SOCIAL_ACTIVITY
+  WASTED_TIME
+  OTHERS
+}
