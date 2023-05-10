@@ -16,29 +16,26 @@ export default function ({ handleOptionButton }: Props) {
   };
 
   return (
-    <div className="m-2 flex items-center shadow-md justify-between p-3 font-poppins text-sm">
+    <div className="m-3 flex items-center shadow-md justify-between p-3 font-poppins text-sm">
       <button
-        className={`flex w-1/6 place-items-center justify-center rounded-md px-4 py-2 ${
-          activeButton === "ToDoList" ? "bg-teal-200" : ""
-        }`}
+        className={`flex w-1/6 place-items-center justify-center rounded-md px-4 py-2 ${activeButton === "ToDoList" ? "bg-teal-200" : ""
+          }`}
         onClick={() => handleButtonClick("ToDoList")}
       >
         <FaTasks className="mr-3" />
         <span>Tasks</span>
       </button>
       <button
-        className={`flex w-1/6 place-items-center justify-center rounded-md px-4 py-2 ${
-          activeButton === "Calendar" ? "bg-teal-200" : ""
-        }`}
+        className={`flex w-1/6 place-items-center justify-center rounded-md px-4 py-2 ${activeButton === "Calendar" ? "bg-teal-200" : ""
+          }`}
         onClick={() => handleButtonClick("Calendar")}
       >
         <BsCalendar3 className="mr-3" />
         <span>Calendar</span>
       </button>
       <button
-        className={`flex w-1/6 place-items-center justify-center rounded-md px-4 py-2 ${
-          activeButton === "Report" ? "bg-teal-200" : ""
-        }`}
+        className={`flex w-1/6 place-items-center justify-center rounded-md px-4 py-2 ${activeButton === "Report" ? "bg-teal-200" : ""
+          }`}
         onClick={() => handleButtonClick("Report")}
       >
         <HiOutlineDocumentReport className="mr-3 text-lg" />

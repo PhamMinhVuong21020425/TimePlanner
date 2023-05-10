@@ -342,7 +342,7 @@ const YearBarChartData = {
 
 export default function Report() {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center rounded-md shadow-md m-3">
       <div className="w-1/2 h-1/2">
         <div className="mx-auto my-10">
           <Line data={LineChartData} options={LineChartOptions} />

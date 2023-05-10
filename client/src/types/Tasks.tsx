@@ -1,6 +1,6 @@
 interface Task {
-  time: Date;
-  projectName: string;
+  start_time: Date;
+  task_name: string;
   title: string;
   description: string;
   priority: "LOW" | "MEDIUM" | "HIGH";

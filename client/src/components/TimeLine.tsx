@@ -19,7 +19,7 @@ function TimeLine({ todo }: Props) {
   return (
     <div>
       <div className="flex p-4 rounded-md justify-between">
-        <div className="text-sm text-center font-bold">My To Do's List</div>
+        <div className="text-sm text-center font-bold">To Do's List</div>
         <div className="text-sm text-center text-gray-400">
           Today {formatDate(new Date())}
         </div>
@@ -29,21 +29,21 @@ function TimeLine({ todo }: Props) {
           <div className="flex p-4 rounded-md">
             <div className="w-[30%]">
               <div className="text-sm text-center">
-                {i.time.getHours() + ":" + i.time.getMinutes() + " AM"}
+                {i.start_time.getHours() + ":" + i.start_time.getMinutes() + " AM"}
               </div>
               <hr />
               <div className="h-full flex items-center justify-center">
                 {i.priority === "LOW" ? (
                   <div className="bg-emerald-300 px-2 py-1 rounded-md text-emerald-700 text-xs">
-                    {i.projectName}
+                    {i.task_name}
                   </div>
                 ) : i.priority === "MEDIUM" ? (
                   <div className="bg-yellow-300 px-2 py-1 rounded-md text-yellow-700 text-xs">
-                    {i.projectName}
+                    {i.task_name}
                   </div>
                 ) : i.priority === "HIGH" ? (
                   <div className="bg-rose-300 px-2 py-1 rounded-md text-rose-700 text-xs hover:bg-rose-700 hover:text-rose-300">
-                    {i.projectName}
+                    {i.task_name}
                   </div>
                 ) : null}
               </div>

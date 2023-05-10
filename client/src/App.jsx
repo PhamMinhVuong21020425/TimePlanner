@@ -7,9 +7,10 @@ import Layout from "./pages/Layout";
 import Test from "./pages/Test";
 import LoginForm from "./components/LoginForm";
 import SignUpForm from "./pages/SignUpForm";
+import Admin from "./pages/Admin";
 import "./index.css";
 
-function App(): JSX.Element {
+function App() {
   return (
     <BrowserRouter>
       <Routes>
@@ -20,6 +21,7 @@ function App(): JSX.Element {
           <Route path="signup" element={<SignUpForm />} />
           <Route path="test" element={<Test />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="admin" element={<Admin />} />
         </Route>
       </Routes>
     </BrowserRouter>

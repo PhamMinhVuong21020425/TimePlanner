@@ -4,17 +4,17 @@ import Task from "../types/Tasks";
 
 const todo: Task[] = [
   {
-    time: new Date("1995-12-17T03:20:00"),
-    projectName: "Project X",
+    start_time: new Date("1995-12-17T03:20:00"),
+    task_name: "Project X",
     title: "Brainstorming",
     description:
-      "An existing Date object. This effectively makes a copy of the existing Date object with the same date and time.",
+      "An existing Date object. This effectively makes a copy of the existing Date object with the same date and time. An existing Date object. This effectively makes a copy of the existing Date object with the same date and time. An existing Date object. This effectively makes a copy of the existing Date object with the same date and time. An existing Date object. This effectively makes a copy of the existing Date object with the same date and time.",
     priority: "HIGH",
     status: "INPROGRESS",
   },
   {
-    time: new Date("1995-01-17T03:24:00"),
-    projectName: "Project Y",
+    start_time: new Date("1995-01-17T03:24:00"),
+    task_name: "Project Y",
     title: "Brainstorming",
     description:
       "When no parameters are provided, the newly-created Date object represents the current date and time as of the time of instantiation.",
@@ -22,24 +22,24 @@ const todo: Task[] = [
     status: "COMPLETED",
   },
   {
-    time: new Date("1995-07-31T03:25:00"),
-    projectName: "Project Z",
+    start_time: new Date("1995-07-31T03:25:00"),
+    task_name: "Project Z",
     title: "Brainstorming",
     description: "Utilities for controlling the font size of an element.",
     priority: "MEDIUM",
     status: "STOPPED",
   },
   {
-    time: new Date("1995-07-31T03:25:00"),
-    projectName: "Project W",
+    start_time: new Date("1995-07-31T03:25:00"),
+    task_name: "Project W",
     title: "Brainstorming",
     description: "Utilities for controlling the font size of an element.",
     priority: "HIGH",
     status: "INPROGRESS",
   },
   {
-    time: new Date("1995-07-31T03:25:00"),
-    projectName: "Project Z",
+    start_time: new Date("1995-07-31T03:25:00"),
+    task_name: "Project Z",
     title: "Brainstorming",
     description: "Utilities for controlling the font size of an element.",
     priority: "LOW",
