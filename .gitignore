@@ -7,5 +7,6 @@ node_modules/
 server/node_modules/
 server/yarn.lock
 server/package-lock.json
+server/.env
 
 .vscode
