@@ -172,7 +172,7 @@ function StrongestTopic() {
 
 const AdminReport = () => {
     return (
-        <div className="m-3 rounded-md shadow-md h-screen">
+        <div className="m-3 rounded-md shadow-md">
             <div className="p-4">
                 {/* <div className="font-bold text-xl text-gray-700">Reports</div> */}
                 {/* <hr className="my-3 border-2" /> */}

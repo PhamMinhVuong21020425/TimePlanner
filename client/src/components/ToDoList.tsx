@@ -1,47 +1,65 @@
+import { FiEdit } from "react-icons/fi";
 import Task from "../types/Tasks";
 
-function taskStyle(i: Task) {
+function taskStyle(i: Task, handleClicked: (id: number) => void) {
+    const id: number = i.id;
+
     switch (i.priority) {
         case 'LOW':
             return (
-                <div className="border-2 border-emerald-300 rounded-md p-4">
+                <div className="border-[1.5px] border-emerald-300 rounded-md p-4">
                     <div className="text-xs text-center w-1/2 rounded-md">
                         <div className="bg-emerald-300 px-2 py-1 rounded-md text-emerald-700 text-xs -translate-y-6">
                             {i.task_name}
                         </div>
                     </div>
-                    <div className="font-bold text-base">{i.title}</div>
+                    <div className="font-bold text-base text-gray-600 -translate-y-3">{i.title}</div>
                     <div className="text-gray-600 text-xs">{i.description}</div>
-                    {buttonStyle(i)}
-                </div>
+                    <div className="flex justify-between items-center mt-5">
+                        {buttonStyle(i)}
+                        <button className="px-2 py-1 text-emerald-500" onClick={() => handleClicked(id)}>
+                            <FiEdit />
+                        </button>
+                    </div>
+                </div >
             );
             break;
         case 'MEDIUM':
             return (
-                <div className="border-2 border-amber-300 rounded-md p-4">
+                <div className="border-[1.5px] border-amber-300 rounded-md p-4">
                     <div className="text-xs text-center w-1/2 rounded-md">
                         <div className="bg-amber-300 px-2 py-1 rounded-md text-amber-700 text-xs -translate-y-6">
                             {i.task_name}
                         </div>
                     </div>
-                    <div className="font-bold text-base">{i.title}</div>
+                    <div className="font-bold text-base text-gray-600 -translate-y-3">{i.title}</div>
                     <div className="text-gray-600 text-xs">{i.description}</div>
-                    {buttonStyle(i)}
+                    <div className="flex justify-between items-center mt-5">
+                        {buttonStyle(i)}
+                        <button className="px-2 py-1 text-amber-500" onClick={() => handleClicked(id)}>
+                            <FiEdit />
+                        </button>
+                    </div>
                 </div>
             );
             break;
 
         case 'HIGH':
             return (
-                <div className="border-2 border-rose-300 rounded-md p-4">
+                <div className="border-[1.5px] border-rose-300 rounded-md p-4">
                     <div className="text-xs text-center w-1/2 rounded-md">
-                        <div className="bg-rose-300 px-2 py-1 rounded-md text-rose-700 text-xs -translate-y-6 hover:bg-rose-700 hover:text-rose-300">
+                        <div className="bg-rose-300 px-2 py-1 rounded-md text-rose-700 text-xs -translate-y-6">
                             {i.task_name}
                         </div>
                     </div>
-                    <div className="font-bold text-base">{i.title}</div>
+                    <div className="font-bold text-base text-gray-600 -translate-y-3">{i.title}</div>
                     <div className="text-gray-600 text-xs">{i.description}</div>
-                    {buttonStyle(i)}
+                    <div className="flex justify-between items-center mt-5">
+                        {buttonStyle(i)}
+                        <button className="px-2 py-1 text-rose-500" onClick={() => handleClicked(id)}>
+                            <FiEdit />
+                        </button>
+                    </div>
                 </div>
             );
             break;
@@ -55,15 +73,15 @@ function buttonStyle(i: Task) {
     return (
         <div>
             {i.status === 'STOPPED' ? (
-                <button className="text-xs text-rose-700 bg-rose-200 px-2 py-1 rounded-md mt-5">
+                <button className="text-xs text-rose-700 bg-rose-200 px-2 py-1 rounded-md">
                     Stopped
                 </button>
             ) : i.status === 'INPROGRESS' ? (
-                <button className="text-xs text-cyan-700 bg-cyan-200 px-2 py-1 rounded-md mt-5">
+                <button className="text-xs text-cyan-700 bg-cyan-200 px-2 py-1 rounded-md">
                     In Progress
                 </button>
             ) : i.status === 'COMPLETED' ? (
-                <button className="text-xs text-green-700 bg-green-200 px-2 py-1 rounded-md mt-5">
+                <button className="text-xs text-green-700 bg-green-200 px-2 py-1 rounded-md">
                     Completed
                 </button>
             ) : null}
@@ -74,7 +92,9 @@ function buttonStyle(i: Task) {
 function ToDoList() {
     const todo: Task[] = [
         {
-            start_time: new Date('1995-12-17T03:20:00'),
+            id: 1,
+            started_time: new Date('1995-12-17T03:20:00'),
+            finished_time: new Date('1995-12-20T03:20:00'),
             task_name: 'Project X',
             title: 'Brainstorming',
             description:
@@ -83,7 +103,9 @@ function ToDoList() {
             status: 'INPROGRESS',
         },
         {
-            start_time: new Date('1995-01-17T03:24:00'),
+            id: 2,
+            started_time: new Date('1995-01-17T03:24:00'),
+            finished_time: new Date('1995-01-20T03:24:00'),
             task_name: 'Project Y',
             title: 'Brainstorming',
             description:
@@ -92,7 +114,9 @@ function ToDoList() {
             status: 'COMPLETED',
         },
         {
-            start_time: new Date('1995-07-31T03:25:00'),
+            id: 3,
+            started_time: new Date('1995-07-31T03:25:00'),
+            finished_time: new Date('1995-08-20T03:25:00'),
             task_name: 'Project Z',
             title: 'Brainstorming',
             description: 'Utilities for controlling the font size of an element.',
@@ -100,15 +124,19 @@ function ToDoList() {
             status: 'STOPPED',
         },
         {
-            start_time: new Date('1995-07-31T03:25:00'),
+            id: 4,
+            started_time: new Date('1995-07-31T03:25:00'),
+            finished_time: new Date('1995-08-20T03:25:00'),
             task_name: 'Project W',
-            title: 'Brainstorming',
-            description: 'Utilities for controlling the font size of an element.',
+            title: 'New Year Celebration',
+            description: 'Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element.',
             priority: 'MEDIUM',
             status: 'INPROGRESS',
         },
         {
-            start_time: new Date('1995-07-31T03:25:00'),
+            id: 5,
+            started_time: new Date('1995-07-31T03:25:00'),
+            finished_time: new Date('1995-08-20T03:25:00'),
             task_name: 'Project W',
             title: 'Brainstorming',
             description: 'Utilities for controlling the font size of an element.',
@@ -116,7 +144,9 @@ function ToDoList() {
             status: 'INPROGRESS',
         },
         {
-            start_time: new Date('1995-07-31T03:25:00'),
+            id: 6,
+            started_time: new Date('1995-07-31T03:25:00'),
+            finished_time: new Date('1995-08-20T03:25:00'),
             task_name: 'Project W',
             title: 'Brainstorming',
             description: 'Utilities for controlling the font size of an element.',
@@ -124,7 +154,9 @@ function ToDoList() {
             status: 'STOPPED',
         },
         {
-            start_time: new Date('1995-07-31T03:25:00'),
+            id: 7,
+            started_time: new Date('1995-07-31T03:25:00'),
+            finished_time: new Date('1995-08-20T03:25:00'),
             task_name: 'Project Z',
             title: 'Brainstorming',
             description: 'Utilities for controlling the font size of an element.',
@@ -132,47 +164,65 @@ function ToDoList() {
             status: 'COMPLETED',
         },
     ];
+
+    function editTask(id: number, newData: Task) {
+        for (let i = 0; i < todo.length; i++) {
+            if (todo[i].id === id) {
+                todo[i] = newData;
+            }
+        }
+    }
+
+    function handleClicked(id: number) {
+        console.log(id);
+    }
+
     return (
         <div className="font-poppins">
             <div className="flex justify-between">
-                <div className="w-1/3 rounded-md mx-3 p-2 shadow-md">
+                {/* First Column */}
+                <div className="w-1/3 rounded-md mx-3 p-2 border-[1.5px]">
                     <div className="flex items-center px-4">
                         <div className="bg-cyan-500 w-[6px] h-[6px] rounded-md mr-4"></div>
-                        <div className="font-bold text-sm">In Progress</div>
+                        <div className="text-cyan-500 font-bold text-sm">In Progress</div>
                     </div>
                     <hr className="border-2 border-cyan-400 rounded-md my-2 mx-4" />
                     <div>
                         {todo.map((i) => (
                             <div className="m-4">
-                                {i.status === 'INPROGRESS' ? <div>{taskStyle(i)}</div> : null}
+                                {i.status === 'INPROGRESS' ? <div>{taskStyle(i, handleClicked)}</div> : null}
                             </div>
                         ))}
                     </div>
                 </div>
-                <div className="w-1/3 rounded-md mx-2 p-2 shadow-md">
+
+                {/* Second Column */}
+                <div className="w-1/3 rounded-md mx-2 p-2 border-[1.5px]">
                     <div className="flex items-center px-4">
                         <div className="bg-rose-500 w-[6px] h-[6px] rounded-md mr-4"></div>
-                        <div className="font-bold text-sm">Stopped</div>
+                        <div className="text-rose-500 font-bold text-sm">Stopped</div>
                     </div>
                     <hr className="border-2 border-rose-400 rounded-md my-2 mx-4" />
                     <div>
                         {todo.map((i) => (
                             <div className="m-4">
-                                {i.status === 'STOPPED' ? <div>{taskStyle(i)}</div> : null}
+                                {i.status === 'STOPPED' ? <div>{taskStyle(i, handleClicked)}</div> : null}
                             </div>
                         ))}
                     </div>
                 </div>
-                <div className="w-1/3 rounded-md mx-2 p-2 shadow-md">
+
+                {/* Third Column */}
+                <div className="w-1/3 rounded-md mx-2 p-2 border-[1.5px]">
                     <div className="flex items-center px-4">
                         <div className="bg-green-500 w-[6px] h-[6px] rounded-md mr-4"></div>
-                        <div className="font-bold text-sm">Completed</div>
+                        <div className="text-green-500 font-bold text-sm">Completed</div>
                     </div>
                     <hr className="border-2 border-green-400 rounded-md my-2 mx-4" />
                     <div>
                         {todo.map((i) => (
                             <div className="m-4">
-                                {i.status === 'COMPLETED' ? <div>{taskStyle(i)}</div> : null}
+                                {i.status === 'COMPLETED' ? <div>{taskStyle(i, handleClicked)}</div> : null}
                             </div>
                         ))}
                     </div>

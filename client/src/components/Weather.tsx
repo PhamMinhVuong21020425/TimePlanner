@@ -73,9 +73,9 @@ const Weather: React.FC = () => {
           API_URL,
           {
             params: {
-                q: 'hanoi',
-                appid: API_KEY,
-                units: 'metric',
+              q: 'hanoi',
+              appid: API_KEY,
+              units: 'metric',
             }
           }
         );
@@ -104,6 +104,6 @@ const Weather: React.FC = () => {
       )}
     </div>
   );
-};
+}
 
 export default Weather;

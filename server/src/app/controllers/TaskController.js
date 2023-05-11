@@ -1,18 +1,105 @@
+const prisma = require('./PrismaConfig');
+
 class TaskController {
 
     // POST /task
     async taskPost(req, res) {
-        const { taskName, description, startTime, finishTime, priority } = req.body;
-        const pool = require('./ConnectPlane');
-        const sql = 'INSERT INTO task(task_name, description, started_date, finished_date, priority) VALUES (?, ?, ?, ?, ?)';
-        await pool.execute(sql, [taskName, description, startTime, finishTime, priority], function (err, results) {
-            if (err) {
-                console.log(err);
-                res.status(500).json({ message: 'Failed' });
-                return;
+        // const { taskName, description, startTime, finishTime, priority, type } = req.body;
+        // const pool = require('./ConnectPlane');
+        // const sql = 'INSERT INTO Task(task_name, description, started_time, finished_time, priority, type) VALUES (?, ?, ?, ?, ?, ?)';
+        // await pool.execute(sql, [taskName, description, startTime, finishTime, priority, type], function (err, results) {
+        //     if (err) {
+        //         console.log(err);
+        //         res.status(500).json({ message: 'Internal Server Error' });
+        //         return;
+        //     }
+        //     res.status(200).json({ success: 'Add task success...' });
+
+        // });
+        try {
+            await prisma.task.create({
+                data: {
+                    task_name: req.body.taskName,
+                    description: req.body.description,
+                    // location: req.body.location,
+                    started_time: new Date(req.body.startTime),
+                    finished_time: new Date(req.body.finishTime),
+                    priority: req.body.priority,
+                    type: req.body.type,
+                }
+            })
+            res.status(200).send("success");
+        }
+        catch (e) {
+            res.status(500).json({ message: 'Internal Server Error' });
+            console.log(e.code);
+            throw e;
+        }
+    }
+
+    async getTask(req, res) {
+        try {
+            // if (req.session.user) {
+            const tasks = await prisma.task.findMany({
+                where: {
+                    user_id: req.session.userId
+                }
+            })
+            // };
+            res.status(200).json(tasks);
+        }
+        catch {
+            res.status(500).json({ message: 'Internal Server Error' });
+            console.log(e.code);
+            throw e;
+        }
+    }
+
+    async deleteTask(req, res) {
+        try {
+            if (req.session.userId) {
+                await prisma.task.delete({
+                    where: {
+                        user_id: req.session.userId,
+                        task_id: req.params.task_id
+                    }
+                })
             }
-            res.status(200).json({ success: 'Add task success...' });
-        });
+        }
+        catch {
+            res.status(500).json({ message: 'Internal Server Error' });
+            console.log(e.code);
+            throw e;
+        }
+    }
+
+    async updateTask(req, res) {
+        try {
+            if (req.session.userId) {
+                await prisma.task.update({
+                    where: {
+                        user_id: req.session.userId,
+                        task_id: req.params.task_id
+                    },
+                    data: {
+                        task_name: req.body.taskName,
+                        description: req.body.description,
+                        location: req.body.location,
+                        started_time: new Date(req.body.startTime),
+                        finished_time: new Date(req.body.finishTime),
+                        status: req.body.status,
+                        priority: req.body.priority,
+                        type: req.body.type,
+                    }
+                })
+            }
+        }
+        catch {
+            res.status(500).json({ message: 'Internal Server Error' });
+            console.log(e.code);
+            throw e;
+        }
+
     }
 }
 

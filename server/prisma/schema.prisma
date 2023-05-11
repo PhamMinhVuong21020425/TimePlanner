@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL_PLANETSCALE")
+  url      = env("DATABASE_URL")
 }
 
 model Report {
@@ -84,6 +84,7 @@ model User {
   age           Int?
   email         String?       @unique
   emailVerified DateTime?
+  password      String?
   image         String?
   address       String?
   phone_number  String?

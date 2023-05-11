@@ -4,7 +4,9 @@ import Task from "../types/Tasks";
 
 const todo: Task[] = [
   {
-    start_time: new Date("1995-12-17T03:20:00"),
+    id: 10,
+    started_time: new Date("1995-12-17T03:20:00"),
+    finished_time: new Date("1995-12-17T03:20:00"),
     task_name: "Project X",
     title: "Brainstorming",
     description:
@@ -13,7 +15,9 @@ const todo: Task[] = [
     status: "INPROGRESS",
   },
   {
-    start_time: new Date("1995-01-17T03:24:00"),
+    id: 11,
+    started_time: new Date("1995-01-17T03:24:00"),
+    finished_time: new Date("1995-01-17T03:24:00"),
     task_name: "Project Y",
     title: "Brainstorming",
     description:
@@ -22,7 +26,9 @@ const todo: Task[] = [
     status: "COMPLETED",
   },
   {
-    start_time: new Date("1995-07-31T03:25:00"),
+    id: 12,
+    started_time: new Date("1995-07-31T03:25:00"),
+    finished_time: new Date("1995-07-31T03:25:00"),
     task_name: "Project Z",
     title: "Brainstorming",
     description: "Utilities for controlling the font size of an element.",
@@ -30,7 +36,9 @@ const todo: Task[] = [
     status: "STOPPED",
   },
   {
-    start_time: new Date("1995-07-31T03:25:00"),
+    id: 13,
+    started_time: new Date("1995-07-31T03:25:00"),
+    finished_time: new Date("1995-07-31T03:25:00"),
     task_name: "Project W",
     title: "Brainstorming",
     description: "Utilities for controlling the font size of an element.",
@@ -38,7 +46,9 @@ const todo: Task[] = [
     status: "INPROGRESS",
   },
   {
-    start_time: new Date("1995-07-31T03:25:00"),
+    id: 14,
+    started_time: new Date("1995-07-31T03:25:00"),
+    finished_time: new Date("1995-07-31T03:25:00"),
     task_name: "Project Z",
     title: "Brainstorming",
     description: "Utilities for controlling the font size of an element.",
@@ -50,19 +60,19 @@ const todo: Task[] = [
 function SideBar() {
   // Query data
   // TODO:
-  // const todo = ...
+  // const todo: Task[] = ...
 
   return (
-    <div className="border-2 shadow-md rounded-md m-3 font-poppins">
-      <div className="flex items-center justify-between my-3 px-4">
-        <div className="flex items-center justify-center bg-blue-400 rounded-full w-[60px] h-[60px]">
+    <div className="border-[1.5px] rounded-md m-3 font-poppins">
+      <div className="flex items-center justify-between my-3 px-4 mx-2">
+        <div className="flex items-center justify-center bg-emerald-400 rounded-full w-[50px] h-[50px]">
           <span className="text-white font-bold text-xl">A</span>
         </div>
         <div className="w-[50%] pl-4">
-          <div className="text-base mb-1">Nguyen Quang Anh</div>
+          <div className="text-sm mb-1 text-gray-600">Nguyen Quang Anh</div>
           <div className="text-xs text-gray-500">Hanoi, Viet Nam</div>
         </div>
-        <div className="w-[25%] flex items-center justify-center text-xl">
+        <div className="w-[25%] flex items-center text-gray-600 justify-center text-xl">
           <IoMdNotificationsOutline />
         </div>
       </div>

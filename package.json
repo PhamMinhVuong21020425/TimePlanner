@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@syncfusion/ej2-react-schedule": "^21.2.3",
-    "echarts-for-react": "^3.0.2"
-  }
-}
