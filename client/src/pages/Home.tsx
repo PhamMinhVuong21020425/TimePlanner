@@ -6,6 +6,7 @@ import Report from "../components/Report";
 import AddTask from "../components/AddTask";
 import SideBar from "../components/SideBar";
 import Menu from "../components/Menu";
+import Weather from "../components/Weather";
 
 
 const Home = () => {
@@ -26,8 +27,10 @@ const Home = () => {
     switch (selectedOption) {
       case "ToDoList":
         return <ToDoList />;
+        break;
       case "Calendar":
         return <Calendar />;
+        break;
       case "Report":
         return <Report />;
       case "AddTask":
@@ -40,8 +43,13 @@ const Home = () => {
             {!showAddTask && <ToDoList />}
           </div>
         );
+        break;
+      case "Weather":
+        return <Weather />;
+        break;
       default:
         return <ToDoList />;
+        break;
     }
   };
 

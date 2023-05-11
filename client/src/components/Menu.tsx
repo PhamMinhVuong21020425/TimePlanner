@@ -16,7 +16,7 @@ export default function ({ handleOptionButton }: Props) {
   };
 
   return (
-    <div className="m-3 flex items-center text-gray-600 justify-between p-3 font-poppins text-sm border-[1.5px] rounded-md">
+    <div className="m-3 flex items-center text-gray-600 justify-between p-3 font-poppins text-sm rounded-md">
       <button
         className={`flex w-1/6 place-items-center justify-center rounded-md px-4 py-2 ${activeButton === "ToDoList" ? "bg-teal-200" : ""
           }`}
@@ -24,6 +24,14 @@ export default function ({ handleOptionButton }: Props) {
       >
         <FaTasks className="mr-3" />
         <span>Tasks</span>
+      </button>
+      <button
+        className={`flex w-1/6 place-items-center text-gray-600 justify-center rounded-md px-4 py-2 ${activeButton === "Weather" ? "bg-teal-200" : ""
+          }`}
+        onClick={() => handleButtonClick("Weather")}
+      >
+        <BsCalendar3 className="mr-3" />
+        <span>Weather</span>
       </button>
       <button
         className={`flex w-1/6 place-items-center text-gray-600 justify-center rounded-md px-4 py-2 ${activeButton === "Calendar" ? "bg-teal-200" : ""
@@ -42,17 +50,17 @@ export default function ({ handleOptionButton }: Props) {
         <span>Reports</span>
       </button>
       <button
-        className="w-1/6 rounded-md border-2 bg-emerald-500 -400 px-4 py-2 text-white cursor-pointer"
+        className="w-1/6 rounded-md border-2 bg-emerald-500 -400 px-4 py-2 text-white cursor-pointer mx-2"
         onClick={() => handleButtonClick("AddTask")}
       >
         Add task
       </button>
-      <button
-        className="w-1/6 rounded-md border-2 bg-orange-500 px-4 py-2 text-white cursor-pointer"
+      {/* <button
+        className="w-1/6 rounded-md border-2 bg-orange-500 px-4 py-2 text-white cursor-pointer mx-2"
         onClick={() => handleButtonClick("AddProject")}
       >
         Add project
-      </button>
+      </button> */}
     </div>
   );
 }
