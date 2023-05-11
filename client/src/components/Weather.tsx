@@ -29,7 +29,7 @@ const Weather: React.FC<WeatherProps> = ({ temperature, description, icon }) => 
     };
 
     return (
-        <div className="bg-white rounded-md shadow-md p-4">
+        <div className="bg-white rounded-md border-[1.5px] p-4">
             <div className="flex justify-center items-center mb-2">{getIcon()}</div>
             <div className="text-center">
                 <div className="text-4xl font-bold">{temperature}&deg;C</div>

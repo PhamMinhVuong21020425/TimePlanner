@@ -7,17 +7,18 @@ import AddTask from "../components/AddTask";
 import SideBar from "../components/SideBar";
 import Menu from "../components/Menu";
 
+
 const Home = () => {
   const [selectedOption, setSelectedOption] = useState("");
-  const [show, setShow] = useState(false);
+  const [showAddTask, setShowAddTask] = useState(false);
 
   const handleOptionButton = (option: string) => {
     setSelectedOption(option);
-    if (option === "AddTask") setShow(true);
+    if (option === "AddTask") setShowAddTask(true);
   };
 
-  const handleShow = () => {
-    setShow(!show);
+  const handleShowAddTask = () => {
+    setShowAddTask(!showAddTask);
   };
 
   const renderContent = () => {
@@ -32,11 +33,11 @@ const Home = () => {
       case "AddTask":
         return (
           <div>
-            {show && <ToDoList />}
-            {show && (
-              <AddTask option={selectedOption} showFunction={handleShow} />
+            {showAddTask && <ToDoList />}
+            {showAddTask && (
+              <AddTask option={selectedOption} showFunction={handleShowAddTask} />
             )}
-            {!show && <ToDoList />}
+            {!showAddTask && <ToDoList />}
           </div>
         );
       default:
