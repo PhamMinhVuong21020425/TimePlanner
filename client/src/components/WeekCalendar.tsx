@@ -2,13 +2,15 @@ import format from "date-fns/format";
 import getDay from "date-fns/getDay";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../App.css"
 import "../styles/Calendar.css"
+import Task from "../types/Tasks";
+import request from "../utils/request";
 
 const locales = {
     //"en-US": require("date-fns/locale/en-US"),
@@ -22,102 +24,113 @@ const localizer = dateFnsLocalizer({
     locales,
 });
 
-interface Event {
-    title: string;
-    start: Date;
-    end: Date;
-    allDay?: boolean;
-}
+// interface Task {
+//     title: string;
+//     start: Date;
+//     end: Date;
+//     allDay?: boolean;
+// }
 
-const events: Event[] = [
-    {
-        title: "Big Meeting",
-        allDay: true,
-        start: new Date(2023, 4, 11),
-        end: new Date(2023, 4, 13),
-    },
-    {
-        title: "Conversation",
-        start: new Date(2023, 6, 7),
-        end: new Date(2023, 6, 10),
-    },
-    {
-        title: "Playing",
-        start: new Date(2023, 6, 20),
-        end: new Date(2023, 6, 23),
-    },
-];
+// const Tasks: Task[] = [
+//     {
+//         title: "Big Meeting",
+//         allDay: true,
+//         start: new Date(2023, 4, 11),
+//         end: new Date(2023, 4, 13),
+//     },
+//     {
+//         title: "Conversation",
+//         start: new Date(2023, 6, 7),
+//         end: new Date(2023, 6, 10),
+//     },
+//     {
+//         title: "Playing",
+//         start: new Date(2023, 6, 20),
+//         end: new Date(2023, 6, 23),
+//     },
+// ];
 
 function WeekCalendar() {
-    const [newEvent, setNewEvent] = useState<Event>({
-        title: "",
-        start: new Date(),
-        end: new Date(),
-    });
-    const [allEvents, setAllEvents] = useState<Event[]>(events);
+    // const [newTask, setNewTask] = useState<Task>({
+    //     title: "",
+    //     start: new Date(),
+    //     end: new Date(),
+    // });
+    const [allTasks, setAllTasks] = useState<Task[]>();
+    useEffect(() => {
+        request.get<Task[]>('task')
+            .then(response => {
+                setAllTasks(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
 
-    function handleAddEvent() {
-        for (let i = 0; i < allEvents.length; i++) {
-            const d1 = new Date(allEvents[i].start);
-            const d2 = new Date(newEvent.start);
-            const d3 = new Date(allEvents[i].end);
-            const d4 = new Date(newEvent.end);
 
-            if (
-                (d1 <= d2 && d2 <= d3) ||
-                (d1 <= d4 && d4 <= d3)
-            ) {
-                alert("Clash, collision");
-                break;
-            }
-        }
-        setAllEvents([...allEvents, newEvent]);
-    }
+    // function handleAddTask() {
+    //     for (let i = 0; i < allTasks.length; i++) {
+    //         const d1 = new Date(allTasks[i].start);
+    //         const d2 = new Date(newTask.start);
+    //         const d3 = new Date(allTasks[i].end);
+    //         const d4 = new Date(newTask.end);
+
+    //         if (
+    //             (d1 <= d2 && d2 <= d3) ||
+    //             (d1 <= d4 && d4 <= d3)
+    //         ) {
+    //             alert("Clash, collision");
+    //             break;
+    //         }
+    //     }
+    //     setAllTasks([...allTasks, newTask]);
+    // }
 
     return (
         <div className="App">
-            {/* <h2>Add New Event</h2>
+            {/* <h2>Add New Task</h2>
             <div>
                 <input
                     type="text"
                     placeholder="Add Title"
                     style={{ width: "20%", marginRight: "10px" }}
-                    value={newEvent.title}
+                    value={newTask.title}
                     onChange={(e) =>
-                        setNewEvent({ ...newEvent, title: e.target.value })
+                        setNewTask({ ...newTask, title: e.target.value })
                     }
                 />
                 <DatePicker
                     placeholderText="Start Date"
-                    selected={newEvent.start}
+                    selected={newTask.start}
                     className="my-datepicker"
                     onChange={(start: Date | null) =>
-                        setNewEvent({
-                            ...newEvent,
+                        setNewTask({
+                            ...newTask,
                             start: start ? start : new Date(),
                         })
                     }
                 />
                 <DatePicker
                     placeholderText="End Date"
-                    selected={newEvent.end}
+                    selected={newTask.end}
                     className="my-datepicker"
                     onChange={(end: Date | null) =>
-                        setNewEvent({
-                            ...newEvent,
+                        setNewTask({
+                            ...newTask,
                             end: end ? end : new Date(),
                         })
                     }
                 />
-                <button style={{ marginTop: "20px", color: "lime" }} onClick={handleAddEvent}>
-                    Add Event
+                <button style={{ marginTop: "20px", color: "lime" }} onClick={handleAddTask}>
+                    Add Task
                 </button>
             </div> */}
             <Calendar
                 localizer={localizer}
-                events={allEvents}
-                startAccessor="start"
-                endAccessor="end"
+                events={allTasks}
+                titleAccessor={(event) => { return event.task_name }}
+                startAccessor={(event) => { return new Date(event.started_time) }}
+                endAccessor={(event) => { return new Date(event.finished_time) }}
                 style={{ height: 500, margin: "50px", color: "gray", backgroundColor: "white", fontFamily: "sans-serif", fontSize: "13px" }}
                 className="my-calendar"
             />
