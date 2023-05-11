@@ -10,7 +10,7 @@ type Props = {
 export default function AddTask({ option, showFunction }: Props) {
   const [data, setData] = useState({
     taskName: "",
-    projectName: "",
+    type: "BASIC_NEED",
     description: "",
     startTime: "",
     priority: "LOW",
@@ -49,7 +49,7 @@ export default function AddTask({ option, showFunction }: Props) {
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                   htmlFor="grid-first-name"
                 >
-                  Name the task
+                  Task Name
                 </label>
                 <input
                   className="appearance-none block w-full bg-gray-100 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -69,17 +69,36 @@ export default function AddTask({ option, showFunction }: Props) {
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                   htmlFor="grid-last-name"
                 >
-                  Project name
+                  Type
                 </label>
-                <input
-                  className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="grid-last-name"
-                  type="text"
-                  name="projectName"
-                  onChange={handleDataChange}
-                  value={data.projectName}
-                  placeholder=""
-                />
+                <div className="relative">
+                  <select
+                    className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    id="grid-last-name"
+                    name="type"
+                    onChange={handleDataChange}
+                    value={data.type}
+                    placeholder=""
+                  >
+                    <option>WORK_OR_STUDY</option>
+                    <option>ENTERTAINMENT_OR_HOBBY</option>
+                    <option>BASIC_NEED</option>
+                    <option>HOUSEWORK</option>
+                    <option>SPORT_OR_WORKOUT</option>
+                    <option>SOCIAL_ACTIVITY</option>
+                    <option>WASTED_TIME</option>
+                    <option>OTHERS</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg
+                      className="fill-current h-4 w-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="flex flex-wrap -mx-3 mb-6">
@@ -97,8 +116,8 @@ export default function AddTask({ option, showFunction }: Props) {
                   name="description"
                   onChange={handleDataChange}
                   value={data.description}
-                  placeholder=""
                 />
+
                 <p className="text-gray-600 text-xs italic">
                   Make it as long and as crazy as you'd like
                 </p>
