@@ -54,7 +54,7 @@ function styleTask(i: Task) {
     case "LOW":
       // TODO
       return (
-        <div>
+        <div className="bg-emerald-50 rounded-md p-4 ml-4">
           <div className="font-bold text-base text-gray-600 -translate-y-2">{i.title}</div>
           <div className="text-gray-600 text-xs">{i.description}</div>
           <div className="flex mt-5 justify-between items-center">
@@ -69,7 +69,7 @@ function styleTask(i: Task) {
     case "MEDIUM":
       // TODO
       return (
-        <div>
+        <div className="bg-amber-50 rounded-md p-4 ml-4">
           <div className="font-bold text-base text-gray-600 -translate-y-2">{i.title}</div>
           <div className="text-gray-600 text-xs">{i.description}</div>
           <div className="flex mt-5 justify-between items-center">
@@ -84,7 +84,7 @@ function styleTask(i: Task) {
     case "HIGH":
       // TODO
       return (
-        <div>
+        <div className="bg-rose-50 rounded-md p-4 ml-4">
           <div className="font-bold text-base text-gray-600 -translate-y-2">{i.title}</div>
           <div className="text-gray-600 text-xs">{i.description}</div>
           <div className="flex mt-5 justify-between items-center">
@@ -132,7 +132,7 @@ function TimeLine({ todo }: Props) {
                 ) : null}
               </div> */}
             </div>
-            <div className="w-[70%] bg-emerald-50 rounded-md p-4 ml-4">
+            <div className="w-[70%]">
               {styleTask(i)}
             </div>
           </div>

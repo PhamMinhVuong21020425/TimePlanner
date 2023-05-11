@@ -30,8 +30,8 @@ export default function Calendar() {
 
     return (
         <>
-            <div className="flex p-4 rounded-md justify-between">
-                <Weather />
+            <div className="p-4 rounded-md items-center mx-auto">
+                {/* <Weather /> */}
                 <WeekCalendar />
                 {/* <ScheduleComponent>
                     <Inject services={[Day, Week, WorkWeek, Month, Agenda]} />
