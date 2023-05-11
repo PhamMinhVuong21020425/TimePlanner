@@ -75,7 +75,7 @@ function SideBar() {
   }, []);
 
   return (
-    <div className="border-[1.5px] rounded-md m-3 font-poppins">
+    <div className="rounded-md m-3 font-poppins">
       <div className="flex items-center justify-between my-3 px-4 mx-2">
         <div className="flex items-center justify-center bg-emerald-400 rounded-full w-[50px] h-[50px]">
           <span className="text-white font-bold text-xl">A</span>

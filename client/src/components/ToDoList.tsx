@@ -9,7 +9,7 @@ function taskStyle(i: Task, handleClicked: (id: number) => void) {
     switch (i.priority) {
         case 'LOW':
             return (
-                <div className="border-[1.5px] border-emerald-300 rounded-md p-4">
+                <div className="bg-emerald-50 rounded-md p-4">
                     <div className="text-xs text-center w-1/2 rounded-md">
                         <div className="bg-emerald-300 px-2 py-1 rounded-md text-emerald-700 text-xs -translate-y-6">
                             {i.task_name}
@@ -28,7 +28,7 @@ function taskStyle(i: Task, handleClicked: (id: number) => void) {
             break;
         case 'MEDIUM':
             return (
-                <div className="border-[1.5px] border-amber-300 rounded-md p-4">
+                <div className=" bg-amber-50 rounded-md p-4">
                     <div className="text-xs text-center w-1/2 rounded-md">
                         <div className="bg-amber-300 px-2 py-1 rounded-md text-amber-700 text-xs -translate-y-6">
                             {i.task_name}
@@ -48,7 +48,7 @@ function taskStyle(i: Task, handleClicked: (id: number) => void) {
 
         case 'HIGH':
             return (
-                <div className="border-[1.5px] border-rose-300 rounded-md p-4">
+                <div className="bg-rose-50 rounded-md p-4">
                     <div className="text-xs text-center w-1/2 rounded-md">
                         <div className="bg-rose-300 px-2 py-1 rounded-md text-rose-700 text-xs -translate-y-6">
                             {i.task_name}
@@ -193,7 +193,7 @@ function ToDoList() {
         <div className="font-poppins">
             <div className="flex justify-between">
                 {/* First Column */}
-                <div className="w-1/3 rounded-md mx-3 p-2 border-[1.5px]">
+                <div className="w-1/3 rounded-md mx-3 p-2">
                     <div className="flex items-center px-4">
                         <div className="bg-cyan-500 w-[6px] h-[6px] rounded-md mr-4"></div>
                         <div className="text-cyan-500 font-bold text-sm">In Progress</div>
@@ -209,7 +209,7 @@ function ToDoList() {
                 </div>
 
                 {/* Second Column */}
-                <div className="w-1/3 rounded-md mx-2 p-2 border-[1.5px]">
+                <div className="w-1/3 rounded-md mx-2 p-2">
                     <div className="flex items-center px-4">
                         <div className="bg-rose-500 w-[6px] h-[6px] rounded-md mr-4"></div>
                         <div className="text-rose-500 font-bold text-sm">Stopped</div>
@@ -225,7 +225,7 @@ function ToDoList() {
                 </div>
 
                 {/* Third Column */}
-                <div className="w-1/3 rounded-md mx-2 p-2 border-[1.5px]">
+                <div className="w-1/3 rounded-md mx-2 p-2">
                     <div className="flex items-center px-4">
                         <div className="bg-green-500 w-[6px] h-[6px] rounded-md mr-4"></div>
                         <div className="text-green-500 font-bold text-sm">Completed</div>

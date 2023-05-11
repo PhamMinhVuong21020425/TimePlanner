@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../App.css"
+import "../styles/Calendar.css"
 
 const locales = {
     //"en-US": require("date-fns/locale/en-US"),
@@ -75,7 +76,7 @@ function WeekCalendar() {
 
     return (
         <div className="App">
-            <h2>Add New Event</h2>
+            {/* <h2>Add New Event</h2>
             <div>
                 <input
                     type="text"
@@ -108,16 +109,17 @@ function WeekCalendar() {
                         })
                     }
                 />
-                <button style={{ marginTop: "10px" }} onClick={handleAddEvent}>
+                <button style={{ marginTop: "20px", color: "lime" }} onClick={handleAddEvent}>
                     Add Event
                 </button>
-            </div>
+            </div> */}
             <Calendar
                 localizer={localizer}
                 events={allEvents}
                 startAccessor="start"
                 endAccessor="end"
-                style={{ height: 500, margin: "50px" }}
+                style={{ height: 500, margin: "50px", color: "gray", backgroundColor: "white", fontFamily: "sans-serif", fontSize: "13px" }}
+                className="my-calendar"
             />
         </div>
     );
