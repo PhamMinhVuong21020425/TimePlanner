@@ -44,6 +44,12 @@ model Task {
   @@index([parent_task_id], map: "FK_task_1")
 }
 
+model Weather {
+  id        Int     @id @default(autoincrement())
+  iconName  String?
+  iconImage String?
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -69,10 +75,10 @@ model Session {
 }
 
 model User {
-  id            String       @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
   age           Int?
-  email         String?      @unique
+  email         String?   @unique
   emailVerified DateTime?
   password      String?
   image         String?
@@ -80,7 +86,7 @@ model User {
   phone_number  String?
   company       String?
   job           String?
-  gender        User_gender?
+  gender        Gender?
 }
 
 model VerificationToken {
@@ -89,12 +95,6 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-model Weather {
-  id        Int     @id @default(autoincrement())
-  iconName  String?
-  iconImage String?
 }
 
 enum Status {
@@ -121,7 +121,7 @@ enum Task_Type {
   OTHERS
 }
 
-enum User_gender {
+enum Gender {
   MALE
   FEMALE
   OTHERS

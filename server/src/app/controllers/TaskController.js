@@ -40,19 +40,51 @@ class TaskController {
     async getTask(req, res) {
         try {
             // if (req.session.user) {
-            const tasks = await prisma.task.findMany({
-                where: {
-                    user_id: req.session.userId
-                }
-            })
+            // const tasks = await prisma.task.findMany({
+            //     where: {
+            //         user_id: req.session.userId
+            //     }
+            // })
             // };
+            const tasks = await prisma.task.findMany();
             res.status(200).json(tasks);
         }
-        catch {
+        catch (e) {
             res.status(500).json({ message: 'Internal Server Error' });
             console.log(e.code);
             throw e;
         }
+    }
+
+    async getTodayTask(req, res) {
+        var currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+        // Get the current date
+        var tomorrow = new Date();
+        tomorrow.setDate(currentDate.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+
+        try {
+            const tasks = await prisma.task.findMany({
+                where: {
+                    started_time: {
+                        gte: currentDate,
+                        lt: tomorrow,
+                    }
+                },
+                orderBy: {
+                    started_time: 'asc'
+                }
+
+            });
+            res.status(200).json(tasks);
+        }
+        catch (e) {
+            res.status(500).json({ message: 'Internal Server Error' });
+            console.log(e.code);
+            throw e;
+        }
+
     }
 
     async deleteTask(req, res) {
@@ -66,7 +98,7 @@ class TaskController {
                 })
             }
         }
-        catch {
+        catch (e) {
             res.status(500).json({ message: 'Internal Server Error' });
             console.log(e.code);
             throw e;
@@ -94,7 +126,7 @@ class TaskController {
                 })
             }
         }
-        catch {
+        catch (e) {
             res.status(500).json({ message: 'Internal Server Error' });
             console.log(e.code);
             throw e;

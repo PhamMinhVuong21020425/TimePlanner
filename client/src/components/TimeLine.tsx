@@ -13,7 +13,7 @@ function formatDate(date: Date) {
 }
 
 type Props = {
-  todo: Task[];
+  todo: Task[] | undefined;
 };
 
 function styleButton(i: Task) {
@@ -108,12 +108,12 @@ function TimeLine({ todo }: Props) {
           Today {formatDate(new Date())}
         </div>
       </div>
-      {todo.map((i) => (
+      {todo?.map((i) => (
         <div>
           <div className="flex p-4 rounded-md">
             <div className="w-[30%]">
               <div className="text-sm text-center text-gray-600">
-                {i.started_time.getHours() + ":" + i.started_time.getMinutes() + " AM"}
+                {padTo2Digits(new Date(i.started_time).getHours()) + ":" + padTo2Digits(new Date(i.started_time).getMinutes())}
               </div>
               <hr />
               {/* <div className="h-full flex items-center justify-center">

@@ -1,5 +1,7 @@
 import { FiEdit } from "react-icons/fi";
 import Task from "../types/Tasks";
+import { useEffect, useState } from "react";
+import request from "../utils/request";
 
 function taskStyle(i: Task, handleClicked: (id: number) => void) {
     const id: number = i.id;
@@ -90,87 +92,97 @@ function buttonStyle(i: Task) {
 }
 
 function ToDoList() {
-    const todo: Task[] = [
-        {
-            id: 1,
-            started_time: new Date('1995-12-17T03:20:00'),
-            finished_time: new Date('1995-12-20T03:20:00'),
-            task_name: 'Project X',
-            title: 'Brainstorming',
-            description:
-                'An existing Date object. This effectively makes a copy of the existing Date object with the same date and time.',
-            priority: 'HIGH',
-            status: 'INPROGRESS',
-        },
-        {
-            id: 2,
-            started_time: new Date('1995-01-17T03:24:00'),
-            finished_time: new Date('1995-01-20T03:24:00'),
-            task_name: 'Project Y',
-            title: 'Brainstorming',
-            description:
-                'When no parameters are provided, the newly-created Date object represents the current date and time as of the time of instantiation.',
-            priority: 'LOW',
-            status: 'COMPLETED',
-        },
-        {
-            id: 3,
-            started_time: new Date('1995-07-31T03:25:00'),
-            finished_time: new Date('1995-08-20T03:25:00'),
-            task_name: 'Project Z',
-            title: 'Brainstorming',
-            description: 'Utilities for controlling the font size of an element.',
-            priority: 'LOW',
-            status: 'STOPPED',
-        },
-        {
-            id: 4,
-            started_time: new Date('1995-07-31T03:25:00'),
-            finished_time: new Date('1995-08-20T03:25:00'),
-            task_name: 'Project W',
-            title: 'New Year Celebration',
-            description: 'Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element.',
-            priority: 'MEDIUM',
-            status: 'INPROGRESS',
-        },
-        {
-            id: 5,
-            started_time: new Date('1995-07-31T03:25:00'),
-            finished_time: new Date('1995-08-20T03:25:00'),
-            task_name: 'Project W',
-            title: 'Brainstorming',
-            description: 'Utilities for controlling the font size of an element.',
-            priority: 'LOW',
-            status: 'INPROGRESS',
-        },
-        {
-            id: 6,
-            started_time: new Date('1995-07-31T03:25:00'),
-            finished_time: new Date('1995-08-20T03:25:00'),
-            task_name: 'Project W',
-            title: 'Brainstorming',
-            description: 'Utilities for controlling the font size of an element.',
-            priority: 'MEDIUM',
-            status: 'STOPPED',
-        },
-        {
-            id: 7,
-            started_time: new Date('1995-07-31T03:25:00'),
-            finished_time: new Date('1995-08-20T03:25:00'),
-            task_name: 'Project Z',
-            title: 'Brainstorming',
-            description: 'Utilities for controlling the font size of an element.',
-            priority: 'MEDIUM',
-            status: 'COMPLETED',
-        },
-    ];
+    // const todo: Task[] = [
+    //     {
+    //         id: 1,
+    //         started_time: new Date('1995-12-17T03:20:00'),
+    //         finished_time: new Date('1995-12-20T03:20:00'),
+    //         task_name: 'Project X',
+    //         title: 'Brainstorming',
+    //         description:
+    //             'An existing Date object. This effectively makes a copy of the existing Date object with the same date and time.',
+    //         priority: 'HIGH',
+    //         status: 'INPROGRESS',
+    //     },
+    //     {
+    //         id: 2,
+    //         started_time: new Date('1995-01-17T03:24:00'),
+    //         finished_time: new Date('1995-01-20T03:24:00'),
+    //         task_name: 'Project Y',
+    //         title: 'Brainstorming',
+    //         description:
+    //             'When no parameters are provided, the newly-created Date object represents the current date and time as of the time of instantiation.',
+    //         priority: 'LOW',
+    //         status: 'COMPLETED',
+    //     },
+    //     {
+    //         id: 3,
+    //         started_time: new Date('1995-07-31T03:25:00'),
+    //         finished_time: new Date('1995-08-20T03:25:00'),
+    //         task_name: 'Project Z',
+    //         title: 'Brainstorming',
+    //         description: 'Utilities for controlling the font size of an element.',
+    //         priority: 'LOW',
+    //         status: 'STOPPED',
+    //     },
+    //     {
+    //         id: 4,
+    //         started_time: new Date('1995-07-31T03:25:00'),
+    //         finished_time: new Date('1995-08-20T03:25:00'),
+    //         task_name: 'Project W',
+    //         title: 'New Year Celebration',
+    //         description: 'Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element. Utilities for controlling the font size of an element.',
+    //         priority: 'MEDIUM',
+    //         status: 'INPROGRESS',
+    //     },
+    //     {
+    //         id: 5,
+    //         started_time: new Date('1995-07-31T03:25:00'),
+    //         finished_time: new Date('1995-08-20T03:25:00'),
+    //         task_name: 'Project W',
+    //         title: 'Brainstorming',
+    //         description: 'Utilities for controlling the font size of an element.',
+    //         priority: 'LOW',
+    //         status: 'INPROGRESS',
+    //     },
+    //     {
+    //         id: 6,
+    //         started_time: new Date('1995-07-31T03:25:00'),
+    //         finished_time: new Date('1995-08-20T03:25:00'),
+    //         task_name: 'Project W',
+    //         title: 'Brainstorming',
+    //         description: 'Utilities for controlling the font size of an element.',
+    //         priority: 'MEDIUM',
+    //         status: 'STOPPED',
+    //     },
+    //     {
+    //         id: 7,
+    //         started_time: new Date('1995-07-31T03:25:00'),
+    //         finished_time: new Date('1995-08-20T03:25:00'),
+    //         task_name: 'Project Z',
+    //         title: 'Brainstorming',
+    //         description: 'Utilities for controlling the font size of an element.',
+    //         priority: 'MEDIUM',
+    //         status: 'COMPLETED',
+    //     },
+    // ];
+    const [todo, setTodo] = useState<Task[]>();
+    useEffect(() => {
+        request.get<Task[]>('task')
+            .then(response => {
+                setTodo(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
 
     function editTask(id: number, newData: Task) {
-        for (let i = 0; i < todo.length; i++) {
-            if (todo[i].id === id) {
-                todo[i] = newData;
-            }
-        }
+        // for (let i = 0; i < todo.length; i++) {
+        //     if (todo[i].id === id) {
+        //         todo[i] = newData;
+        //     }
+        // }
     }
 
     function handleClicked(id: number) {
@@ -188,7 +200,7 @@ function ToDoList() {
                     </div>
                     <hr className="border-2 border-cyan-400 rounded-md my-2 mx-4" />
                     <div>
-                        {todo.map((i) => (
+                        {todo?.map((i) => (
                             <div className="m-4">
                                 {i.status === 'INPROGRESS' ? <div>{taskStyle(i, handleClicked)}</div> : null}
                             </div>
@@ -204,7 +216,7 @@ function ToDoList() {
                     </div>
                     <hr className="border-2 border-rose-400 rounded-md my-2 mx-4" />
                     <div>
-                        {todo.map((i) => (
+                        {todo?.map((i) => (
                             <div className="m-4">
                                 {i.status === 'STOPPED' ? <div>{taskStyle(i, handleClicked)}</div> : null}
                             </div>
@@ -220,7 +232,7 @@ function ToDoList() {
                     </div>
                     <hr className="border-2 border-green-400 rounded-md my-2 mx-4" />
                     <div>
-                        {todo.map((i) => (
+                        {todo?.map((i) => (
                             <div className="m-4">
                                 {i.status === 'COMPLETED' ? <div>{taskStyle(i, handleClicked)}</div> : null}
                             </div>
