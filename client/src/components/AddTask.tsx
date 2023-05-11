@@ -10,11 +10,10 @@ type Props = {
 export default function AddTask({ option, showFunction }: Props) {
   const [data, setData] = useState({
     taskName: "",
-    projectName: "",
     description: "",
     startTime: "",
     priority: "LOW",
-    finishTime: "",
+    finishTime: ""
   });
 
   const handleDataChange = (
@@ -64,7 +63,7 @@ export default function AddTask({ option, showFunction }: Props) {
                   Please fill out this field.
                 </p>
               </div>
-              <div className="w-full md:w-1/2 px-3">
+              {/* <div className="w-full md:w-1/2 px-3">
                 <label
                   className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                   htmlFor="grid-last-name"
@@ -80,7 +79,7 @@ export default function AddTask({ option, showFunction }: Props) {
                   value={data.projectName}
                   placeholder=""
                 />
-              </div>
+              </div> */}
             </div>
             <div className="flex flex-wrap -mx-3 mb-6">
               <div className="w-full px-3">

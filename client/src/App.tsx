@@ -9,6 +9,8 @@ import LoginForm from "./components/LoginForm";
 import SignUpForm from "./pages/SignUpForm";
 import Admin from "./pages/Admin";
 import "./index.css";
+import "react-datepicker/dist/react-datepicker.css";
+import "./App.css"
 
 function App() {
   return (
@@ -19,9 +21,9 @@ function App() {
           <Route path="contact" element={<Contact />} />
           <Route path="login" element={<LoginForm />} />
           <Route path="signup" element={<SignUpForm />} />
-          <Route path="test" element={<Test />} />
-          <Route path="*" element={<NotFound />} />
           <Route path="admin" element={<Admin />} />
+          <Route path="test" element={<Test />} />
+          <Route path="*" element={<NotFound />} />  
         </Route>
       </Routes>
     </BrowserRouter>

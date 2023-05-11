@@ -14,32 +14,33 @@ const Layout = () => {
           </Helmet>
         </div>
       </HelmetProvider>
-      {/* <header>
+      {/* 
+      <header>
         <div className="flex justify-center items-center">
           <Header />
         </div>
-      </header> */}
+      </header> 
+      */}
       <main>
         {/* <NavBar /> */}
         {/* <nav className="flex justify-center items-center">
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/contact">Contact</Link>
-                        </li>
-                        <li>
-                            <Link to="/Signup">Sign up</Link>
-                        </li>
-                        <li>
-                            <Link to="/login">Login</Link>
-                        </li>
-                    </ul>
-                </nav> */}
+              <ul>
+                  <li>
+                      <Link to="/">Home</Link>
+                  </li>
+                  <li>
+                      <Link to="/contact">Contact</Link>
+                  </li>
+                  <li>
+                      <Link to="/Signup">Sign up</Link>
+                  </li>
+                  <li>
+                      <Link to="/login">Login</Link>
+                  </li>
+              </ul>
+            </nav> */}
       </main>
-
-      <Outlet />
+      <Outlet /> {/* renders the current route selected. */}
     </>
   );
 };

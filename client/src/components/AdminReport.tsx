@@ -1,8 +1,37 @@
 import ReactECharts from 'echarts-for-react';
 
+interface Option {
+  title: {
+    text: string;
+    x: string;
+  };
+  tooltip: {
+    trigger: string;
+    formatter: string;
+  };
+  legend: {
+    orient: string;
+    left: string;
+    data: string[];
+  };
+  series: {
+    name: string;
+    type: string;
+    radius: string;
+    center: string[];
+    data: { value: number; name: string }[];
+    itemStyle: {
+      emphasis: {
+        shadowBlur: number;
+        shadowOffsetX: number;
+        shadowColor: string;
+      };
+    };
+  }[];
+}
 
 const UserReport = () => {
-    const option = {
+    const option: Option = {
         title: {
             text: 'User Report',
             x: 'center',
@@ -57,7 +86,7 @@ const UserReport = () => {
     );
 };
 
-function weakestTopicStyle(name, percent) {
+function weakestTopicStyle(name: string, percent: number) {
     return (
         <div className="my-4 flex justify-normal items-center">
             <div className="flex justify-center items-center">
@@ -73,7 +102,7 @@ function weakestTopicStyle(name, percent) {
     )
 }
 
-function strongestTopicStyle(name, percent) {
+function strongestTopicStyle(name: string, percent: number) {
     return (
         <div className="my-4 flex justify-normal items-center">
             <div className="flex justify-center items-center">

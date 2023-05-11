@@ -2,17 +2,16 @@ class TaskController {
 
     // POST /task
     async taskPost(req, res) {
-        const { projectName, taskName, description, startTime, finishTime, priority } = req.body;
-        const pool = require('./ConnectDB');
-        const sql = 'INSERT INTO task(project_name, task_name, description, start_date, finish_date, priority) VALUES (?, ?, ?, ?, ?, ?)';
-        await pool.execute(sql, [projectName, taskName, description, startTime, finishTime, priority], function (err, results) {
+        const { taskName, description, startTime, finishTime, priority } = req.body;
+        const pool = require('./ConnectPlane');
+        const sql = 'INSERT INTO task(task_name, description, started_date, finished_date, priority) VALUES (?, ?, ?, ?, ?)';
+        await pool.execute(sql, [taskName, description, startTime, finishTime, priority], function (err, results) {
             if (err) {
                 console.log(err);
-                res.status(500).json({ message: 'Internal Server Error' });
+                res.status(500).json({ message: 'Failed' });
                 return;
             }
             res.status(200).json({ success: 'Add task success...' });
-
         });
     }
 }

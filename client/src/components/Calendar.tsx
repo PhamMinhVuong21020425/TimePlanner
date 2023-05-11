@@ -1,13 +1,14 @@
 // import { ScheduleComponent, Day, Week, WorkWeek, Month, Agenda, Inject, ViewsDirective, ViewDirective } from '@syncfusion/ej2-react-schedule';
 import Weather from "./Weather";
+import WeekCalendar from "./WeekCalendar";
+import { useState, useEffect } from "react";
+import axios from "axios";
 interface Todo {
     startDate: Date;
     endDate: Date;
     title: string;
     description: string;
 }
-
-
 
 
 export default function Calendar() {
@@ -27,12 +28,11 @@ export default function Calendar() {
         },
     ];
 
-
-
     return (
         <>
             <div className="flex p-4 rounded-md justify-between">
-                <Weather temperature={20} description="Sunny" icon="01d" />
+                <Weather />
+                <WeekCalendar />
                 {/* <ScheduleComponent>
                     <Inject services={[Day, Week, WorkWeek, Month, Agenda]} />
                     <ViewsDirective>
