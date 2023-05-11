@@ -19,16 +19,14 @@ class AuthController {
     async logPost(req, res) {
         console.log('LOGIN ID: ', req.session.id);
         const pool = require('../ConnectDB');
-
         let { email, password, remember = 'off' } = req.body;
         console.log(req.body);
-
         if (!email || !password) {
             res.status(400).json({ message: 'Bad Request' });
             return;
         }
 
-        const que = 'SELECT password FROM user WHERE email = ?';
+        const que = 'SELECT id, password FROM user WHERE email = ?';
         await pool.execute(que, [email], async (err, result) => {
             if (err) {
                 console.log('ERROR: ' + err);
@@ -55,6 +53,7 @@ class AuthController {
             req.session.regenerate(function (err) {
                 if (err) next(err)
                 req.session.email = req.body.email;
+                req.session.userId = result[0].userId;
                 res.cookie('user', req.session.email);
                 req.session.save(function (err) {
                     if (err) return next(err)

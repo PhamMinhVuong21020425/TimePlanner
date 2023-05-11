@@ -38,7 +38,7 @@ class SiteController {
     }
 
     async users(req, res) {
-        const pool = require('./ConnectDB');
+        const pool = require('./ConnectPlane');
         const userID = req.params.userID;
         const sql = 'SELECT * FROM user WHERE id = ?';
         await pool.execute(sql, [userID], function (err, results, fields) {
@@ -55,7 +55,7 @@ class SiteController {
 
     async deleteUser(req, res) {
         const userID = req.body.id;
-        const pool = require('./ConnectDB');
+        const pool = require('./ConnectPlane');
         const sql = 'DELETE FROM user WHERE id = ?';
         await pool.execute(sql, [userID], function (err, results, fields) {
             if (err) {
