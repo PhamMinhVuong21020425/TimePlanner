@@ -30,7 +30,7 @@ const options = {
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: '',
+    password: 'ToshibaAcer1107@',
     database: 'time',
     //expiration: 60000
 };

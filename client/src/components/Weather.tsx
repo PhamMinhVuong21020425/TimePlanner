@@ -45,23 +45,36 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 interface WeatherData {
-  main: {
-    temp: number;
-    feels_like: number;
-    humidity: number;
-  };
-  weather: {
-    description: string;
-    icon: string;
+  list: {
+    dt: number;
+    main: {
+      temp: number;
+      feels_like: number;
+      humidity: number;
+    };
+
+    weather: {
+      description: string;
+      icon: string;
+    }[];
+
+    wind: {
+      speed: number;
+    };
+
+    dt_txt: string;
   }[];
-  wind: {
-    speed: number;
-  };
-  name: string;
+
+
+
+  city: {
+    name: string;
+    country: string;
+  }
 }
 
 const API_KEY: string = "bf0fca40ef5c3565bb0d7b06f9952fae";
-const API_URL: string = "http://api.openweathermap.org/data/2.5/weather";
+const API_URL: string = "http://api.openweathermap.org/data/2.5/forecast";
 
 const Weather: React.FC = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
@@ -91,13 +104,20 @@ const Weather: React.FC = () => {
     <div>
       {weatherData ? (
         <>
-          <h2>Current weather in {weatherData.name}:</h2>
-          <p>Temperature: {weatherData.main.temp}°C</p>
-          <p>Outside: {weatherData.main.feels_like}°C</p>
-          <p>Humidity: {weatherData.main.humidity}%</p>
-          <p>Description: {weatherData.weather[0].description}</p>
-          <p>Wind speed: {weatherData.wind.speed} m/s</p>
-          <p>Icon: {weatherData.weather[0].icon}</p>
+          <h2>Current weather in {weatherData.city.name}, {weatherData.city.country}:</h2>
+          <ul>
+          {weatherData.list.map((weatherDay) => (
+            <li key={weatherDay.dt}>
+            <p>Temperature: {weatherDay.main.temp}°C</p>
+            <p>Outside: {weatherDay.main.feels_like}°C</p>
+            <p>Humidity: {weatherDay.main.humidity}%</p>
+            <p>Description: {weatherDay.weather[0].description}</p>
+            <p>Wind speed: {weatherDay.wind.speed} m/s</p>
+            <p>Icon: {weatherDay.weather[0].icon}</p>
+            <p>Date: {weatherDay.dt_txt}</p>
+            </li>
+          ))}
+          </ul>
         </>
       ) : (
         <p>Loading...</p>

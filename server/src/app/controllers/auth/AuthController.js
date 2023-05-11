@@ -53,7 +53,6 @@ class AuthController {
             req.session.regenerate(function (err) {
                 if (err) next(err)
                 req.session.email = req.body.email;
-                req.session.userId = result[0].userId;
                 res.cookie('user', req.session.email);
                 req.session.save(function (err) {
                     if (err) return next(err)
