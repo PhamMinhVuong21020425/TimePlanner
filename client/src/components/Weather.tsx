@@ -44,6 +44,7 @@ import { TiWeatherCloudy } from "react-icons/ti"
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import IconWeather from "./IconWeather";
 
 interface WeatherData {
   list: {
@@ -103,55 +104,42 @@ const Weather: React.FC = () => {
 
   return (
     <div className="flex m-auto items-center justify-center font-poppins">
-      {/* {weatherData ? (
-        <>
-          <h2>Current weather in {weatherData.city.name}, {weatherData.city.country}:</h2>
+    
+      {weatherData ?
+        <div className="w-1/2 to-90% p-8 rounded-md">
+          <div className="text-center font-medium text-xl mb-4 text-gray-600">{weatherData.city.name} - {weatherData.city.country}</div>
           <ul>
-          {weatherData.list.map((weatherDay) => (
-            <li key={weatherDay.dt}>
-            <p>Temperature: {weatherDay.main.temp}°C</p>
-            <p>Outside: {weatherDay.main.feels_like}°C</p>
-            <p>Humidity: {weatherDay.main.humidity}%</p>
-            <p>Description: {weatherDay.weather[0].description}</p>
-            <p>Wind speed: {weatherDay.wind.speed} m/s</p>
-            <p>Icon: {weatherDay.weather[0].icon}</p>
-            <p>Date: {weatherDay.dt_txt}</p>
-            </li>
-          ))}
+            {weatherData.list.map((weatherDay) => (
+              <li key={weatherDay.dt}>
+                <div className="text-8xl flex justify-center text-gray-600"><IconWeather iconName={weatherDay.weather[0].icon} /></div>
+                <div className="flex justify-center">
+                  <div className="">
+                    <div className="text-4xl font-bold text-center text-gray-600">{weatherDay.main.temp}°C</div>
+                    <div className="text-gray-500 my-4 text-center">{weatherDay.weather[0].description}</div>
+                    <div className="text-green-500 text-center">{weatherDay.dt_txt}</div>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center text-gray-600">
+                  <div>
+                    <div className="text-center my-4">Humidity</div>
+                    <div className="text-center text-sm">{weatherDay.main.humidity}%</div>
+                  </div>
+                  <div>
+                    <div className="text-center my-4">Wind</div>
+                    <div className="text-center text-sm">{weatherDay.wind.speed}m/s</div>
+                  </div>
+                  <div>
+                    <div className="text-center my-4">Feels Like</div>
+                    <div className="text-center text-sm">{weatherDay.main.feels_like}°C</div>
+                  </div>
+                </div>
+              </li>
+            ))}
           </ul>
-        </>
-      ) : (
-        <p>Loading...</p>
-      )} */}
-      {weatherData ? <div className="w-1/2 to-90% p-8 rounded-md">
-        <div className="text-center font-medium text-xl mb-4 text-gray-600">{weatherData.name} - Viet Nam</div>
-        <div className="text-8xl flex justify-center text-gray-600"><TiWeatherCloudy /></div>
-        <div className="flex justify-center">
-          {
-            weatherData.weather.map((weather) => (
-              <div className="">
-                <div className="text-4xl font-bold text-center text-gray-600">{weatherData.main.temp}°C</div>
-                <div className="text-gray-500 ml-4 my-4 text-center">{weather.description}</div>
-              </div>
-            ))
-          }
         </div>
-        <div className="flex justify-between items-center text-gray-600">
-          <div>
-            <div className="text-center my-4">Humidity</div>
-            <div className="text-center text-sm">{weatherData.main.humidity}%</div>
-          </div>
-          <div>
-            <div className="text-center my-4">Wind</div>
-            <div className="text-center text-sm">{weatherData.wind.speed}m/s</div>
-          </div>
-          <div>
-            <div className="text-center my-4">Feels Like</div>
-            <div className="text-center text-sm">{weatherData.main.feels_like}°C</div>
-          </div>
-        </div>
-      </div>
-        : null}
+        : (
+          <p>Loading...</p>
+        )}
     </div>
   );
 }

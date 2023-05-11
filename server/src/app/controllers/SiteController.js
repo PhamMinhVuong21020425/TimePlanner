@@ -1,4 +1,4 @@
-
+const prisma = require('./PrismaConfig');
 class SiteController {
     // GET /
     async home(req, res) {
@@ -93,6 +93,22 @@ class SiteController {
             }
             res.redirect('/plans');
         })
+    }
+
+    async getIcon(req, res) {
+        try {
+            const icon = await prisma.Weather.findMany({
+                where: {
+                    iconName: req.params.iconName
+                }
+            })
+            res.status(200).json(icon);
+        }
+        catch {
+            res.status(500).json({ message: 'Internal Server Error' });
+            console.log(e.code);
+            throw e;
+        }
     }
 
 }

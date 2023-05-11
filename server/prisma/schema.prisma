@@ -10,10 +10,9 @@ datasource db {
 model Report {
   report_id    String    @id @default(cuid())
   user_id      String
-  started_time DateTime? @db.DateTime(3)
-  to_time      DateTime? @db.DateTime(3)
+  started_time DateTime?
+  to_time      DateTime?
   Judge        String?   @db.VarChar(255)
-  user         User      @relation(fields: [user_id], references: [id], map: "FK_report")
 
   @@index([user_id], map: "FK_report")
 }
@@ -21,36 +20,30 @@ model Report {
 model Shared_Task {
   task_id String
   user_id String
-  task    Task   @relation(fields: [task_id], references: [task_id], map: "FK_share_task")
-  user    User   @relation(fields: [user_id], references: [id], map: "FK_user_id")
 
   @@id([task_id, user_id])
   @@index([user_id], map: "FK_user_id")
 }
 
 model Task {
-  task_id            String        @id @default(cuid())
-  user_id            String?
-  task_name          String        @db.VarChar(150)
-  description        String?       @db.VarChar(255)
-  location           String?
-  started_time       DateTime?     @db.DateTime(3)
-  finished_time      DateTime?     @db.DateTime(3)
-  status             Status?       @default(INPROGRESS)
-  priority           Priority?     @default(MEDIUM)
-  type               Task_Type?    @default(BASIC_NEED)
-  created_at         DateTime      @default(now())
-  parent_task_id     String?
-  self_relation_task Task?         @relation("ParentTask", fields: [parent_task_id], references: [task_id], map: "Fk_task_1")
-  parent_task        Task[]        @relation("ParentTask")
-  user               User?         @relation(fields: [user_id], references: [id], onDelete: Restrict, map: "FK_user_and_task")
-  shared_tasks       Shared_Task[]
+  task_id        String     @id @default(cuid())
+  user_id        String?
+  task_name      String     @db.VarChar(150)
+  description    String?    @db.VarChar(255)
+  location       String?
+  started_time   DateTime?
+  finished_time  DateTime?
+  status         Status?    @default(INPROGRESS)
+  priority       Priority?  @default(MEDIUM)
+  type           Task_Type? @default(BASIC_NEED)
+  created_at     DateTime   @default(now())
+  parent_task_id String?
+  title          String?
 
   @@index([user_id], map: "FK_user_and_task")
   @@index([parent_task_id], map: "FK_task_1")
 }
 
-//Next auth
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -65,8 +58,6 @@ model Account {
   id_token          String? @db.Text
   session_state     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@unique([provider, providerAccountId])
 }
 
@@ -75,14 +66,13 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String        @id @default(cuid())
+  id            String       @id @default(cuid())
   name          String?
   age           Int?
-  email         String?       @unique
+  email         String?      @unique
   emailVerified DateTime?
   password      String?
   image         String?
@@ -90,11 +80,7 @@ model User {
   phone_number  String?
   company       String?
   job           String?
-  accounts      Account[]
-  sessions      Session[]
-  shared_tasks  Shared_Task[]
-  report        Report[]
-  task          Task[]
+  gender        User_gender?
 }
 
 model VerificationToken {
@@ -103,6 +89,12 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Weather {
+  id        Int     @id @default(autoincrement())
+  iconName  String?
+  iconImage String?
 }
 
 enum Status {
@@ -126,5 +118,11 @@ enum Task_Type {
   SPORT_OR_WORKOUT
   SOCIAL_ACTIVITY
   WASTED_TIME
+  OTHERS
+}
+
+enum User_gender {
+  MALE
+  FEMALE
   OTHERS
 }

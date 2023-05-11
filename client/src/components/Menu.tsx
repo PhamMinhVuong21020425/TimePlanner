@@ -1,8 +1,8 @@
 import { FaTasks } from "react-icons/fa";
 import { BsCalendar3 } from "react-icons/bs";
 import { HiOutlineDocumentReport } from "react-icons/hi";
+import { TiWeatherPartlySunny } from "react-icons/ti";
 import React, { useState } from "react";
-
 type Props = {
   handleOptionButton: (option: string) => void;
 };
@@ -30,7 +30,7 @@ export default function ({ handleOptionButton }: Props) {
           }`}
         onClick={() => handleButtonClick("Weather")}
       >
-        <BsCalendar3 className="mr-3" />
+        <TiWeatherPartlySunny className="mr-3" />
         <span>Weather</span>
       </button>
       <button
