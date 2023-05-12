@@ -17,6 +17,8 @@ export default function AddTask({ option, showFunction }: Props) {
     finishTime: "",
   });
 
+  const navigate = useNavigate();
+
   const handleDataChange = (
     event:
       | React.ChangeEvent<HTMLInputElement>
@@ -32,6 +34,7 @@ export default function AddTask({ option, showFunction }: Props) {
     const res = await request.post("task", data);
     console.log(res.data);
     showFunction();
+    window.location.reload();
   };
 
   const handleCancel = () => {

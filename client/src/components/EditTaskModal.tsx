@@ -1,6 +1,7 @@
 import { useEffect, useState, ChangeEvent } from "react";
 import request from "../utils/request";
 import Task from "../types/Tasks";
+import { Link, useNavigate } from "react-router-dom";
 import moment from 'moment';
 
 type Props = {
@@ -20,6 +21,8 @@ function EditTaskModal({ id, showFunction }: Props) {
         task_id: id,
         title: "",
     });
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,12 +51,18 @@ function EditTaskModal({ id, showFunction }: Props) {
         event.preventDefault();
         const res = await request.post(`task/update/${id}`, data);
         console.log(res.data);
-        showFunction();
+        window.location.reload();
     };
 
     const handleCancel = () => {
         showFunction();
     };
+
+    const handleDelete = async () => {
+        const res = await request.delete(`task/delete/${id}`);
+        console.log(res.data);
+        window.location.reload();
+    }
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center font-poppins">
@@ -213,6 +222,12 @@ function EditTaskModal({ id, showFunction }: Props) {
                             onClick={handleCancel}
                         >
                             Cancel
+                        </button>
+                        <button
+                            className="bg-red-500 px-2 py-1 rounded-sm text-white text-xs mx-2 cursor-pointer"
+                            onClick={handleDelete}
+                        >
+                            Delete
                         </button>
                     </form>
                 </div>

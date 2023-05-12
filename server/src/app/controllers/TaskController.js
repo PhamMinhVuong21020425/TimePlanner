@@ -112,14 +112,15 @@ class TaskController {
 
     async deleteTask(req, res) {
         try {
-            if (req.session.userId) {
+           // if (req.session.userId) {
                 await prisma.task.delete({
                     where: {
-                        user_id: req.session.userId,
+                        //user_id: req.session.userId,
                         task_id: req.params.task_id
                     }
                 })
-            }
+                res.status(200).json({success: 'Delete success!'});
+           // }
         }
         catch (e) {
             res.status(500).json({ message: 'Internal Server Error' });
