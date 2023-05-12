@@ -131,24 +131,24 @@ class TaskController {
     async updateTask(req, res) {
         try {
             // if (req.session.userId) {
-                await prisma.task.update({
-                    where: {
-                        //user_id: req.session.userId,
-                        task_id: req.params.task_id
-                    },
-                    data: {
-                        task_name: req.body.taskName,
-                        description: req.body.description,
-                        //location: req.body.location,
-                        started_time: new Date(req.body.startTime),
-                        finished_time: new Date(req.body.finishTime),
-                        status: req.body.status,
-                        priority: req.body.priority,
-                        type: req.body.type,
-                    }
-                })
+            await prisma.task.update({
+                where: {
+                    //user_id: req.session.userId,
+                    task_id: req.params.task_id
+                },
+                data: {
+                    task_name: req.body.task_name,
+                    description: req.body.description,
+                    //location: req.body.location,
+                    started_time: new Date(req.body.started_time),
+                    finished_time: new Date(req.body.finished_time),
+                    status: req.body.status,
+                    priority: req.body.priority,
+                    type: req.body.type,
+                }
+            })
 
-                res.json({success: 'update success!'});
+            res.json({ success: 'update success!' });
             //}
         }
         catch (e) {

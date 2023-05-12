@@ -191,12 +191,11 @@ function ToDoList() {
 
     function handleClicked(id: string) {
         setCurrentId(id);
-        setShowEditTask(!showEditTask);
-
+        setShowEditTask(true);
     }
 
     const handleCancel = () => {
-        setShowEditTask(!showEditTask);
+        setShowEditTask(false);
     };
 
     return (

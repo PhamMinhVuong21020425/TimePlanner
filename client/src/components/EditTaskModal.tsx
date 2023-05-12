@@ -1,5 +1,6 @@
 import { useEffect, useState, ChangeEvent } from "react";
 import request from "../utils/request";
+import Task from "../types/Tasks";
 import moment from 'moment';
 
 type Props = {
@@ -8,16 +9,16 @@ type Props = {
 };
 
 function EditTaskModal({ id, showFunction }: Props) {
-    const [data, setData] = useState({
-        task_id: id,
-        started_time: "",
-        finished_time: "",
+    const [data, setData] = useState<Task>({
         task_name: "",
         type: "",
-        title: "",
+        started_time: "",
+        finished_time: "",
         description: "",
         priority: "LOW",
         status: "COMPLETED",
+        task_id: id,
+        title: "",
     });
 
     useEffect(() => {
@@ -28,7 +29,7 @@ function EditTaskModal({ id, showFunction }: Props) {
                 result.started_time = moment(result.started_time).format('YYYY-MM-DD HH:mm:ss');
                 result.finished_time = moment(result.finished_time).format('YYYY-MM-DD HH:mm:ss');
                 setData(result);
-                console.log(result);
+                console.log(response.data);
             } catch (error) {
                 console.log(error);
             }
@@ -37,12 +38,9 @@ function EditTaskModal({ id, showFunction }: Props) {
     }, [id]);
 
     const handleDataChange = (
-        event:
-            | ChangeEvent<HTMLInputElement>
-            | ChangeEvent<HTMLSelectElement>
+        event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
     ) => {
-        let name = event.target.name;
-        let value = event.target.value;
+        const { name, value } = event.target;
         setData((prevState) => ({ ...prevState, [name]: value }));
     };
 
@@ -74,11 +72,13 @@ function EditTaskModal({ id, showFunction }: Props) {
                                     className="block w-full bg-gray-100 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                     id="grid-first-name"
                                     type="text"
-                                    name="taskName"
-                                    onChange={handleDataChange}
+                                    name="task_name"
                                     value={data.task_name}
+                                    onChange={handleDataChange}
+                                    placeholder=""
                                 />
                             </div>
+
                             <div className="w-full md:w-1/2 px-3">
                                 <label
                                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -91,8 +91,8 @@ function EditTaskModal({ id, showFunction }: Props) {
                                         className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                         id="grid-last-name"
                                         name="type"
-                                        onChange={handleDataChange}
                                         value={data.type}
+                                        onChange={handleDataChange}
                                         placeholder=""
                                     >
                                         <option>WORK_OR_STUDY</option>
@@ -129,8 +129,8 @@ function EditTaskModal({ id, showFunction }: Props) {
                                     id="grid-password"
                                     type="text"
                                     name="description"
-                                    onChange={handleDataChange}
                                     value={data.description}
+                                    onChange={handleDataChange}
                                     placeholder=""
                                 />
                                 <p className="text-gray-600 text-xs italic">
@@ -150,9 +150,9 @@ function EditTaskModal({ id, showFunction }: Props) {
                                     className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="grid-city"
                                     type="datetime-local"
-                                    name="startTime"
+                                    name="started_time"
+                                    value={moment(data.started_time).format('YYYY-MM-DD HH:mm:ss')}
                                     onChange={handleDataChange}
-                                    value={data.started_time}
                                 />
                             </div>
                             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -196,9 +196,9 @@ function EditTaskModal({ id, showFunction }: Props) {
                                     className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="grid-zip"
                                     type="datetime-local"
-                                    name="finishTime"
+                                    name="finished_time"
+                                    value={moment(data.finished_time).format('YYYY-MM-DD HH:mm:ss')}
                                     onChange={handleDataChange}
-                                    value={data.finished_time}
                                 />
                             </div>
                         </div>
