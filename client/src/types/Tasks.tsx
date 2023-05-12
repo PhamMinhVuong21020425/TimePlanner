@@ -1,5 +1,5 @@
 interface Task {
-  id: number;
+  task_id: string;
   started_time: Date;
   finished_time: Date;
   task_name: string;

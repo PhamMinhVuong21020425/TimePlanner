@@ -56,6 +56,29 @@ class TaskController {
         }
     }
 
+    async getCurrentTask(req, res) {
+        try {
+            // if (req.session.user) {
+            // const tasks = await prisma.task.findMany({
+            //     where: {
+            //         user_id: req.session.userId
+            //     }
+            // })
+            // };
+            const task = await prisma.task.findUnique({
+                where: {
+                    task_id: req.params.task_id
+                }
+            });
+            res.status(200).json(task);
+        }
+        catch (e) {
+            res.status(500).json({ message: 'Internal Server Error' });
+            console.log(e.code);
+            throw e;
+        }
+    }
+
     async getTodayTask(req, res) {
         var currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
@@ -107,16 +130,16 @@ class TaskController {
 
     async updateTask(req, res) {
         try {
-            if (req.session.userId) {
+            // if (req.session.userId) {
                 await prisma.task.update({
                     where: {
-                        user_id: req.session.userId,
+                        //user_id: req.session.userId,
                         task_id: req.params.task_id
                     },
                     data: {
                         task_name: req.body.taskName,
                         description: req.body.description,
-                        location: req.body.location,
+                        //location: req.body.location,
                         started_time: new Date(req.body.startTime),
                         finished_time: new Date(req.body.finishTime),
                         status: req.body.status,
@@ -124,7 +147,9 @@ class TaskController {
                         type: req.body.type,
                     }
                 })
-            }
+
+                res.json({success: 'update success!'});
+            //}
         }
         catch (e) {
             res.status(500).json({ message: 'Internal Server Error' });

@@ -2,9 +2,10 @@ import { FiEdit } from "react-icons/fi";
 import Task from "../types/Tasks";
 import { useEffect, useState } from "react";
 import request from "../utils/request";
+import EditTaskModal from "./EditTaskModal";
 
-function taskStyle(i: Task, handleClicked: (id: number) => void) {
-    const id: number = i.id;
+function taskStyle(i: Task, handleClicked: (id: string) => void) {
+    const id: string = i.task_id;
 
     switch (i.priority) {
         case 'LOW':
@@ -167,6 +168,7 @@ function ToDoList() {
     //     },
     // ];
     const [todo, setTodo] = useState<Task[]>();
+    const [currentId, setCurrentId] = useState("0");
     useEffect(() => {
         request.get<Task[]>('task')
             .then(response => {
@@ -177,7 +179,7 @@ function ToDoList() {
             });
     }, []);
 
-    function editTask(id: number, newData: Task) {
+    function editTask(id: string, newData: Task) {
         // for (let i = 0; i < todo.length; i++) {
         //     if (todo[i].id === id) {
         //         todo[i] = newData;
@@ -185,61 +187,74 @@ function ToDoList() {
         // }
     }
 
-    function handleClicked(id: number) {
-        console.log(id);
+    const [showEditTask, setShowEditTask] = useState(false);
+
+    function handleClicked(id: string) {
+        setCurrentId(id);
+        setShowEditTask(!showEditTask);
+
     }
 
+    const handleCancel = () => {
+        setShowEditTask(!showEditTask);
+    };
+
     return (
-        <div className="font-poppins">
-            <div className="flex justify-between">
-                {/* First Column */}
-                <div className="w-1/3 rounded-md mx-3 p-2">
-                    <div className="flex items-center px-4">
-                        <div className="bg-cyan-500 w-[6px] h-[6px] rounded-md mr-4"></div>
-                        <div className="text-cyan-500 font-bold text-sm">In Progress</div>
+        <div>
+            <div className="font-poppins">
+                <div className="flex justify-between">
+                    {/* First Column */}
+                    <div className="w-1/3 rounded-md mx-3 p-2">
+                        <div className="flex items-center px-4">
+                            <div className="bg-cyan-500 w-[6px] h-[6px] rounded-md mr-4"></div>
+                            <div className="text-cyan-500 font-bold text-sm">In Progress</div>
+                        </div>
+                        <hr className="border-2 border-cyan-400 rounded-md my-2 mx-4" />
+                        <div>
+                            {todo?.map((i) => (
+                                <div className="m-4">
+                                    {i.status === 'INPROGRESS' ? <div>{taskStyle(i, handleClicked)}</div> : null}
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                    <hr className="border-2 border-cyan-400 rounded-md my-2 mx-4" />
-                    <div>
-                        {todo?.map((i) => (
-                            <div className="m-4">
-                                {i.status === 'INPROGRESS' ? <div>{taskStyle(i, handleClicked)}</div> : null}
-                            </div>
-                        ))}
-                    </div>
-                </div>
 
-                {/* Second Column */}
-                <div className="w-1/3 rounded-md mx-2 p-2">
-                    <div className="flex items-center px-4">
-                        <div className="bg-rose-500 w-[6px] h-[6px] rounded-md mr-4"></div>
-                        <div className="text-rose-500 font-bold text-sm">Stopped</div>
-                    </div>
-                    <hr className="border-2 border-rose-400 rounded-md my-2 mx-4" />
-                    <div>
-                        {todo?.map((i) => (
-                            <div className="m-4">
-                                {i.status === 'STOPPED' ? <div>{taskStyle(i, handleClicked)}</div> : null}
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                    {/* Second Column */}
+                    <div className="w-1/3 rounded-md mx-2 p-2">
+                        <div className="flex items-center px-4">
+                            <div className="bg-rose-500 w-[6px] h-[6px] rounded-md mr-4"></div>
+                            <div className="text-rose-500 font-bold text-sm">Stopped</div>
+                        </div>
+                        <hr className="border-2 border-rose-400 rounded-md my-2 mx-4" />
+                        <div>
+                            {todo?.map((i) => (
 
-                {/* Third Column */}
-                <div className="w-1/3 rounded-md mx-2 p-2">
-                    <div className="flex items-center px-4">
-                        <div className="bg-green-500 w-[6px] h-[6px] rounded-md mr-4"></div>
-                        <div className="text-green-500 font-bold text-sm">Completed</div>
+                                <div className="m-4">
+                                    {i.status === 'STOPPED' ? <div>{taskStyle(i, handleClicked)}</div> : null}
+                                </div>
+
+                            ))}
+                        </div>
                     </div>
-                    <hr className="border-2 border-green-400 rounded-md my-2 mx-4" />
-                    <div>
-                        {todo?.map((i) => (
-                            <div className="m-4">
-                                {i.status === 'COMPLETED' ? <div>{taskStyle(i, handleClicked)}</div> : null}
-                            </div>
-                        ))}
+
+                    {/* Third Column */}
+                    <div className="w-1/3 rounded-md mx-2 p-2">
+                        <div className="flex items-center px-4">
+                            <div className="bg-green-500 w-[6px] h-[6px] rounded-md mr-4"></div>
+                            <div className="text-green-500 font-bold text-sm">Completed</div>
+                        </div>
+                        <hr className="border-2 border-green-400 rounded-md my-2 mx-4" />
+                        <div>
+                            {todo?.map((i) => (
+                                <div className="m-4">
+                                    {i.status === 'COMPLETED' ? <div>{taskStyle(i, handleClicked)}</div> : null}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
+            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} />}</div>
         </div>
     );
 }
