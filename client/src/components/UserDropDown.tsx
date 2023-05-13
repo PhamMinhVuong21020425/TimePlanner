@@ -57,7 +57,7 @@ export default function UserDropDown({firstCharacter}: Props) {
                                 </a>
                             )}
                         </Menu.Item>
-                
+
                     </div>
                     <div className="py-1">
                         <Menu.Item>
@@ -73,7 +73,7 @@ export default function UserDropDown({firstCharacter}: Props) {
                                 </a>
                             )}
                         </Menu.Item>
-                       
+
                     </div>
                     <div className="py-1">
                         <Menu.Item>

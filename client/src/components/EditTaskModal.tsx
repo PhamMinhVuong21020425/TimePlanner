@@ -6,7 +6,7 @@ import moment from 'moment';
 
 type Props = {
     id: string,
-    showFunction: Function
+    showFunction: Function,
     saveFunction: Function
 };
 

@@ -62,7 +62,7 @@ export default function Notification() {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
             >
-                <Menu.Items className="absolute left-0 z-10 mt-2 w-72 text-sm px-2 py-1 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-md ring-1 ring-emerald-200">
+                <Menu.Items className="absolute left-0 z-10 mt-2 w-72 text-sm p-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-md ring-1 ring-emerald-200">
                     {
                         notifications.map((noti) => (
                             <Menu.Item key={noti.id}>
@@ -71,8 +71,8 @@ export default function Notification() {
 
                                         href={noti.href}
                                         className={classNames(
-                                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                            'block px-4 py-2 text-sm'
+                                            active ? 'bg-emerald-50 text-gray-900' : 'text-gray-700',
+                                            'block px-4 py-2 text-sm rounded-md'
                                         )}
                                     >
                                         <p className="text-gray-700 font-bold">{noti.title}</p>

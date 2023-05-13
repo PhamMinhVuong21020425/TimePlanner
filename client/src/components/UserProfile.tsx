@@ -47,7 +47,7 @@ const UserProfile: React.FC = () => {
     }, []);
 
     return (
-        <form onSubmit={handleSubmit} className="mx-20 my-10">
+        <form onSubmit={handleSubmit} className="mx-20 my-10 font-poppins">
             <div className="space-y-12">
                 <div className="border-b border-gray-900/10 pb-12">
                     <h2 className="text-base font-semibold leading-7 text-gray-900">Profile</h2>
@@ -61,7 +61,7 @@ const UserProfile: React.FC = () => {
                                 Username
                             </label>
                             <div className="mt-2">
-                                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-emerald-600 sm:max-w-md">
                                     <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span>
                                     <input
                                         type="text"
@@ -85,7 +85,7 @@ const UserProfile: React.FC = () => {
                                     id="about"
                                     name="about"
                                     rows={3}
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
                                     defaultValue={''}
                                 />
                             </div>
@@ -117,7 +117,7 @@ const UserProfile: React.FC = () => {
                                     <div className="mt-4 flex text-sm leading-6 text-gray-600">
                                         <label
                                             htmlFor="file-upload"
-                                            className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                                            className="relative cursor-pointer rounded-md bg-white font-semibold text-emerald-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-emerald-600 focus-within:ring-offset-2 hover:text-emerald-500"
                                         >
                                             <span>Upload a file</span>
                                             <input id="file-upload" name="file-upload" type="file" className="sr-only" />
@@ -146,7 +146,7 @@ const UserProfile: React.FC = () => {
                                     name="first-name"
                                     id="first-name"
                                     autoComplete="given-name"
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -161,7 +161,7 @@ const UserProfile: React.FC = () => {
                                     name="last-name"
                                     id="last-name"
                                     autoComplete="family-name"
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -179,7 +179,7 @@ const UserProfile: React.FC = () => {
                                     onChange={handleUserChange}
                                     readOnly
                                     autoComplete="email"
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -193,7 +193,7 @@ const UserProfile: React.FC = () => {
                                     id="country"
                                     name="country"
                                     autoComplete="country-name"
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >
                                     <option>United States</option>
                                     <option>Canada</option>
@@ -214,7 +214,7 @@ const UserProfile: React.FC = () => {
                                     onChange={handleUserChange}
                                     id="street-address"
                                     autoComplete="street-address"
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -229,7 +229,7 @@ const UserProfile: React.FC = () => {
                                     name="city"
                                     id="city"
                                     autoComplete="address-level2"
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -244,7 +244,7 @@ const UserProfile: React.FC = () => {
                                     name="region"
                                     id="region"
                                     autoComplete="address-level1"
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -259,7 +259,7 @@ const UserProfile: React.FC = () => {
                                     name="postal-code"
                                     id="postal-code"
                                     autoComplete="postal-code"
-                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
@@ -282,7 +282,7 @@ const UserProfile: React.FC = () => {
                                             id="comments"
                                             name="comments"
                                             type="checkbox"
-                                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                            className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
                                         />
                                     </div>
                                     <div className="text-sm leading-6">
@@ -298,7 +298,7 @@ const UserProfile: React.FC = () => {
                                             id="candidates"
                                             name="candidates"
                                             type="checkbox"
-                                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                            className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
                                         />
                                     </div>
                                     <div className="text-sm leading-6">
@@ -314,7 +314,7 @@ const UserProfile: React.FC = () => {
                                             id="offers"
                                             name="offers"
                                             type="checkbox"
-                                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                            className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-600"
                                         />
                                     </div>
                                     <div className="text-sm leading-6">
@@ -335,7 +335,7 @@ const UserProfile: React.FC = () => {
                                         id="push-everything"
                                         name="push-notifications"
                                         type="radio"
-                                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                        className="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-600"
                                     />
                                     <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-gray-900">
                                         Everything
@@ -346,7 +346,7 @@ const UserProfile: React.FC = () => {
                                         id="push-email"
                                         name="push-notifications"
                                         type="radio"
-                                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                        className="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-600"
                                     />
                                     <label htmlFor="push-email" className="block text-sm font-medium leading-6 text-gray-900">
                                         Same as email
@@ -357,7 +357,7 @@ const UserProfile: React.FC = () => {
                                         id="push-nothing"
                                         name="push-notifications"
                                         type="radio"
-                                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                        className="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-600"
                                     />
                                     <label htmlFor="push-nothing" className="block text-sm font-medium leading-6 text-gray-900">
                                         No push notifications
@@ -375,7 +375,7 @@ const UserProfile: React.FC = () => {
                 </button>
                 <button
                     type="submit"
-                    className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
                 >
                     Save
                 </button>
