@@ -3,6 +3,7 @@ import TimeLine from "./TimeLine";
 import Task from "../types/Tasks";
 import { useEffect, useState } from "react";
 import request from "../utils/request";
+import UserDropDown from "./UserDropDown";
 
 // const todo: Task[] = [
 //   {
@@ -91,8 +92,8 @@ function SideBar() {
   return (
     <div className="rounded-md m-3 font-poppins">
       <div className="flex items-center justify-between my-3 px-4 mx-2">
-        <div className="flex items-center justify-center bg-emerald-400 rounded-full w-[50px] h-[50px]">
-          <span className="text-white font-bold text-xl">A</span>
+        <div className="">
+          <UserDropDown />
         </div>
         <div className="w-[50%] pl-4">
           <div className="text-sm mb-1 text-gray-600">{userInfo.name}</div>

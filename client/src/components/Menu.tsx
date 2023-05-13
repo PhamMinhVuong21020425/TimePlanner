@@ -4,6 +4,7 @@ import { HiOutlineDocumentReport } from "react-icons/hi";
 import { TiWeatherPartlySunny } from "react-icons/ti";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
 type Props = {
   handleOptionButton: (option: string) => void;
 };
