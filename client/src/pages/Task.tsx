@@ -46,7 +46,6 @@ const Task = () => {
       case "Report":
         return <Report />;
       case "AddTask":
-<<<<<<< HEAD
         if (task_id) {
           return (
             <div>
@@ -58,18 +57,6 @@ const Task = () => {
             </div>
           );
         }
-=======
-        if (task_id)
-          return (
-            <div>
-              {showAddTask && <ChildTask id={task_id} />}
-              {showAddTask && (
-                <AddTask option={selectedOption} showFunction={handleShowAddTask} id={task_id} />
-              )}
-              {!showAddTask && <ChildTask id={task_id} />}
-            </div>
-          );
->>>>>>> e1774519be842ff122eeb05a09d7fec4c5aa2cdd
         break;
       case "Weather":
         return <Weather />;
