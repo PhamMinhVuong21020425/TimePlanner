@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import ToDoList from "../components/ToDoList";
 import Calendar from "../components/Calendar";
@@ -7,11 +8,27 @@ import AddTask from "../components/AddTask";
 import SideBar from "../components/SideBar";
 import Menu from "../components/Menu";
 import Weather from "../components/Weather";
+import request from "../utils/request";
 
 
 const Home = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [showAddTask, setShowAddTask] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isLogin = async () => {
+      try {
+        const response = await request.get('/');
+        if(response.data.message === 'NotLogin') {
+          navigate('/login');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    isLogin();
+  }, [])
 
   const handleOptionButton = (option: string) => {
     setSelectedOption(option);

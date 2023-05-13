@@ -11,5 +11,4 @@ router.get('/:task_id', taskController.getCurrentTask);
 router.post('/:parent_task_id', taskController.taskPost);
 router.get('/', taskController.getTask);
 
-
 module.exports = router;

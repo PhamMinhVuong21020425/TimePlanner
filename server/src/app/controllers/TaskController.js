@@ -174,7 +174,6 @@ class TaskController {
             console.log(e.code);
             throw e;
         }
-
     }
 }
 
