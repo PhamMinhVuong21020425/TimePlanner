@@ -265,7 +265,11 @@ function ToDoList() {
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
             <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} saveFunction={handleSave} />}</div>
+=======
+            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} saveFunction={handleSave}/>}</div>
+>>>>>>> e1774519be842ff122eeb05a09d7fec4c5aa2cdd
         </div>
     );
 }
