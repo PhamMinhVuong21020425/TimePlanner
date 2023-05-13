@@ -4,7 +4,7 @@ import NotFound from "./pages/NotFound";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
-import Test from "./pages/Test";
+import Task from "./pages/Task";
 import LoginForm from "./components/LoginForm";
 import SignUpForm from "./pages/SignUpForm";
 import Admin from "./pages/Admin";
@@ -22,8 +22,8 @@ function App() {
           <Route path="login" element={<LoginForm />} />
           <Route path="signup" element={<SignUpForm />} />
           <Route path="admin" element={<Admin />} />
-          <Route path="test" element={<Test />} />
-          <Route path="*" element={<NotFound />} />  
+          <Route path="task/:task_id" element={<Task />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -3,6 +3,7 @@ import Task from "../types/Tasks";
 import { useEffect, useState } from "react";
 import request from "../utils/request";
 import EditTaskModal from "./EditTaskModal";
+import { Link } from "react-router-dom";
 
 function taskStyle(i: Task, handleClicked: (id: string) => void) {
     const id: string = i.task_id;
@@ -11,12 +12,14 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
         case 'LOW':
             return (
                 <div className="bg-emerald-50 rounded-md p-4">
-                    <div className="text-xs text-center w-1/2 rounded-md">
+                    <div className="text-xs text-center w-3/5 rounded-md">
                         <div className="bg-emerald-300 px-2 py-1 rounded-md text-emerald-700 text-xs -translate-y-6">
-                            {i.task_name}
+                            {i.type.replace(/_/g, " ")}
                         </div>
                     </div>
-                    <div className="font-bold text-base text-gray-600 -translate-y-3">{i.title}</div>
+                    <div key={id} className="font-bold text-base text-gray-600 -translate-y-3">
+                        <Link to={`/task/${id}`}>{i.task_name}</Link>
+                    </div>
                     <div className="text-gray-600 text-xs">{i.description}</div>
                     <div className="flex justify-between items-center mt-5">
                         {buttonStyle(i)}
@@ -30,12 +33,14 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
         case 'MEDIUM':
             return (
                 <div className=" bg-amber-50 rounded-md p-4">
-                    <div className="text-xs text-center w-1/2 rounded-md">
+                    <div className="text-xs text-center w-3/5 rounded-md">
                         <div className="bg-amber-300 px-2 py-1 rounded-md text-amber-700 text-xs -translate-y-6">
-                            {i.task_name}
+                            {i.type.replace(/_/g, " ")}
                         </div>
                     </div>
-                    <div className="font-bold text-base text-gray-600 -translate-y-3">{i.title}</div>
+                    <div key={id} className="font-bold text-base text-gray-600 -translate-y-3">
+                        <Link to={`/task/${id}`}>{i.task_name}</Link>
+                    </div>
                     <div className="text-gray-600 text-xs">{i.description}</div>
                     <div className="flex justify-between items-center mt-5">
                         {buttonStyle(i)}
@@ -50,12 +55,14 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
         case 'HIGH':
             return (
                 <div className="bg-rose-50 rounded-md p-4">
-                    <div className="text-xs text-center w-1/2 rounded-md">
+                    <div className="text-xs text-center w-3/5 rounded-md">
                         <div className="bg-rose-300 px-2 py-1 rounded-md text-rose-700 text-xs -translate-y-6">
-                            {i.task_name}
+                            {i.type.replace(/_/g, " ")}
                         </div>
                     </div>
-                    <div className="font-bold text-base text-gray-600 -translate-y-3">{i.title}</div>
+                    <div key={id} className="font-bold text-base text-gray-600 -translate-y-3" >
+                        <Link to={`/task/${id}`}>{i.task_name}</Link>
+                    </div>
                     <div className="text-gray-600 text-xs">{i.description}</div>
                     <div className="flex justify-between items-center mt-5">
                         {buttonStyle(i)}
@@ -179,13 +186,13 @@ function ToDoList() {
             });
     }, []);
 
-    function editTask(id: string, newData: Task) {
-        // for (let i = 0; i < todo.length; i++) {
-        //     if (todo[i].id === id) {
-        //         todo[i] = newData;
-        //     }
-        // }
-    }
+    // function editTask(id: string, newData: Task) {
+    //     // for (let i = 0; i < todo.length; i++) {
+    //     //     if (todo[i].id === id) {
+    //     //         todo[i] = newData;
+    //     //     }
+    //     // }
+    // }
 
     const [showEditTask, setShowEditTask] = useState(false);
 

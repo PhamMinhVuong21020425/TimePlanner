@@ -55,7 +55,7 @@ function styleTask(i: Task) {
       // TODO
       return (
         <div className="bg-emerald-50 rounded-md p-4 ml-4">
-          <div className="font-bold text-base text-gray-600 -translate-y-2">{i.title}</div>
+          <div className="font-bold text-base text-gray-600 -translate-y-2">{i.task_name}</div>
           <div className="text-gray-600 text-xs">{i.description}</div>
           <div className="flex mt-5 justify-between items-center">
             {styleButton(i)}
@@ -70,7 +70,7 @@ function styleTask(i: Task) {
       // TODO
       return (
         <div className="bg-amber-50 rounded-md p-4 ml-4">
-          <div className="font-bold text-base text-gray-600 -translate-y-2">{i.title}</div>
+          <div className="font-bold text-base text-gray-600 -translate-y-2">{i.task_name}</div>
           <div className="text-gray-600 text-xs">{i.description}</div>
           <div className="flex mt-5 justify-between items-center">
             {styleButton(i)}
@@ -85,7 +85,7 @@ function styleTask(i: Task) {
       // TODO
       return (
         <div className="bg-rose-50 rounded-md p-4 ml-4">
-          <div className="font-bold text-base text-gray-600 -translate-y-2">{i.title}</div>
+          <div className="font-bold text-base text-gray-600 -translate-y-2">{i.task_name}</div>
           <div className="text-gray-600 text-xs">{i.description}</div>
           <div className="flex mt-5 justify-between items-center">
             {styleButton(i)}
