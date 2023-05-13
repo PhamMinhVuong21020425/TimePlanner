@@ -7,14 +7,24 @@ const cookieParser = require('cookie-parser');
 const crypto = require('crypto');
 const MySQLStore = require('express-mysql-session')(session);
 const cors = require('cors');
-
-require('dotenv').config();
+const mysql = require('mysql2');
 const route = require('./src/routes/index');
+require('dotenv').config();
 
 const app = express();
 
 // Nếu process.env.PORT không được định nghĩa (undefined) thì sẽ lấy giá trị là 8080
 const port = process.env.PORT || 8080;
+
+const connection = mysql.createConnection({
+    host: 'aws.connect.psdb.cloud',
+    user: 'vb3nbnflo1ffonefqp6g',
+    password: 'pscale_pw_xqMhYgAdfR4kuldt9KtwaqvXbj7tMfXLG8FRpqiFY5e',
+    database: 'cnpm',
+    ssl: {
+        rejectUnauthorized: false // tắt xác thực SSL cho CockroachDB
+    }
+});
 
 // HTTP logger
 app.use(morgan('tiny'));
@@ -27,15 +37,20 @@ app.use(cors({
 app.use(cookieParser());
 
 const options = {
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: '',
-    database: 'time',
-    //expiration: 60000
+    expiration: 3600000,
+    createDatabaseTable: true,
+    schema: {
+        tableName: 'Sessions',
+        columnNames: {
+            session_id: 'session_id',
+            expires: 'expires',
+            data: 'data'
+        }
+    },
+    url: process.env.DATABASE_URL_PLANETSCALE
 };
 
-const sessionStore = new MySQLStore(options);
+const sessionStore = new MySQLStore(options, connection);
 
 
 function generateSessionId(length) {
@@ -51,7 +66,7 @@ app.use(session({
     saveUninitialized: true,
     unset: 'destroy',
     store: sessionStore,
-    name: 'session cookie name',
+    name: 'session cookie',
     cookie: {
         secure: false,
         maxAge: 1 * 3600 * 1000, //1h

@@ -1,4 +1,4 @@
-const newsRouter = require('./newsRouter');
+const userRouter = require('./userRouter');
 const searchRouter = require('./searchRouter');
 const siteRouter = require('./siteRouter');
 const authRouter = require('./authRouter');
@@ -10,7 +10,7 @@ function route(app) {
         else next('route')
     }, siteRouter);
 
-    app.use('/news', newsRouter);
+    app.use('/user', userRouter);
 
     app.use('/search', searchRouter);
 
