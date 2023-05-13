@@ -12,6 +12,7 @@ import UserProfile from "./components/UserProfile";
 import "./index.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "./App.css"
+import Setting from "./pages/Setting";
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
           <Route path="login" element={<LoginForm />} />
           <Route path="signup" element={<SignUpForm />} />
           <Route path="admin" element={<Admin />} />
-          <Route path="profile" element={<UserProfile />} />
+          <Route path="profile" element={<Setting />} />
           <Route path="task/:task_id" element={<Task />} />
           <Route path="*" element={<NotFound />} />
         </Route>

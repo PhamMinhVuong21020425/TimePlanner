@@ -180,6 +180,8 @@ function ToDoList({ id }: Props) {
     // ];
     const [todo, setTodo] = useState<Task[]>();
     const [currentId, setCurrentId] = useState("0");
+    const [save, setSave] = useState(false);
+
     useEffect(() => {
         request.get<Task[]>(`task/child/${id}`)
             .then(response => {
@@ -188,7 +190,7 @@ function ToDoList({ id }: Props) {
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-    }, []);
+    }, [id, save]);
 
     // function editTask(id: string, newData: Task) {
     //     // for (let i = 0; i < todo.length; i++) {
@@ -203,6 +205,10 @@ function ToDoList({ id }: Props) {
     function handleClicked(id: string) {
         setCurrentId(id);
         setShowEditTask(true);
+    }
+
+    const handleSave = () => {
+        setSave(!save);
     }
 
     const handleCancel = () => {
@@ -264,7 +270,7 @@ function ToDoList({ id }: Props) {
                     </div>
                 </div>
             </div>
-            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} />}</div>
+            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} saveFunction={handleSave} />}</div>
         </div>
     );
 }

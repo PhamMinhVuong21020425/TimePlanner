@@ -20,7 +20,7 @@ const Home = () => {
     const isLogin = async () => {
       try {
         const response = await request.get('/');
-        if(response.data.message === 'NotLogin') {
+        if (response.data.message === 'NotLogin') {
           navigate('/login');
         }
       } catch (error) {
@@ -55,7 +55,7 @@ const Home = () => {
           <div>
             {showAddTask && <ToDoList />}
             {showAddTask && (
-              <AddTask option={selectedOption} showFunction={handleShowAddTask} id={null} />
+              <AddTask showFunction={handleShowAddTask} id={null} />
             )}
             {!showAddTask && <ToDoList />}
           </div>

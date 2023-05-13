@@ -46,15 +46,17 @@ const Task = () => {
       case "Report":
         return <Report />;
       case "AddTask":
-        return (
-          <div>
-            {showAddTask && <ToDoList />}
-            {showAddTask && (
-              <AddTask option={selectedOption} showFunction={handleShowAddTask} id={task_id} />
-            )}
-            {!showAddTask && <ToDoList />}
-          </div>
-        );
+        if (task_id) {
+          return (
+            <div>
+              {showAddTask && <ToDoList />}
+              {showAddTask && (
+                <AddTask showFunction={handleShowAddTask} id={task_id} />
+              )}
+              {!showAddTask && <ToDoList />}
+            </div>
+          );
+        }
         break;
       case "Weather":
         return <Weather />;
@@ -72,7 +74,7 @@ const Task = () => {
         <SideBar />
       </div>
       <div className="w-[70%]">
-        <Menu handleOptionButton={handleOptionButton} />
+        {/* <Menu handleOptionButton={handleOptionButton} /> */}
         {renderCurrentTask()}
         {renderContent()}
       </div>

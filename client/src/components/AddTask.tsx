@@ -4,12 +4,11 @@ import request from "../utils/request";
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 type Props = {
-  option: string,
   showFunction: Function,
   id: string | undefined | null
 };
 
-export default function AddTask({ option, showFunction, id }: Props) {
+export default function AddTask({ showFunction, id }: Props) {
   const [data, setData] = useState({
     taskName: "",
     parent_task_id: id,
@@ -19,6 +18,8 @@ export default function AddTask({ option, showFunction, id }: Props) {
     priority: "LOW",
     finishTime: "",
   });
+
+  const [save, setSave] = useState(false);
 
   const navigate = useNavigate();
 
@@ -37,7 +38,7 @@ export default function AddTask({ option, showFunction, id }: Props) {
     const res = await request.post(`task/${id}`, data);
     console.log(res.data);
     showFunction();
-   // window.location.reload();
+    // window.location.reload();
   };
 
   const handleCancel = () => {
