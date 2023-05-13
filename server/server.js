@@ -117,7 +117,7 @@ app.get('/foo', function (req, res, next) {
 app.get('/logout', function (req, res, next) {
     if (req.session) {
         // delete session object
-        res.clearCookie(req.session.email);
+        res.clearCookie(req.session.user);
         req.session.destroy(function (err) {
             if (err) {
                 return next(err);

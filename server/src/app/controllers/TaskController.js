@@ -17,8 +17,9 @@ class TaskController {
 
         // });
         try {
-            await prisma.task.create({
+            await prisma.Task.create({
                 data: {
+                    user_id: req.session.user.userId,
                     task_name: req.body.taskName,
                     description: req.body.description,
                     // location: req.body.location,
@@ -28,7 +29,7 @@ class TaskController {
                     type: req.body.type,
                 }
             })
-            res.status(200).send("success");
+            res.status(200).send({ success: "add task success" });
         }
         catch (e) {
             res.status(500).json({ message: 'Internal Server Error' });
@@ -39,15 +40,14 @@ class TaskController {
 
     async getTask(req, res) {
         try {
-            // if (req.session.user) {
-            // const tasks = await prisma.task.findMany({
-            //     where: {
-            //         user_id: req.session.userId
-            //     }
-            // })
-            // };
-            const tasks = await prisma.task.findMany();
-            res.status(200).json(tasks);
+            if (req.session.user) {
+                const tasks = await prisma.Task.findMany({
+                    where: {
+                        user_id: req.session.user.userId,
+                    }
+                })
+                res.status(200).json(tasks);
+            };
         }
         catch (e) {
             res.status(500).json({ message: 'Internal Server Error' });
@@ -58,19 +58,14 @@ class TaskController {
 
     async getCurrentTask(req, res) {
         try {
-            // if (req.session.user) {
-            // const tasks = await prisma.task.findMany({
-            //     where: {
-            //         user_id: req.session.userId
-            //     }
-            // })
-            // };
-            const task = await prisma.task.findUnique({
-                where: {
-                    task_id: req.params.task_id
-                }
-            });
-            res.status(200).json(task);
+            if (req.session.user) {
+                const task = await prisma.Task.findUnique({
+                    where: {
+                        task_id: req.params.task_id
+                    }
+                });
+                res.status(200).json(task);
+            }
         }
         catch (e) {
             res.status(500).json({ message: 'Internal Server Error' });
@@ -88,7 +83,7 @@ class TaskController {
         tomorrow.setHours(0, 0, 0, 0);
 
         try {
-            const tasks = await prisma.task.findMany({
+            const tasks = await prisma.Task.findMany({
                 where: {
                     started_time: {
                         gte: currentDate,
@@ -112,15 +107,17 @@ class TaskController {
 
     async deleteTask(req, res) {
         try {
-           // if (req.session.userId) {
-                await prisma.task.delete({
+            if (req.session.user) {
+                await prisma.Task.delete({
                     where: {
-                        //user_id: req.session.userId,
-                        task_id: req.params.task_id
+                        AND: {
+                            user_id: req.session.user.userId,
+                            task_id: req.params.task_id,
+                        }
                     }
                 })
-                res.status(200).json({success: 'Delete success!'});
-           // }
+                res.status(200).json({ success: 'Delete success!' });
+            }
         }
         catch (e) {
             res.status(500).json({ message: 'Internal Server Error' });
@@ -131,26 +128,25 @@ class TaskController {
 
     async updateTask(req, res) {
         try {
-            // if (req.session.userId) {
-            await prisma.task.update({
-                where: {
-                    //user_id: req.session.userId,
-                    task_id: req.params.task_id
-                },
-                data: {
-                    task_name: req.body.task_name,
-                    description: req.body.description,
-                    //location: req.body.location,
-                    started_time: new Date(req.body.started_time),
-                    finished_time: new Date(req.body.finished_time),
-                    status: req.body.status,
-                    priority: req.body.priority,
-                    type: req.body.type,
-                }
-            })
+            if (req.session.user) {
+                const updateTask = await prisma.Task.update({
+                    where: {
+                        task_id: req.params.task_id
+                    },
+                    data: {
+                        task_name: req.body.task_name,
+                        description: req.body.description,
+                        //location: req.body.location,
+                        started_time: new Date(req.body.started_time),
+                        finished_time: new Date(req.body.finished_time),
+                        status: req.body.status,
+                        priority: req.body.priority,
+                        type: req.body.type,
+                    }
+                });
 
-            res.json({ success: 'update success!' });
-            //}
+                res.json({ success: 'update success!' });
+            }
         }
         catch (e) {
             res.status(500).json({ message: 'Internal Server Error' });
