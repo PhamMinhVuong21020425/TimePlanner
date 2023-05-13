@@ -70,7 +70,7 @@ function EditTaskModal({ id, showFunction }: Props) {
                 <div className="text-xs text-gray-500">
                     <form onSubmit={handleSave} className="w-full max-w-lg">
                         <div className="flex flex-wrap -mx-3 mb-6">
-                            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                 <label
                                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     htmlFor="grid-first-name"
@@ -78,7 +78,7 @@ function EditTaskModal({ id, showFunction }: Props) {
                                     Name the task
                                 </label>
                                 <input
-                                    className="block w-full bg-gray-100 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                    className="text-xs block w-full bg-gray-100 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                     id="grid-first-name"
                                     type="text"
                                     name="task_name"
@@ -88,7 +88,7 @@ function EditTaskModal({ id, showFunction }: Props) {
                                 />
                             </div>
 
-                            <div className="w-full md:w-1/2 px-3">
+                            <div className="w-full md:w-1/3 px-3">
                                 <label
                                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     htmlFor="grid-last-name"
@@ -97,7 +97,7 @@ function EditTaskModal({ id, showFunction }: Props) {
                                 </label>
                                 <div className="relative">
                                     <select
-                                        className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                        className="text-xs appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                         id="grid-last-name"
                                         name="type"
                                         value={data.type}
@@ -113,7 +113,7 @@ function EditTaskModal({ id, showFunction }: Props) {
                                         <option>WASTED_TIME</option>
                                         <option>OTHERS</option>
                                     </select>
-                                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                         <svg
                                             className="fill-current h-4 w-4"
                                             xmlns="http://www.w3.org/2000/svg"
@@ -121,9 +121,40 @@ function EditTaskModal({ id, showFunction }: Props) {
                                         >
                                             <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                         </svg>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
+
+                            {/* STATUS */}
+                            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                <label
+                                    className="block tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                    htmlFor="grid-first-name"
+                                >
+                                    Status
+                                </label>
+                                <div className="relative">
+                                    <select
+                                        className="text-xs appearance-none block w-full bg-gray-100 text-gray-600 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    // id="grid-last-name"
+                                    // name="type"
+                                    // onChange={handleDataChange}
+                                    // value={data.type}
+                                    // placeholder=""
+                                    >
+                                        <option >IN_PROGRESS</option>
+                                        <option>STOPPED</option>
+                                        <option>COMPLETED</option>
+
+                                    </select>
+                                    {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+                  </div> */}
+                                </div>
+                            </div>
+                            {/* ----------------------------------------- */}
+
+
                         </div>
                         <div className="flex flex-wrap -mx-3 mb-6">
                             <div className="w-full px-3">
@@ -134,7 +165,7 @@ function EditTaskModal({ id, showFunction }: Props) {
                                     Description
                                 </label>
                                 <input
-                                    className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    className="text-xs appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="grid-password"
                                     type="text"
                                     name="description"
@@ -156,7 +187,7 @@ function EditTaskModal({ id, showFunction }: Props) {
                                     Start time
                                 </label>
                                 <input
-                                    className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    className="text-xs appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="grid-city"
                                     type="datetime-local"
                                     name="started_time"
@@ -173,7 +204,7 @@ function EditTaskModal({ id, showFunction }: Props) {
                                 </label>
                                 <div className="relative">
                                     <select
-                                        className="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                        className="text-xs block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                         id="grid-state"
                                         name="priority"
                                         onChange={handleDataChange}
@@ -183,7 +214,7 @@ function EditTaskModal({ id, showFunction }: Props) {
                                         <option>MEDIUM</option>
                                         <option>HIGH</option>
                                     </select>
-                                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                         <svg
                                             className="fill-current h-4 w-4"
                                             xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +222,7 @@ function EditTaskModal({ id, showFunction }: Props) {
                                         >
                                             <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                                         </svg>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -202,7 +233,7 @@ function EditTaskModal({ id, showFunction }: Props) {
                                     Finish time
                                 </label>
                                 <input
-                                    className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    className="text-xs appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="grid-zip"
                                     type="datetime-local"
                                     name="finished_time"
@@ -215,19 +246,19 @@ function EditTaskModal({ id, showFunction }: Props) {
                             className="bg-emerald-500 px-2 py-1 rounded-sm text-white text-xs mx-2 my-4 cursor-pointer"
                             type="submit"
                         >
-                            Save
+                            SAVE
                         </button>
                         <button
-                            className="bg-red-500 px-2 py-1 rounded-sm text-white text-xs mx-2 cursor-pointer"
+                            className="bg-amber-500 px-2 py-1 rounded-sm text-white text-xs mx-2 cursor-pointer"
                             onClick={handleCancel}
                         >
-                            Cancel
+                            CANCEL
                         </button>
                         <button
-                            className="bg-red-500 px-2 py-1 rounded-sm text-white text-xs mx-2 cursor-pointer"
+                            className="bg-rose-500 px-2 py-1 rounded-sm text-white text-xs mx-2 cursor-pointer"
                             onClick={handleDelete}
                         >
-                            Delete
+                            DELETE
                         </button>
                     </form>
                 </div>

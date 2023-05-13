@@ -1,9 +1,10 @@
-import { IoMdNotificationsOutline } from "react-icons/io";
+import { MdOutlineNotificationsActive } from "react-icons/md";
 import TimeLine from "./TimeLine";
 import Task from "../types/Tasks";
 import { useEffect, useState } from "react";
 import request from "../utils/request";
 import UserDropDown from "./UserDropDown";
+import Notification from "./Notification";
 
 // const todo: Task[] = [
 //   {
@@ -100,7 +101,7 @@ function SideBar() {
           <div className="text-xs text-gray-500">{userInfo.email}</div>
         </div>
         <div className="w-[25%] flex items-center text-gray-600 justify-center text-xl">
-          <IoMdNotificationsOutline />
+          <Notification />
         </div>
       </div>
       <div className="flex items-center justify-center">
