@@ -176,6 +176,7 @@ function ToDoList() {
     // ];
     const [todo, setTodo] = useState<Task[]>();
     const [currentId, setCurrentId] = useState("0");
+    const [save, setSave] = useState(false);
     useEffect(() => {
         request.get<Task[]>('task')
             .then(response => {
@@ -184,7 +185,7 @@ function ToDoList() {
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-    }, []);
+    }, [save]);
 
     // function editTask(id: string, newData: Task) {
     //     // for (let i = 0; i < todo.length; i++) {
@@ -199,6 +200,10 @@ function ToDoList() {
     function handleClicked(id: string) {
         setCurrentId(id);
         setShowEditTask(true);
+    }
+
+    const handleSave = () => {
+        setSave(!save);
     }
 
     const handleCancel = () => {
@@ -260,7 +265,7 @@ function ToDoList() {
                     </div>
                 </div>
             </div>
-            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} />}</div>
+            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} saveFunction={handleSave}/>}</div>
         </div>
     );
 }

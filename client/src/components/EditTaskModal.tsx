@@ -7,9 +7,10 @@ import moment from 'moment';
 type Props = {
     id: string,
     showFunction: Function
+    saveFunction: Function
 };
 
-function EditTaskModal({ id, showFunction }: Props) {
+function EditTaskModal({ id, showFunction, saveFunction }: Props) {
     const [data, setData] = useState<Task>({
         task_name: "",
         type: "",
@@ -38,7 +39,7 @@ function EditTaskModal({ id, showFunction }: Props) {
             }
         };
         fetchData();
-    }, [id]);
+    }, []);
 
     const handleDataChange = (
         event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
@@ -52,7 +53,7 @@ function EditTaskModal({ id, showFunction }: Props) {
         const res = await request.post(`task/update/${id}`, data);
         console.log(res.data);
         showFunction();
-        window.location.reload();
+        saveFunction();
     };
 
     const handleCancel = () => {

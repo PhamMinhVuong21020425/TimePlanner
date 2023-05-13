@@ -20,6 +20,8 @@ export default function AddTask({ option, showFunction, id }: Props) {
     finishTime: "",
   });
 
+  const [save, setSave] = useState(false);
+
   const navigate = useNavigate();
 
   const handleDataChange = (
