@@ -8,7 +8,11 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function UserDropDown() {
+type Props = {
+    firstCharacter: string;
+}
+
+export default function UserDropDown({firstCharacter}: Props) {
     const navigate = useNavigate();
     const handleLogout = async () => {
         const confirmation: any = window.confirm("Are you sure want to log out?");
@@ -24,7 +28,7 @@ export default function UserDropDown() {
         <Menu as="div" className="relative inline-block text-left">
             <div>
                 <Menu.Button className="flex items-center justify-center w-[50px] h-[50px] gap-x-1.5 rounded-full bg-emerald-400 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300">
-                    A
+                    {firstCharacter}
                     {/* <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" /> */}
                 </Menu.Button>
             </div>

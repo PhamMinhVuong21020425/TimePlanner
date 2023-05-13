@@ -147,7 +147,7 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
                                         onChange={handleDataChange}
                                         value={data.status}
                                     >
-                                        <option >IN_PROGRESS</option>
+                                        <option >INPROGRESS</option>
                                         <option>STOPPED</option>
                                         <option>COMPLETED</option>
 
