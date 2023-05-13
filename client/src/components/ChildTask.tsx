@@ -181,7 +181,7 @@ function ToDoList({ id }: Props) {
     const [todo, setTodo] = useState<Task[]>();
     const [currentId, setCurrentId] = useState("0");
     const [save, setSave] = useState(false);
-    
+
     useEffect(() => {
         request.get<Task[]>(`task/child/${id}`)
             .then(response => {
@@ -270,7 +270,7 @@ function ToDoList({ id }: Props) {
                     </div>
                 </div>
             </div>
-            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} saveFunction={handleSave}/>}</div>
+            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} saveFunction={handleSave} />}</div>
         </div>
     );
 }
