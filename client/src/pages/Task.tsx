@@ -11,6 +11,7 @@ import SideBar from "../components/SideBar";
 import Menu from "../components/Menu";
 import Weather from "../components/Weather";
 import CurrentTask from "../components/CurrentTask";
+import ChildTask from "../components/ChildTask";
 
 
 
@@ -38,7 +39,8 @@ const Task = () => {
     // Add tasks, add projects
     switch (selectedOption) {
       case "ToDoList":
-        return <ToDoList />;
+        if (task_id)
+          return <ChildTask id={task_id} />;
         break;
       case "Calendar":
         return <Calendar />;
@@ -50,7 +52,7 @@ const Task = () => {
           <div>
             {showAddTask && <ToDoList />}
             {showAddTask && (
-              <AddTask option={selectedOption} showFunction={handleShowAddTask} />
+              <AddTask option={selectedOption} showFunction={handleShowAddTask} id={task_id} />
             )}
             {!showAddTask && <ToDoList />}
           </div>
@@ -60,7 +62,8 @@ const Task = () => {
         return <Weather />;
         break;
       default:
-        return <ToDoList />;
+        if (task_id)
+          return <ChildTask id={task_id} />;
         break;
     }
   };

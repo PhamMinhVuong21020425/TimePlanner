@@ -1,13 +1,32 @@
+const prisma = require("./PrismaConfig");
+
 class UserController {
     // GET /user
-    index(req, res) {
-        const user = req.session.user;
-        if (!user) {
-            res.status(401).send('Bạn chưa đăng nhập');
-            return;
-        }
+    async index(req, res) {
+        // const user = req.session.user;
+        try {
+            function exclude(user, keys) {
+                for (let key of keys) {
+                    delete user[key]
+                }
+                return user
+            }
 
-        res.status(200).json(user);
+            if (req.session.user) {
+                const currenUser = await prisma.user.findUnique({
+                    where: {
+                        id: req.session.user.userId
+                    },
+                })
+                const userWithoutPassword = exclude(currenUser, ['password'])
+                res.status(200).json(userWithoutPassword);
+            }
+        }
+        catch (e) {
+            res.status(500).json({ message: 'Internal Server Error' });
+            console.log(e.code);
+            throw e;
+        }
     }
 
     // GET /user/:detail

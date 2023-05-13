@@ -38,7 +38,7 @@ const Home = () => {
           <div>
             {showAddTask && <ToDoList />}
             {showAddTask && (
-              <AddTask option={selectedOption} showFunction={handleShowAddTask} />
+              <AddTask option={selectedOption} showFunction={handleShowAddTask} id={null} />
             )}
             {!showAddTask && <ToDoList />}
           </div>

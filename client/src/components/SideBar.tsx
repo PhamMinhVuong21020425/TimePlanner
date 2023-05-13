@@ -66,7 +66,8 @@ function SideBar() {
   const [todo, setTodo] = useState<Task[]>();
   const [userInfo, setUserInfo] = useState({
     userId: 0,
-    email:''
+    name: '',
+    email: ''
   });
   useEffect(() => {
     request.get<Task[]>('task/today')
@@ -94,8 +95,8 @@ function SideBar() {
           <span className="text-white font-bold text-xl">A</span>
         </div>
         <div className="w-[50%] pl-4">
-          <div className="text-sm mb-1 text-gray-600">{userInfo.email}</div>
-          <div className="text-xs text-gray-500">{userInfo.userId}</div>
+          <div className="text-sm mb-1 text-gray-600">{userInfo.name}</div>
+          <div className="text-xs text-gray-500">{userInfo.email}</div>
         </div>
         <div className="w-[25%] flex items-center text-gray-600 justify-center text-xl">
           <IoMdNotificationsOutline />

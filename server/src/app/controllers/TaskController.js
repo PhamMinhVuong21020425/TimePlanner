@@ -17,19 +17,22 @@ class TaskController {
 
         // });
         try {
-            await prisma.Task.create({
-                data: {
-                    user_id: req.session.user.userId,
-                    task_name: req.body.taskName,
-                    description: req.body.description,
-                    // location: req.body.location,
-                    started_time: new Date(req.body.startTime),
-                    finished_time: new Date(req.body.finishTime),
-                    priority: req.body.priority,
-                    type: req.body.type,
-                }
-            })
-            res.status(200).send({ success: "add task success" });
+            if (req.session.user) {
+                await prisma.Task.create({
+                    data: {
+                        user_id: req.session.user.userId,
+                        parent_task_id: req.body.parent_task_id,
+                        task_name: req.body.taskName,
+                        description: req.body.description,
+                        // location: req.body.location,
+                        started_time: new Date(req.body.startTime),
+                        finished_time: new Date(req.body.finishTime),
+                        priority: req.body.priority,
+                        type: req.body.type,
+                    }
+                })
+                res.status(200).send({ success: "add task success" });
+            }
         }
         catch (e) {
             res.status(500).json({ message: 'Internal Server Error' });
@@ -44,6 +47,7 @@ class TaskController {
                 const tasks = await prisma.Task.findMany({
                     where: {
                         user_id: req.session.user.userId,
+                        parent_task_id: null
                     }
                 })
                 res.status(200).json(tasks);
@@ -83,26 +87,46 @@ class TaskController {
         tomorrow.setHours(0, 0, 0, 0);
 
         try {
-            const tasks = await prisma.Task.findMany({
-                where: {
-                    started_time: {
-                        gte: currentDate,
-                        lt: tomorrow,
+            if (req.session.user) {
+                const tasks = await prisma.Task.findMany({
+                    where: {
+                        user_id: req.session.user.userId,
+                        started_time: {
+                            gte: currentDate,
+                            lt: tomorrow,
+                        }
+                    },
+                    orderBy: {
+                        started_time: 'asc'
                     }
-                },
-                orderBy: {
-                    started_time: 'asc'
-                }
 
-            });
-            res.status(200).json(tasks);
+                });
+                res.status(200).json(tasks);
+            }
         }
         catch (e) {
             res.status(500).json({ message: 'Internal Server Error' });
             console.log(e.code);
             throw e;
         }
+    }
 
+    async getChildTask(req, res) {
+        try {
+            if (req.session.user) {
+                const tasks = await prisma.Task.findMany({
+                    where: {
+                        parent_task_id: req.params.parent_task_id
+                    }
+                })
+                res.status(200).json(tasks);
+            };
+        }
+        catch (e) {
+            res.status(500).json({ message: 'Internal Server Error' });
+            console.log(e.code);
+            throw e;
+        }
     }
 
     async deleteTask(req, res) {
@@ -110,10 +134,7 @@ class TaskController {
             if (req.session.user) {
                 await prisma.Task.delete({
                     where: {
-                        AND: {
-                            user_id: req.session.user.userId,
-                            task_id: req.params.task_id,
-                        }
+                        task_id: req.params.task_id
                     }
                 })
                 res.status(200).json({ success: 'Delete success!' });

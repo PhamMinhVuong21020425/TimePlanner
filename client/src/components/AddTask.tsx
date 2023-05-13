@@ -4,12 +4,14 @@ import request from "../utils/request";
 
 type Props = {
   option: string,
-  showFunction: Function
+  showFunction: Function,
+  id: string | undefined | null
 };
 
-export default function AddTask({ option, showFunction }: Props) {
+export default function AddTask({ option, showFunction, id }: Props) {
   const [data, setData] = useState({
     taskName: "",
+    parent_task_id: id,
     type: "BASIC_NEED",
     description: "",
     startTime: "",
@@ -31,7 +33,7 @@ export default function AddTask({ option, showFunction }: Props) {
 
   const handleSave = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const res = await request.post("task", data);
+    const res = await request.post(`task/${id}`, data);
     console.log(res.data);
     showFunction();
     window.location.reload();
