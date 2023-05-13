@@ -13,8 +13,6 @@ import Weather from "../components/Weather";
 import CurrentTask from "../components/CurrentTask";
 import ChildTask from "../components/ChildTask";
 
-
-
 const Task = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [showAddTask, setShowAddTask] = useState(false);

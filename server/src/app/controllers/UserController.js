@@ -13,12 +13,12 @@ class UserController {
             }
 
             if (req.session.user) {
-                const currenUser = await prisma.user.findUnique({
+                const currentUser = await prisma.user.findUnique({
                     where: {
                         id: req.session.user.userId
                     },
                 })
-                const userWithoutPassword = exclude(currenUser, ['password'])
+                const userWithoutPassword = exclude(currentUser, ['password'])
                 res.status(200).json(userWithoutPassword);
             }
         }

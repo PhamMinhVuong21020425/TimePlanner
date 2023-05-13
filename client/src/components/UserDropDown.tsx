@@ -1,12 +1,25 @@
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { useNavigate } from 'react-router-dom'
+import request from '../utils/request'
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
 export default function UserDropDown() {
+    const navigate = useNavigate();
+    const handleLogout = async () => {
+        const confirmation: any = window.confirm("Are you sure want to log out?");
+        if (confirmation) {
+            const res = await request.get('logout');
+            if (res.data.success) {
+                navigate('/login');
+            }
+        }
+    }
+
     return (
         <Menu as="div" className="relative inline-block text-left">
             <div>
@@ -30,29 +43,17 @@ export default function UserDropDown() {
                         <Menu.Item>
                             {({ active }) => (
                                 <a
-                                    href="#"
+                                    href="/profile"
                                     className={classNames(
                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                         'block px-4 py-2 text-sm'
                                     )}
                                 >
-                                    Edit
+                                    Edit Profile
                                 </a>
                             )}
                         </Menu.Item>
-                        <Menu.Item>
-                            {({ active }) => (
-                                <a
-                                    href="#"
-                                    className={classNames(
-                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                        'block px-4 py-2 text-sm'
-                                    )}
-                                >
-                                    Duplicate
-                                </a>
-                            )}
-                        </Menu.Item>
+                
                     </div>
                     <div className="py-1">
                         <Menu.Item>
@@ -68,19 +69,7 @@ export default function UserDropDown() {
                                 </a>
                             )}
                         </Menu.Item>
-                        <Menu.Item>
-                            {({ active }) => (
-                                <a
-                                    href="#"
-                                    className={classNames(
-                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                        'block px-4 py-2 text-sm'
-                                    )}
-                                >
-                                    Move
-                                </a>
-                            )}
-                        </Menu.Item>
+                       
                     </div>
                     <div className="py-1">
                         <Menu.Item>
@@ -113,15 +102,16 @@ export default function UserDropDown() {
                     <div className="py-1">
                         <Menu.Item>
                             {({ active }) => (
-                                <a
-                                    href="#"
+                                <button
                                     className={classNames(
                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                         'block px-4 py-2 text-sm'
                                     )}
+
+                                    onClick={handleLogout}
                                 >
-                                    Delete
-                                </a>
+                                    Log out
+                                </button>
                             )}
                         </Menu.Item>
                     </div>

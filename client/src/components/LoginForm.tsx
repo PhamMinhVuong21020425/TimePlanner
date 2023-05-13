@@ -30,6 +30,7 @@ function LoginForm() {
         const res = await request.post('login', data);
         console.log(res.data);
         navigate('/');
+        window.location.reload();
     };
 
     return (
