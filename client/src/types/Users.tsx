@@ -1,8 +1,11 @@
 interface User {
-    user_id: number;
-    user_name: string;
-    user_email: string;
-    user_image: string;
+    id: number;
+    name: string;
+    age: string;
+    email: string;
+    image: string;
+    address: string;
+    job: string;
 }
 
 export default User;

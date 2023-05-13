@@ -2,37 +2,22 @@ const prisma = require('./PrismaConfig');
 class SiteController {
     // GET /
     async home(req, res) {
-        // var session = req.session;
-        // console.log('SESSIONID: ', session);
-        // console.log('COOKIE: ', req.cookies);
-        //console.log('Signed Cookies: ', req.signedCookies);
-        // const isLoggedIn = req.cookies[session.email];
-        // if (!isLoggedIn) {
-        //     res.redirect('/login');
-        //     return;
-        // }
-        const pool = require('./ConnectDB');
-        const sql = 'SELECT * FROM user';
-        await pool.execute(sql, function (err, results, fields) {
-            if (err) {
-                console.log(err);
-                res.status(500).json({ message: 'Internal Server Error' });
-                return;
-            }
+        console.log('SESSIONID: ', req.session.user);
+        console.log('COOKIE: ', req.cookies);
+        // console.log('Signed Cookies: ', req.signedCookies);
+        const isLoggedIn = req.session.user;
+        if (!isLoggedIn) {
+            res.json({message: 'NotLogin'});
+            return;
+        }
 
-            // Lấy danh sách tên cột của kết quả truy vấn
-            const columnName = fields.map(field => field.name)
-            const dataUser = results.map(result => result)
+        res.json({message: 'Logined'});
 
-            // Gửu dữ liệu vừa truy vấn qua home dưới dạng JSON, 
-            // bao gồm tên cột và dữ liệu
-            res.json(dataUser);
             // Lưu một cookie có tên 'username' với giá trị 'John'
             //res.cookie('username', 'John');
 
             // Trả về phản hồi HTTP
             //res.send('Cookie saved');
-        });
         //res.sendStatus(200)
         //res.status(200).send('Connect success...')
     }

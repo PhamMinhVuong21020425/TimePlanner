@@ -12,7 +12,6 @@ class AuthController {
 
     // GET /login
     login(req, res) {
-        // mặc định tìm đến thư mục views để lấy file news.handlebars
         res.status(200).json({ message: 'login OK' })
     }
 

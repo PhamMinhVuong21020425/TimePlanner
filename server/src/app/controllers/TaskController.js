@@ -110,10 +110,7 @@ class TaskController {
             if (req.session.user) {
                 await prisma.Task.delete({
                     where: {
-                        AND: {
-                            user_id: req.session.user.userId,
-                            task_id: req.params.task_id,
-                        }
+                        task_id: req.params.task_id
                     }
                 })
                 res.status(200).json({ success: 'Delete success!' });
@@ -153,7 +150,6 @@ class TaskController {
             console.log(e.code);
             throw e;
         }
-
     }
 }
 

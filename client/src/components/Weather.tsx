@@ -31,8 +31,6 @@ interface WeatherData {
     dt_txt: string;
   }[];
 
-
-
   city: {
     name: string;
     country: string;
@@ -42,7 +40,7 @@ interface WeatherData {
 function getTime(text: string) {
   // format: 2023-05-12 06:00:00
   // expected: 06:00
-  const time = text.substr(11, 5); // extract "HH:MM" from "YYYY-MM-DD HH:MM:SS"
+  const time = text.slice(11, 16); // extract "HH:MM" from "YYYY-MM-DD HH:MM:SS"
   // return the extracted time
   return time;
 }
