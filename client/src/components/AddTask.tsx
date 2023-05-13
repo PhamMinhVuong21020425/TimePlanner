@@ -37,7 +37,7 @@ export default function AddTask({ option, showFunction, id }: Props) {
     const res = await request.post(`task/${id}`, data);
     console.log(res.data);
     showFunction();
-    window.location.reload();
+   // window.location.reload();
   };
 
   const handleCancel = () => {
@@ -101,8 +101,6 @@ export default function AddTask({ option, showFunction, id }: Props) {
                 </div>
 
               </div>
-
-
 
 
 

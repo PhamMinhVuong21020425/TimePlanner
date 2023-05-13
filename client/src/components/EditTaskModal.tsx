@@ -51,6 +51,7 @@ function EditTaskModal({ id, showFunction }: Props) {
         event.preventDefault();
         const res = await request.post(`task/update/${id}`, data);
         console.log(res.data);
+        showFunction();
         window.location.reload();
     };
 
@@ -58,10 +59,15 @@ function EditTaskModal({ id, showFunction }: Props) {
         showFunction();
     };
 
-    const handleDelete = async () => {
-        const res = await request.delete(`task/delete/${id}`);
-        console.log(res.data);
-        window.location.reload();
+    const handleDelete = async (event: { preventDefault: () => void; }) => {
+        const confirmation: boolean = window.confirm("Are you sure want to delete this task?");
+        if (confirmation) {
+            const res = await request.delete(`task/delete/${id}`);
+            navigate('/');
+            // console.log(res.data);
+        } else {
+            event.preventDefault();
+        }
     }
 
     return (
@@ -136,11 +142,9 @@ function EditTaskModal({ id, showFunction }: Props) {
                                 <div className="relative">
                                     <select
                                         className="text-xs appearance-none block w-full bg-gray-100 text-gray-600 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    // id="grid-last-name"
-                                    // name="type"
-                                    // onChange={handleDataChange}
-                                    // value={data.type}
-                                    // placeholder=""
+                                        name="status"
+                                        onChange={handleDataChange}
+                                        value={data.status}
                                     >
                                         <option >IN_PROGRESS</option>
                                         <option>STOPPED</option>
@@ -242,24 +246,28 @@ function EditTaskModal({ id, showFunction }: Props) {
                                 />
                             </div>
                         </div>
-                        <button
-                            className="bg-emerald-500 px-2 py-1 rounded-sm text-white text-xs mx-2 my-4 cursor-pointer"
-                            type="submit"
-                        >
-                            SAVE
-                        </button>
-                        <button
-                            className="bg-amber-500 px-2 py-1 rounded-sm text-white text-xs mx-2 cursor-pointer"
-                            onClick={handleCancel}
-                        >
-                            CANCEL
-                        </button>
-                        <button
-                            className="bg-rose-500 px-2 py-1 rounded-sm text-white text-xs mx-2 cursor-pointer"
-                            onClick={handleDelete}
-                        >
-                            DELETE
-                        </button>
+                        <div className="flex">
+                            <button
+                                className="bg-emerald-500 px-2 py-1 rounded-sm text-white text-xs mx-2 my-4 cursor-pointer"
+                                type="submit"
+                            >
+                                SAVE
+                            </button>
+                            <button
+                                className="bg-amber-500 px-2 py-1 rounded-sm text-white text-xs mx-2 my-4 cursor-pointer"
+                                onClick={handleCancel}
+                            >
+                                CANCEL
+                            </button>
+
+                            <button
+                                className="bg-rose-500 px-2 py-1 rounded-sm text-white text-xs my-4 cursor-pointer ml-auto"
+                                onClick={handleDelete}
+                            >
+                                DELETE
+                            </button>
+                        </div>
+
                     </form>
                 </div>
             </div>
