@@ -23,7 +23,7 @@ function SignUpForm() {
         event.preventDefault();
         const res = await request.post('login/signup', dataUser);
         console.log(res);
-        navigate('/');
+        navigate('/login');
     }
 
     return (

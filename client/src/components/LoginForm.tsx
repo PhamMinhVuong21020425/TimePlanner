@@ -28,7 +28,7 @@ function LoginForm() {
             password: password,
         };
         const res = await request.post('login', data);
-        console.log(res);
+        console.log(res.data);
         navigate('/');
     };
 

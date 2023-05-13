@@ -64,6 +64,10 @@ function SideBar() {
   // TODO:
   // const todo: Task[] = ...
   const [todo, setTodo] = useState<Task[]>();
+  const [userInfo, setUserInfo] = useState({
+    userId: 0,
+    email:''
+  });
   useEffect(() => {
     request.get<Task[]>('task/today')
       .then(response => {
@@ -72,6 +76,15 @@ function SideBar() {
       .catch(error => {
         console.error('Error fetching data:', error);
       });
+
+    request.get('user')
+      .then(response => {
+        setUserInfo(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+
   }, []);
 
   return (
@@ -81,8 +94,8 @@ function SideBar() {
           <span className="text-white font-bold text-xl">A</span>
         </div>
         <div className="w-[50%] pl-4">
-          <div className="text-sm mb-1 text-gray-600">Nguyen Quang Anh</div>
-          <div className="text-xs text-gray-500">Hanoi, Viet Nam</div>
+          <div className="text-sm mb-1 text-gray-600">{userInfo.email}</div>
+          <div className="text-xs text-gray-500">{userInfo.userId}</div>
         </div>
         <div className="w-[25%] flex items-center text-gray-600 justify-center text-xl">
           <IoMdNotificationsOutline />
