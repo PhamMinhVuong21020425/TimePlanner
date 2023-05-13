@@ -188,7 +188,7 @@ function ToDoList({ id }: Props) {
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-    }, []);
+    }, [id]);
 
     // function editTask(id: string, newData: Task) {
     //     // for (let i = 0; i < todo.length; i++) {
