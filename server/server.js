@@ -17,10 +17,10 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 const connection = mysql.createConnection({
-    host: 'aws.connect.psdb.cloud',
-    user: 'vb3nbnflo1ffonefqp6g',
-    password: 'pscale_pw_xqMhYgAdfR4kuldt9KtwaqvXbj7tMfXLG8FRpqiFY5e',
-    database: 'cnpm',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     ssl: {
         rejectUnauthorized: false // tắt xác thực SSL cho CockroachDB
     }
