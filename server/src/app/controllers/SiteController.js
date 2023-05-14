@@ -89,7 +89,7 @@ class SiteController {
             })
             res.status(200).json(icon);
         }
-        catch {
+        catch (e) {
             res.status(500).json({ message: 'Internal Server Error' });
             console.log(e.code);
             throw e;

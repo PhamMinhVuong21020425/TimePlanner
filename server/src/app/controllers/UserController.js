@@ -74,6 +74,11 @@ class UserController {
             throw e;
         }
     }
+
+    async getAllUser(req, res) {
+        const users = await prisma.User.findMany({})
+        res.status(200).json(users);
+    }
 }
 
 module.exports = new UserController;

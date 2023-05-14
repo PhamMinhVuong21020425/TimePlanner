@@ -1,38 +1,35 @@
 import { FiEdit } from "react-icons/fi";
-
-interface People {
-    name: string;
-    email: string;
-}
+import User from "../types/Users";
+import { useEffect, useState } from "react";
+import request from "../utils/request";
 
 export default function AdminPeople() {
-    const people: People[] = [
-        {
-            name: "Zuanki",
-            email: "zuanki2@gmail.com"
-        },
-        {
-            name: "Doraemon",
-            email: "nguyenquanganh@gmail.com"
-        },
-        {
-            name: "Nobita",
-            email: "phamminhvuong@gmail.com"
-        }
-    ]
+    const [users, setUsers] = useState<User[]>();
+
+    useEffect(() => {
+        request.get<User[]>('user/getAllUser')
+            .then(response => {
+                setUsers(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
 
     function getRandomColor() {
         const colorList = [
-            "red",
-            "rose",
-            "orange",
-            "lime",
-            "cyan",
-            "sky",
-            "emerald",
-            "green",
-            "yellow",
-            "orange",
+            "bg-red-400",
+            "bg-rose-400",
+            "bg-orange-500",
+            "bg-lime-400",
+            "bg-pink-400",
+            "bg-cyan-400",
+            "bg-sky-400",
+            "bg-indigo-400",
+            "bg-emerald-400",
+            "bg-green-400",
+            "bg-yellow-400",
+            "bg-purple-400"
         ];
 
 
@@ -49,10 +46,10 @@ export default function AdminPeople() {
                 <div className="font-bold mb-2">User Leaderboard</div>
                 <hr />
                 {
-                    people.map((i) => (
+                    users?.map((i) => (
                         <div className="flex justify-between items-center">
                             <div className="flex items-center my-2">
-                                <div className={`w-[35px] h-[35px] bg-${getRandomColor()}-400 rounded-full flex items-center justify-center text-white font-bold`}>{i.name[0]}</div>
+                                <div className={`w-[35px] h-[35px] ${getRandomColor()} rounded-full flex items-center justify-center text-white font-bold`}>{i.name[0]}</div>
                                 <div className="ml-2">
                                     <div className="font-bold text-sm">{i.name}</div>
                                     <div className="text-xs">{i.email}</div>

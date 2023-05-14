@@ -7,11 +7,35 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
+function getRandomColor() {
+    const colorList = [
+        "bg-red-400",
+        "bg-rose-400",
+        "bg-orange-500",
+        "bg-lime-400",
+        "bg-pink-400",
+        "bg-cyan-400",
+        "bg-sky-400",
+        "bg-indigo-400",
+        "bg-emerald-400",
+        "bg-green-400",
+        "bg-yellow-400",
+        "bg-purple-400"
+    ];
+
+
+    // Get a random number between 0 and the length of the color list
+    const randomNumber = Math.floor(Math.random() * colorList.length);
+
+    // Return the color at the random index
+    return colorList[randomNumber];
+}
+
 type Props = {
     firstCharacter: string;
 }
 
-export default function UserDropDown({firstCharacter}: Props) {
+export default function UserDropDown({ firstCharacter }: Props) {
     const navigate = useNavigate();
     const handleLogout = async () => {
         const confirmation: any = window.confirm("Are you sure want to log out?");
@@ -26,7 +50,7 @@ export default function UserDropDown({firstCharacter}: Props) {
     return (
         <Menu as="div" className="relative inline-block text-left">
             <div>
-                <Menu.Button className="flex items-center justify-center w-[50px] h-[50px] gap-x-1.5 rounded-full bg-emerald-400 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300">
+                <Menu.Button className={`flex items-center justify-center w-[50px] h-[50px] gap-x-1.5 rounded-full ${getRandomColor()} px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300`}>
                     {firstCharacter}
                     {/* <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" /> */}
                 </Menu.Button>
@@ -45,15 +69,15 @@ export default function UserDropDown({firstCharacter}: Props) {
                     <div className="py-1">
                         <Menu.Item>
                             {({ active }) => (
-                                <div className = {
+                                <div className={
                                     classNames(
-                                        active? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                    'block px-4 py-2 text-sm'
-                                    )} 
+                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                        'block px-4 py-2 text-sm'
+                                    )}
                                 >
-                                <Link to="/profile">
-                                    Edit Profile
-                                </Link>
+                                    <Link to="/profile">
+                                        Edit Profile
+                                    </Link>
                                 </div>
                             )}
                         </Menu.Item>
