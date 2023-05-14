@@ -26,6 +26,7 @@ export default function AddTask({ showFunction, saveFunction, id }: Props) {
     event:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLSelectElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     let name = event.target.name;
     let value = event.target.value;
@@ -38,7 +39,7 @@ export default function AddTask({ showFunction, saveFunction, id }: Props) {
     console.log(res.data);
     showFunction();
     saveFunction();
-    // window.location.reload();
+    window.location.reload();
   };
 
   const handleCancel = () => {
@@ -46,7 +47,7 @@ export default function AddTask({ showFunction, saveFunction, id }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center font-poppins">
+    <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center font-poppins z-10">
       <div className="bg-white p-4 rounded-md">
         <div className="text-xs text-gray-500">
           <form onSubmit={handleSave} className="w-full max-w-lg">
@@ -114,14 +115,22 @@ export default function AddTask({ showFunction, saveFunction, id }: Props) {
                 >
                   Description
                 </label>
-                <input
+                {/* <input
                   className="text-xs appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-password"
                   type="text"
                   name="description"
                   onChange={handleDataChange}
                   value={data.description}
-                />
+                /> */}
+                <textarea className="text-xs w-full rounded-md border-gray-300 bg-gray-100"
+                  id="grid-password"
+                  name="description"
+                  onChange={handleDataChange}
+                  value={data.description}
+                >
+
+                </textarea>
 
                 <p className="text-gray-600 text-xs italic">
                   Make it as long and as crazy as you'd like

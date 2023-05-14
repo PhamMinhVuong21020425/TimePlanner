@@ -98,7 +98,7 @@ const Weather: React.FC = () => {
                   </button>
                 </form>
                 <div className=" my-2 p-4 rounded-md bg-gradient-to-r from-cyan-100 from-10% to-cyan-200 text-gray-600">
-                  <div className="text-sm my-2">Current Weather</div>
+                  <div className="text-sm my-2 font-bold">Current Weather</div>
                   <div className="flex justify-between">
                     <div className="w-1/2">
                       <div className="text-center text-xl font-bold">{weatherData.city.name}</div>
@@ -107,13 +107,13 @@ const Weather: React.FC = () => {
                           <div className="flex justify-center text-6xl">
                             <IconWeather iconName={weatherData.list[0].weather[0].icon} />
                           </div>
-                          <div className="text-center text-sm">{weatherData.list[0].weather[0].description}</div>
+                          <div className="text-center text-sm font-bold text-gray-500">{weatherData.list[0].weather[0].description}</div>
                         </div>
                         <div className="text-4xl w-1/2">{weatherData.list[0].main.temp}°C</div>
                       </div>
                     </div>
                     <div className="w-1/2">
-                      <div className="text-sm">Feels Like {weatherData.list[0].main.feels_like}°C</div>
+                      <div className="text-sm font-bold">Feels Like {weatherData.list[0].main.feels_like}°C</div>
                       <div className="flex justify-between text-sm my-1">
                         <div className="w-1/3 items-center flex">
                           <FaLongArrowAltUp className="mr-2" />
@@ -125,20 +125,20 @@ const Weather: React.FC = () => {
                         </div>
                       </div>
                       <div className="flex justify-between items-center text-sm">
-                        <div className="w-1/3 flex items-center">
+                        <div className="w-1/3 flex items-center font-bold">
                           <IoWaterSharp className="mr-2" />
                           Humidity</div>
                         <div className="w-2/3">{weatherData.list[0].main.humidity}%</div>
                       </div>
 
                       <div className="flex justify-between items-center text-sm my-1">
-                        <div className="w-1/3 flex items-center">
+                        <div className="w-1/3 flex items-center font-bold">
                           <WiCloudyWindy className="mr-2" />
                           Wind</div>
                         <div className="w-2/3">{weatherData.list[0].wind.speed} kph</div>
                       </div>
                       <div className="flex justify-between items-center text-sm">
-                        <div className="w-1/3 flex items-center">
+                        <div className="w-1/3 flex items-center font-bold">
                           <WiCloudyWindy className="mr-2" />
                           Pressure</div>
                         <div className="w-2/3">{weatherData.list[0].main.pressure} hPa</div>
@@ -149,7 +149,7 @@ const Weather: React.FC = () => {
               </div> : null
           }
           <div className="p-4 rounded-md bg-gradient-to-l from-cyan-100 from-10% to-cyan-200 to-80% text-gray-600">
-            <div className="text-sm my-2">Extend Forecast</div>
+            <div className="text-sm my-2 font-bold">Extend Forecast</div>
             <div>
               {
                 weatherData ?
@@ -158,7 +158,7 @@ const Weather: React.FC = () => {
                       <div className="mx-2">
                         <div className="text-center text-sm font-bold">{getTime(weatherDay.dt_txt)}</div>
                         <div className="flex items-center justify-center"><div className=""><IconWeather iconName={weatherDay.weather[0].icon} /></div></div>
-                        <div className="text-xs text-center text-gray-400 font-bold">{weatherDay.weather[0].description}</div>
+                        <div className="text-xs text-center text-gray-500 font-bold">{weatherDay.weather[0].description}</div>
                       </div>
                     ))}
                   </div> : null

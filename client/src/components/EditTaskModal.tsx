@@ -42,7 +42,7 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
     }, []);
 
     const handleDataChange = (
-        event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+        event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLTextAreaElement>
     ) => {
         const { name, value } = event.target;
         setData((prevState) => ({ ...prevState, [name]: value }));
@@ -52,8 +52,8 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
         event.preventDefault();
         const res = await request.post(`task/update/${id}`, data);
         console.log(res.data);
-        saveFunction();
         showFunction();    
+        saveFunction();
     };
 
     const handleCancel = () => {
@@ -64,8 +64,8 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
         const confirmation: boolean = window.confirm("Are you sure want to delete this task?");
         if (confirmation) {
             const res = await request.delete(`task/delete/${id}`);
-            saveFunction();
             showFunction(); 
+            saveFunction();
             // console.log(res.data);
         } else {
             event.preventDefault();
@@ -170,7 +170,7 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
                                 >
                                     Description
                                 </label>
-                                <input
+                                {/* <input
                                     className="text-xs appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="grid-password"
                                     type="text"
@@ -178,7 +178,15 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
                                     value={data.description}
                                     onChange={handleDataChange}
                                     placeholder=""
-                                />
+                                /> */}
+                                <textarea className="text-xs w-full rounded-md border-gray-300 bg-gray-100"
+                                    id="grid-password"
+                                    name="description"
+                                    onChange={handleDataChange}
+                                    value={data.description}
+                                >
+
+                                </textarea>
                                 <p className="text-gray-600 text-xs italic">
                                     Make it as long and as crazy as you'd like
                                 </p>

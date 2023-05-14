@@ -94,7 +94,7 @@ function SideBar() {
     <div className="rounded-md m-3 font-poppins">
       <div className="flex items-center justify-between my-3 px-4 mx-2">
         <div className="">
-          <UserDropDown firstCharacter={userInfo.name.slice(0, 1)}/>
+          <UserDropDown firstCharacter={userInfo.name.slice(0, 1)} />
         </div>
         <div className="w-[50%] pl-4">
           <div className="text-sm mb-1 text-gray-600">{userInfo.name}</div>

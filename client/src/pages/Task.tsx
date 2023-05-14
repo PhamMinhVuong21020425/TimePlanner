@@ -17,7 +17,6 @@ const Task = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [showAddTask, setShowAddTask] = useState(false);
   const [showCurrentTask, setShowCurrentTask] = useState(true);
-  let save: Boolean = false;
   const { task_id } = useParams();
 
   const handleOptionButton = (option: string) => {
@@ -27,17 +26,13 @@ const Task = () => {
     else { setShowCurrentTask(true);}
   };
 
-  const handleSave = () => {
-    save = !save;
-  }
-
   const handleShowAddTask = () => {
     setShowAddTask(!showAddTask);
   };
 
   const renderCurrentTask = () => {
     if (task_id) {
-      return showCurrentTask && <CurrentTask id={task_id} save={save} />
+      return showCurrentTask && <CurrentTask id={task_id} />
     }
   }
 
@@ -46,7 +41,7 @@ const Task = () => {
     switch (selectedOption) {
       case "ToDoList":
         if (task_id)
-          return <ChildTask id={task_id} save={save} />;
+          return <ChildTask id={task_id} />;
         break;
       case "Calendar":
         return <Calendar />;
@@ -71,7 +66,7 @@ const Task = () => {
         break;
       default:
         if (task_id)
-          return <ChildTask id={task_id} save={save} />;
+          return <ChildTask id={task_id} />;
         break;
     }
   };

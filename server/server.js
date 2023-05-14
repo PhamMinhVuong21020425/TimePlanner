@@ -37,7 +37,7 @@ app.use(cors({
 app.use(cookieParser());
 
 const options = {
-    expiration: 3600000,
+    expiration: 3*3600*1000,
     createDatabaseTable: true,
     schema: {
         tableName: 'Sessions',
