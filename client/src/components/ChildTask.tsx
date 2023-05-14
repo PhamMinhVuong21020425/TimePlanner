@@ -17,11 +17,11 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
             return (
                 <div className="bg-emerald-50 rounded-md p-4">
                     <div className="text-xs text-center w-3/5 rounded-md">
-                        <div className="bg-emerald-300 px-2 py-1 rounded-md text-emerald-700 text-xs -translate-y-6">
+                        <div className="bg-emerald-300 px-2 py-1 rounded-md text-emerald-700 text-xs -translate-y-6 z-0">
                             {i.type.replace(/_/g, " ")}
                         </div>
                     </div>
-                    <div key={id} className="font-bold text-base text-gray-600 -translate-y-3">
+                    <div key={id} className="font-bold text-base text-gray-600 -translate-y-3 z-0">
                         <Link to={`/task/${id}`}>{i.task_name}</Link>
                     </div>
                     <div className="text-gray-600 text-xs">{i.description}</div>
@@ -38,11 +38,11 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
             return (
                 <div className=" bg-amber-50 rounded-md p-4">
                     <div className="text-xs text-center w-3/5 rounded-md">
-                        <div className="bg-amber-300 px-2 py-1 rounded-md text-amber-700 text-xs -translate-y-6">
+                        <div className="bg-amber-300 px-2 py-1 rounded-md text-amber-700 text-xs -translate-y-6 z-0">
                             {i.type.replace(/_/g, " ")}
                         </div>
                     </div>
-                    <div key={id} className="font-bold text-base text-gray-600 -translate-y-3">
+                    <div key={id} className="font-bold text-base text-gray-600 -translate-y-3 z-0">
                         <Link to={`/task/${id}`}>{i.task_name}</Link>
                     </div>
                     <div className="text-gray-600 text-xs">{i.description}</div>
@@ -60,11 +60,11 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
             return (
                 <div className="bg-rose-50 rounded-md p-4">
                     <div className="text-xs text-center w-3/5 rounded-md">
-                        <div className="bg-rose-300 px-2 py-1 rounded-md text-rose-700 text-xs -translate-y-6">
+                        <div className="bg-rose-300 px-2 py-1 rounded-md text-rose-700 text-xs -translate-y-6 z-0">
                             {i.type.replace(/_/g, " ")}
                         </div>
                     </div>
-                    <div key={id} className="font-bold text-base text-gray-600 -translate-y-3" >
+                    <div key={id} className="font-bold text-base text-gray-600 -translate-y-3 z-0" >
                         <Link to={`/task/${id}`}>{i.task_name}</Link>
                     </div>
                     <div className="text-gray-600 text-xs">{i.description}</div>

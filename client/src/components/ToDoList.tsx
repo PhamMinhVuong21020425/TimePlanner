@@ -13,7 +13,7 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
             return (
                 <div className="bg-emerald-50 rounded-md p-4">
                     <div className="text-xs text-center w-3/5 rounded-md">
-                        <div className="bg-emerald-300 px-2 py-1 rounded-md text-emerald-700 text-xs -translate-y-6">
+                        <div className="bg-emerald-300 px-2 py-1 font-bold rounded-md text-emerald-700 text-xs -translate-y-6">
                             {i.type.replace(/_/g, " ")}
                         </div>
                     </div>
@@ -34,7 +34,7 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
             return (
                 <div className=" bg-amber-50 rounded-md p-4">
                     <div className="text-xs text-center w-3/5 rounded-md">
-                        <div className="bg-amber-300 px-2 py-1 rounded-md text-amber-700 text-xs -translate-y-6">
+                        <div className="bg-amber-300 px-2 py-1 font-bold rounded-md text-amber-700 text-xs -translate-y-6">
                             {i.type.replace(/_/g, " ")}
                         </div>
                     </div>
@@ -56,7 +56,7 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
             return (
                 <div className="bg-rose-50 rounded-md p-4">
                     <div className="text-xs text-center w-3/5 rounded-md">
-                        <div className="bg-rose-300 px-2 py-1 rounded-md text-rose-700 text-xs -translate-y-6">
+                        <div className="bg-rose-300 px-2 py-1 font-bold rounded-md text-rose-700 text-xs -translate-y-6">
                             {i.type.replace(/_/g, " ")}
                         </div>
                     </div>
@@ -83,15 +83,15 @@ function buttonStyle(i: Task) {
     return (
         <div>
             {i.status === 'STOPPED' ? (
-                <button className="text-xs text-rose-700 bg-rose-200 px-2 py-1 rounded-md">
+                <button className="text-xs text-rose-700 bg-rose-200 font-bold px-2 py-1 rounded-md">
                     Stopped
                 </button>
             ) : i.status === 'INPROGRESS' ? (
-                <button className="text-xs text-cyan-700 bg-cyan-200 px-2 py-1 rounded-md">
+                <button className="text-xs text-cyan-700 bg-cyan-200 font-bold px-2 py-1 rounded-md">
                     In Progress
                 </button>
             ) : i.status === 'COMPLETED' ? (
-                <button className="text-xs text-green-700 bg-green-200 px-2 py-1 rounded-md">
+                <button className="text-xs text-green-700 bg-green-200 font-bold px-2 py-1 rounded-md">
                     Completed
                 </button>
             ) : null}

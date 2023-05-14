@@ -22,7 +22,7 @@ function styleButton(i: Task) {
       // TODO
       return (
 
-        <button className="text-xs text-rose-700 bg-rose-200 px-2 py-1 rounded-md">
+        <button className="text-xs font-bold text-rose-700 bg-rose-200 px-2 py-1 rounded-md">
           Stopped
         </button>
 
@@ -32,7 +32,7 @@ function styleButton(i: Task) {
       // TODO
       return (
 
-        <button className="text-xs text-cyan-700 bg-cyan-200 px-2 py-1 rounded-md">
+        <button className="text-xs font-bold text-cyan-700 bg-cyan-200 px-2 py-1 rounded-md">
           In Progress
         </button>
 
@@ -41,7 +41,7 @@ function styleButton(i: Task) {
     case "COMPLETED":
       // TODO
       return (
-        <button className="text-xs text-green-700 bg-green-200 px-2 py-1 rounded-md">
+        <button className="text-xs font-bold text-green-700 bg-green-200 px-2 py-1 rounded-md">
           Completed
         </button>
       )
