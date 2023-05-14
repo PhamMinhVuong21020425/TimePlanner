@@ -17,7 +17,7 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
             return (
                 <div className="bg-emerald-50 rounded-md p-4">
                     <div className="text-xs text-center w-3/5 rounded-md">
-                        <div className="bg-emerald-300 px-2 py-1 rounded-md text-emerald-700 text-xs -translate-y-6 z-0">
+                        <div className="font-bold bg-emerald-300 px-2 py-1 rounded-md text-emerald-600 text-xs -translate-y-6 z-0">
                             {i.type.replace(/_/g, " ")}
                         </div>
                     </div>
@@ -38,7 +38,7 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
             return (
                 <div className=" bg-amber-50 rounded-md p-4">
                     <div className="text-xs text-center w-3/5 rounded-md">
-                        <div className="bg-amber-300 px-2 py-1 rounded-md text-amber-700 text-xs -translate-y-6 z-0">
+                        <div className="font-bold bg-amber-300 px-2 py-1 rounded-md text-amber-600 text-xs -translate-y-6 z-0">
                             {i.type.replace(/_/g, " ")}
                         </div>
                     </div>
@@ -60,7 +60,7 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
             return (
                 <div className="bg-rose-50 rounded-md p-4">
                     <div className="text-xs text-center w-3/5 rounded-md">
-                        <div className="bg-rose-300 px-2 py-1 rounded-md text-rose-700 text-xs -translate-y-6 z-0">
+                        <div className="font-bold bg-rose-300 px-2 py-1 rounded-md text-rose-600 text-xs -translate-y-6 z-0">
                             {i.type.replace(/_/g, " ")}
                         </div>
                     </div>
@@ -87,15 +87,15 @@ function buttonStyle(i: Task) {
     return (
         <div>
             {i.status === 'STOPPED' ? (
-                <button className="text-xs text-rose-700 bg-rose-200 px-2 py-1 rounded-md">
+                <button className="font-bold text-xs text-rose-600 bg-rose-200 px-2 py-1 rounded-md">
                     Stopped
                 </button>
             ) : i.status === 'INPROGRESS' ? (
-                <button className="text-xs text-cyan-700 bg-cyan-200 px-2 py-1 rounded-md">
+                <button className="font-bold text-xs text-cyan-600 bg-cyan-200 px-2 py-1 rounded-md">
                     In Progress
                 </button>
             ) : i.status === 'COMPLETED' ? (
-                <button className="text-xs text-green-700 bg-green-200 px-2 py-1 rounded-md">
+                <button className="font-bold text-xs text-green-600 bg-green-200 px-2 py-1 rounded-md">
                     Completed
                 </button>
             ) : null}
@@ -218,55 +218,13 @@ function ToDoList({ id }: Props) {
     return (
         <div>
             <div className="font-poppins">
-                <div className="flex justify-between">
-                    {/* First Column */}
-                    <div className="w-1/3 rounded-md mx-3 p-2">
-                        <div className="flex items-center px-4">
-                            <div className="bg-cyan-500 w-[6px] h-[6px] rounded-md mr-4"></div>
-                            <div className="text-cyan-500 font-bold text-sm">In Progress</div>
-                        </div>
-                        <hr className="border-2 border-cyan-400 rounded-md my-2 mx-4" />
-                        <div>
-                            {todo?.map((i) => (
-                                <div className="m-4">
-                                    {i.status === 'INPROGRESS' ? <div>{taskStyle(i, handleClicked)}</div> : null}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Second Column */}
-                    <div className="w-1/3 rounded-md mx-2 p-2">
-                        <div className="flex items-center px-4">
-                            <div className="bg-rose-500 w-[6px] h-[6px] rounded-md mr-4"></div>
-                            <div className="text-rose-500 font-bold text-sm">Stopped</div>
-                        </div>
-                        <hr className="border-2 border-rose-400 rounded-md my-2 mx-4" />
-                        <div>
-                            {todo?.map((i) => (
-
-                                <div className="m-4">
-                                    {i.status === 'STOPPED' ? <div>{taskStyle(i, handleClicked)}</div> : null}
-                                </div>
-
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Third Column */}
-                    <div className="w-1/3 rounded-md mx-2 p-2">
-                        <div className="flex items-center px-4">
-                            <div className="bg-green-500 w-[6px] h-[6px] rounded-md mr-4"></div>
-                            <div className="text-green-500 font-bold text-sm">Completed</div>
-                        </div>
-                        <hr className="border-2 border-green-400 rounded-md my-2 mx-4" />
-                        <div>
-                            {todo?.map((i) => (
-                                <div className="m-4">
-                                    {i.status === 'COMPLETED' ? <div>{taskStyle(i, handleClicked)}</div> : null}
-                                </div>
-                            ))}
-                        </div>
+                <div className="flex justify-center">
+                    <div className="w-[80%] grid grid-cols-3 gap-1">
+                        {todo?.map((i) => (
+                            <div className="m-4">
+                                {<div>{taskStyle(i, handleClicked)}</div>}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
