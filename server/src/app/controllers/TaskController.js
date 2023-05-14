@@ -132,10 +132,18 @@ class TaskController {
     async deleteTask(req, res) {
         try {
             if (req.session.user) {
-                await prisma.Task.delete({
-                    where: {
-                        task_id: req.params.task_id
-                    }
+                await prisma.Task.deleteMany({
+                    where:
+                    {
+                        OR: [
+                            {
+                                task_id: req.params.task_id,
+                            },
+                            {
+                                parent_task_id: req.params.task_id,
+                            },
+                        ],
+                    },
                 })
                 res.status(200).json({ success: 'Delete success!' });
             }
