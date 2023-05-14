@@ -4,9 +4,13 @@ import { useEffect, useState } from "react";
 import request from "../utils/request";
 import EditTaskModal from "./EditTaskModal";
 import { Link } from "react-router-dom";
+import AddTask from "./AddTask";
+import React from "react";
 
 type Props = {
-    id: string
+    id: string,
+    save: Boolean,
+    className?: React.CSSProperties;
 };
 
 function taskStyle(i: Task, handleClicked: (id: string) => void) {
@@ -103,7 +107,8 @@ function buttonStyle(i: Task) {
     );
 }
 
-function ToDoList({ id }: Props) {
+
+function ChildTask({ id, save }: Props) {
     // const todo: Task[] = [
     //     {
     //         id: 1,
@@ -180,7 +185,6 @@ function ToDoList({ id }: Props) {
     // ];
     const [todo, setTodo] = useState<Task[]>();
     const [currentId, setCurrentId] = useState("0");
-    const [save, setSave] = useState(false);
 
     useEffect(() => {
         request.get<Task[]>(`task/child/${id}`)
@@ -208,8 +212,9 @@ function ToDoList({ id }: Props) {
     }
 
     const handleSave = () => {
-        setSave(!save);
+        save = !save;
     }
+
 
     const handleCancel = () => {
         setShowEditTask(false);
@@ -274,4 +279,4 @@ function ToDoList({ id }: Props) {
         </div>
     );
 }
-export default ToDoList;
+export default ChildTask;

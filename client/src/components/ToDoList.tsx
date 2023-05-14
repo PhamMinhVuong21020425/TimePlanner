@@ -60,9 +60,13 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
                             {i.type.replace(/_/g, " ")}
                         </div>
                     </div>
+
+
                     <div key={id} className="font-bold text-base text-gray-600 -translate-y-3" >
                         <Link to={`/task/${id}`}>{i.task_name}</Link>
                     </div>
+
+                    
                     <div className="text-gray-600 text-xs">{i.description}</div>
                     <div className="flex justify-between items-center mt-5">
                         {buttonStyle(i)}
@@ -265,7 +269,7 @@ function ToDoList() {
                     </div>
                 </div>
             </div>
-            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} saveFunction={handleSave} />}</div>
+            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} saveFunction={handleSave}/>}</div>
         </div>
     );
 }

@@ -35,6 +35,10 @@ const Home = () => {
     if (option === "AddTask") setShowAddTask(true);
   };
 
+  const handleSave = () => {
+    //do nothing
+  }
+
   const handleShowAddTask = () => {
     setShowAddTask(!showAddTask);
   };
@@ -55,7 +59,7 @@ const Home = () => {
           <div>
             {showAddTask && <ToDoList />}
             {showAddTask && (
-              <AddTask showFunction={handleShowAddTask} id={null} />
+              <AddTask showFunction={handleShowAddTask} id={null} saveFunction={handleSave}/>
             )}
             {!showAddTask && <ToDoList />}
           </div>
@@ -76,7 +80,7 @@ const Home = () => {
         <SideBar />
       </div>
       <div className="w-[70%]">
-        <Menu handleOptionButton={handleOptionButton} />
+        <Menu handleOptionButton={handleOptionButton} showButtonAddTask={true} />
         {renderContent()}
       </div>
     </div>

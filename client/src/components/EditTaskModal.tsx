@@ -52,8 +52,8 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
         event.preventDefault();
         const res = await request.post(`task/update/${id}`, data);
         console.log(res.data);
-        showFunction();
         saveFunction();
+        showFunction();    
     };
 
     const handleCancel = () => {
@@ -64,7 +64,8 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
         const confirmation: boolean = window.confirm("Are you sure want to delete this task?");
         if (confirmation) {
             const res = await request.delete(`task/delete/${id}`);
-            navigate('/');
+            saveFunction();
+            showFunction(); 
             // console.log(res.data);
         } else {
             event.preventDefault();

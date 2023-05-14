@@ -6,10 +6,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 type Props = {
+  showButtonAddTask: boolean
   handleOptionButton: (option: string) => void;
 };
 
-export default function ({ handleOptionButton }: Props) {
+export default function ({ showButtonAddTask, handleOptionButton }: Props) {
   const [activeButton, setActiveButton] = useState("ToDoList");
 
   const handleButtonClick = (option: string) => {
@@ -55,12 +56,16 @@ export default function ({ handleOptionButton }: Props) {
         <HiOutlineDocumentReport className="mr-3 text-lg" />
         <span>Reports</span>
       </button>
-      <button
-        className="w-1/6 rounded-md border-2 bg-emerald-500 -400 px-4 py-2 text-white cursor-pointer mx-2"
-        onClick={() => handleButtonClick("AddTask")}
-      >
-        Add task
-      </button>
+
+      {
+        showButtonAddTask &&
+        <button
+          className="w-1/6 rounded-md border-2 bg-emerald-500 -400 px-4 py-2 text-white cursor-pointer mx-2"
+          onClick={() => handleButtonClick("AddTask")}
+        >
+          Add task
+        </button>
+      }
       {/* <button
         className="w-1/6 rounded-md border-2 bg-orange-500 px-4 py-2 text-white cursor-pointer mx-2"
         onClick={() => handleButtonClick("AddProject")}
