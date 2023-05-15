@@ -29,7 +29,12 @@ function LoginForm() {
         };
         const res = await request.post('login', data);
         console.log(res.data);
-        navigate('/');
+        if(res.data.userId == 1) {
+            navigate('/admin');
+        }
+        else {
+            navigate('/');
+        }
         window.location.reload();
     };
 

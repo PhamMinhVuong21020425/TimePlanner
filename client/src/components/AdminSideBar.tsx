@@ -1,3 +1,6 @@
+import { useNavigate } from "react-router-dom";
+import request from "../utils/request";
+
 function styleOption(text: string, color: string) {
     // Get first letter of text
     // Only works for ()
@@ -17,6 +20,18 @@ type Props = {
 }
 
 const AdminSideBar = ({ handleClicked, currentOption }: Props) => {
+
+    const navigate = useNavigate();
+    const handleLogout = async () => {
+        const confirmation: any = window.confirm("Are you sure want to log out?");
+        if (confirmation) {
+            const res = await request.get('logout');
+            if (res.data.success) {
+                navigate('/login');
+            }
+        }
+    }
+
     return (
         <div className="m-3 rounded-md shadow-md h-screen font-poppins">
             <div className="p-4">
@@ -51,6 +66,16 @@ const AdminSideBar = ({ handleClicked, currentOption }: Props) => {
                 >
                     <div className="w-[20px] h-[20px] font-bold px-2 flex items-center justify-center bg-cyan-400 text-white rounded-sm text-sm text-bold">S</div>
                     <div className="w-[90%] mx-4 text-gray-700 text-sm">Settings</div>
+                </div>
+                <div className={`flex justify-between items-center mt-2 ${currentOption == "Logout" ? "bg-pink-200" : "hover:bg-pink-200"} py-2 px-3 rounded-md`}
+                    onClick={() => {
+                        handleClicked("Logout");
+                        handleLogout();
+                    }
+                }
+                >
+                    <div className="w-[20px] h-[20px] font-bold px-2 flex items-center justify-center bg-pink-300 text-white rounded-sm text-sm text-bold">L</div>
+                    <div className="w-[90%] mx-4 text-gray-700 text-sm">Logout</div>
                 </div>
                 {/* <div>
                     {styleOption("Reports", "cyan")}
