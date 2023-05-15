@@ -23,7 +23,7 @@ const Task = () => {
     setSelectedOption(option);
     if (option === "AddTask") setShowAddTask(true);
     if (option === "Calendar" || option === "Weather" || option === "Report") setShowCurrentTask(false);
-    else { setShowCurrentTask(true);}
+    else { setShowCurrentTask(true); }
   };
 
   const handleShowAddTask = () => {
@@ -64,7 +64,7 @@ const Task = () => {
         <SideBar />
       </div>
       <div className="w-[70%]">
-        <Menu handleOptionButton={handleOptionButton} showButtonAddTask={false} />
+        {/* <Menu handleOptionButton={handleOptionButton} showButtonAddTask={false} /> */}
         {renderCurrentTask()}
         {renderContent()}
       </div>
