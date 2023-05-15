@@ -48,19 +48,6 @@ const Task = () => {
         break;
       case "Report":
         return <Report />;
-      // case "AddTask":
-      //   if (task_id) {
-      //     return (
-      //       <div>
-      //         {showAddTask && <ToDoList />}
-      //         {showAddTask && (
-      //           <AddTask showFunction={handleShowAddTask} id={task_id} saveFunction={handleSave} />
-      //         )}
-      //         {!showAddTask && <ToDoList />}
-      //       </div>
-      //     );
-      //   }
-      //   break;
       case "Weather":
         return <Weather />;
         break;

@@ -44,7 +44,8 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
     const handleDataChange = (
         event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLTextAreaElement>
     ) => {
-        const { name, value } = event.target;
+        let name = event.target.name;
+        let value = event.target.value;
         setData((prevState) => ({ ...prevState, [name]: value }));
     };
 
@@ -52,7 +53,7 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
         event.preventDefault();
         const res = await request.post(`task/update/${id}`, data);
         console.log(res.data);
-        showFunction();    
+        showFunction();
         saveFunction();
     };
 
@@ -64,7 +65,7 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
         const confirmation: boolean = window.confirm("Are you sure want to delete this task?");
         if (confirmation) {
             const res = await request.delete(`task/delete/${id}`);
-            showFunction(); 
+            showFunction();
             saveFunction();
             // console.log(res.data);
         } else {
@@ -93,6 +94,7 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
                                     value={data.task_name}
                                     onChange={handleDataChange}
                                     placeholder=""
+                                    required
                                 />
                             </div>
 

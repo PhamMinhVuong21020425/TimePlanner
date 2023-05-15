@@ -28,7 +28,7 @@ const Home = () => {
       }
     };
     isLogin();
-  })
+  }, [selectedOption])
 
   const handleOptionButton = (option: string) => {
     setSelectedOption(option);

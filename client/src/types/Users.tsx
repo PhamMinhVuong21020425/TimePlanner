@@ -5,6 +5,7 @@ interface User {
     email: string;
     image: string;
     address: string;
+    company: string;
     job: string;
 }
 

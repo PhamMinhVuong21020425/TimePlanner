@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import request from "../utils/request";
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 type Props = {
   showFunction: Function,
@@ -67,6 +66,7 @@ export default function AddTask({ showFunction, saveFunction, id }: Props) {
                   onChange={handleDataChange}
                   value={data.taskName}
                   placeholder=""
+                  required
                 />
                 <p className="text-red-500 text-xs italic">
                   Please fill out this field.

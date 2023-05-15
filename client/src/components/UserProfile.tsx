@@ -12,6 +12,7 @@ const UserProfile: React.FC = () => {
         email: "",
         image: "",
         address: "",
+        company: "",
         job: "",
     });
 
@@ -195,9 +196,10 @@ const UserProfile: React.FC = () => {
                                     autoComplete="country-name"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >
+                                    <option>Viet Nam</option>
                                     <option>United States</option>
                                     <option>Canada</option>
-                                    <option>Mexico</option>
+                                    <option>England</option>
                                 </select>
                             </div>
                         </div>
@@ -220,14 +222,16 @@ const UserProfile: React.FC = () => {
                         </div>
 
                         <div className="sm:col-span-2 sm:col-start-1">
-                            <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
-                                City
+                            <label htmlFor="company" className="block text-sm font-medium leading-6 text-gray-900">
+                                Company
                             </label>
                             <div className="mt-2">
                                 <input
                                     type="text"
-                                    name="city"
-                                    id="city"
+                                    name="company"
+                                    id="company"
+                                    value={user.company}
+                                    onChange={handleUserChange}
                                     autoComplete="address-level2"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
                                 />
@@ -235,14 +239,16 @@ const UserProfile: React.FC = () => {
                         </div>
 
                         <div className="sm:col-span-2">
-                            <label htmlFor="region" className="block text-sm font-medium leading-6 text-gray-900">
-                                State / Province
+                            <label htmlFor="job" className="block text-sm font-medium leading-6 text-gray-900">
+                                Job
                             </label>
                             <div className="mt-2">
                                 <input
                                     type="text"
-                                    name="region"
-                                    id="region"
+                                    name="job"
+                                    id="job"
+                                    value={user.job}
+                                    onChange={handleUserChange}
                                     autoComplete="address-level1"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
                                 />

@@ -61,6 +61,7 @@ class UserController {
                         email: req.body.email,
                         image: req.body.image,
                         address: req.body.address,
+                        company: req.body.company,
                         job: req.body.job,
                     }
                 });
