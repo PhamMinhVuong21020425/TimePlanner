@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/update/:task_id', taskController.updateTask);
 router.delete('/delete/:task_id', taskController.deleteTask);
+router.get('/getTypeTask', taskController.getTypeTask);
 router.get('/today', taskController.getTodayTask);
 router.get('/child/:parent_task_id', taskController.getChildTask)
 router.post('/:parent_task_id', taskController.taskPost);

@@ -183,6 +183,19 @@ class TaskController {
             throw e;
         }
     }
+
+    async getTypeTask(req, res) {
+        const pool = require('./ConnectPlane');
+        const sql = "SELECT type, COUNT(*) as count FROM Task WHERE type IS NOT NULL AND user_id = ? GROUP BY type ORDER BY type";
+        await pool.execute(sql, [req.session.user.userId], (err, results) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send('Internal Server Error');
+                return;
+            }
+            res.status(200).json(results);
+        })
+    }
 }
 
 module.exports = new TaskController;

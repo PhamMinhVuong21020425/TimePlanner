@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Chart as ChartJS, ArcElement, Tooltip, Legend,
   CategoryScale,
@@ -12,6 +12,8 @@ import { Pie, Doughnut, Bar, Line } from "react-chartjs-2";
 import { Colors } from "chart.js";
 //Echarts for react
 import ReactECharts from 'echarts-for-react';
+import { useFormState } from "react-hook-form";
+import request from "../utils/request";
 // import { ClassNames } from '@emotion/react';
 
 ChartJS.register(ArcElement, Tooltip, Legend, Colors, CategoryScale, LinearScale, PointElement, BarElement, LineElement);
@@ -231,7 +233,51 @@ interface BarChartOptions {
   }[],
 }
 
+interface countType {
+  type: string;
+  count: number;
+}
+
 const UserBarChart = () => {
+  let myDict: { [key: string]: number } = {
+    "WORK_OR_STUDY": 0,
+    "ENTERTAINMENT_OR_HOBBY": 0,
+    "BASIC_NEED": 0,
+    "HOUSEWORK": 0,
+    "SPORT_OR_WORKOUT": 0,
+    "SOCIAL_ACTIVITY": 0,
+    "WASTED_TIME": 0,
+    "OTHERS": 0,
+  };
+  const [count, setCount] = useState<number[]>([]);
+  let cnt: number[] = [];
+  useEffect(() => {
+    request.get('task/getTypeTask')
+      .then(response => {
+        response.data?.map((i: countType) => {
+          myDict[i.type] = i.count;
+          console.log(myDict[i.type]);
+        })
+
+        while (cnt.length < 8) {
+          cnt.push(myDict["BASIC_NEED"]);
+          cnt.push(myDict["ENTERTAINMENT_OR_HOBBY"]);
+          cnt.push(myDict["HOUSEWORK"]);
+          cnt.push(myDict["OTHERS"]);
+          cnt.push(myDict["SOCIAL_ACTIVITY"]);
+          cnt.push(myDict["SPORT_OR_WORKOUT"]);
+          cnt.push(myDict["WASTED_TIME"]);
+          cnt.push(myDict["WORK_OR_STUDY"]);
+
+        }
+
+        setCount(cnt);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
   const option: BarChartOptions = {
     title: {
       text: '',
@@ -254,7 +300,7 @@ const UserBarChart = () => {
     },
     yAxis: {
       type: "category",
-      data: ["WORK_OR_STUDY", "ENTERTAINMENT_OR_HOBBY", "BASIC_NEED", "HOUSEWORK", "SPORT_OR_WORKOUT", "SOCIAL_ACTIVITY", "WASTED_TIME", "OTHERS"],
+      data: ["BASIC_NEED", "ENTERTAINMENT_OR_HOBBY", "HOUSEWORK", "OTHERS", "SOCIAL_ACTIVITY", "SPORT_OR_WORKOUT", "WASTED_TIME", "WORK_OR_STUDY"],
     },
     visualMap: {
       orient: 'horizontal',
@@ -272,7 +318,7 @@ const UserBarChart = () => {
       {
         name: "Task",
         type: "bar",
-        data: mydata.barChartData.task,
+        data: count,
       },
     ],
   };
@@ -704,7 +750,6 @@ const UserLineChart = () => {
     </>
   );
 }
-
 
 export default function Report() {
   return (

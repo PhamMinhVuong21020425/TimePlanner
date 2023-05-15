@@ -10,7 +10,6 @@ interface Todo {
     description: string;
 }
 
-
 export default function Calendar() {
 
     const todo: Todo[] = [
