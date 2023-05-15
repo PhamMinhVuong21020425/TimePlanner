@@ -26,7 +26,7 @@ const mydata = {
   },
   "barChartData": {
     // [WORK_OR_STUDY, ENTERTAINMENT_OR_HOBBY, BASIC_NEED, HOUSEWORK, SPORT_OR_WORKOUT, SOCIAL_ACTIVITY, WASTED_TIME, OTHERS]
-    "task": [12, 19, 3, 5, 2, 3, 12, 19],
+    "task": [25, 20, 15, 10, 5, 15, 5, 5],
   },
   "pieChartData": {
     // [LOW, MEDIUM, HIGH]
@@ -609,6 +609,102 @@ const ThirdUserPieChart = () => {
   );
 }
 
+interface LineChartOptions {
+  title: {
+    text: string;
+  };
+  tooltip: {
+    trigger: string;
+  };
+  legend: {
+    data: string[];
+  };
+  grid: {
+    left: string;
+    right: string;
+    bottom: string;
+    containLabel: boolean;
+  };
+  xAxis: {
+    type: string;
+    boundaryGap: boolean;
+    data: string[];
+  };
+  yAxis: {
+    type: string;
+  };
+  series: {
+    name: string,
+    type: string,
+    stack: string,
+    data: number[],
+    smooth: boolean,
+    color: string,
+  }[];
+}
+
+const UserLineChart = () => {
+  const option: LineChartOptions = {
+    title: {
+      text: '',
+    },
+    tooltip: {
+      trigger: 'axis',
+    },
+    legend: {
+
+      data: ['LOW', 'MEDIUM', 'HIGH'],
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true,
+    },
+
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Nov", "Dec"],
+    },
+    yAxis: {
+      type: 'value',
+    },
+    series: [
+      {
+        name: 'LOW',
+        type: 'line',
+        stack: 'TOTAL',
+        data: mydata.lineChartData.low,
+        smooth: false,
+        color: '#34d399',
+      },
+      {
+        name: 'MEDIUM',
+        type: 'line',
+        stack: 'TOTAL',
+        data: mydata.lineChartData.medium,
+        smooth: false,
+        color: '#fbbf24',
+      },
+      {
+        name: 'HIGH',
+        type: 'line',
+        stack: 'TOTAL',
+        data: mydata.lineChartData.high,
+        smooth: false,
+        color: '#fb7185',
+      },
+    ],
+  };
+
+  return (
+    <>
+      <ReactECharts option={option} />
+    </>
+  );
+}
+
 
 export default function Report() {
   return (
@@ -645,7 +741,8 @@ export default function Report() {
         <div className="text-xs my-2">A line chart shows the progress of low, medium, and high tasks each month. The x-axis represents the months, while the y-axis represents the number of tasks completed. Each line corresponds to a different level of task difficulty, with the low task line representing the easiest tasks, the medium task line representing moderately difficult tasks, and the high task line representing the most challenging tasks. Viewers can quickly identify trends and patterns in the completion of tasks over time.</div>
         <div className="flex justify-center items-center my-4">
           <div className="w-1/2">
-            <Line data={LineChartData} options={LineChartOptions} />
+            {/* <Line data={LineChartData} options={LineChartOptions} /> */}
+            <UserLineChart />
           </div>
         </div>
       </div>
