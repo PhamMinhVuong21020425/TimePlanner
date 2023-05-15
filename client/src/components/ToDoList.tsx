@@ -17,10 +17,10 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
                             {i.type.replace(/_/g, " ")}
                         </div>
                     </div>
-                    <div key={id} className="font-bold text-base text-gray-600 -translate-y-3">
+                    <div key={id} className="font-bold text-base text-gray-600 -translate-y-3 break-words">
                         <Link to={`/task/${id}`}>{i.task_name}</Link>
                     </div>
-                    <div className="text-gray-600 text-xs">{i.description}</div>
+                    <div className="text-gray-600 text-xs break-words">{i.description}</div>
                     <div className="flex justify-between items-center mt-5">
                         {buttonStyle(i)}
                         <button className="px-2 py-1 text-emerald-500" onClick={() => handleClicked(id)}>
@@ -38,10 +38,10 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
                             {i.type.replace(/_/g, " ")}
                         </div>
                     </div>
-                    <div key={id} className="font-bold text-base text-gray-600 -translate-y-3">
+                    <div key={id} className="font-bold text-base text-gray-600 -translate-y-3 break-words">
                         <Link to={`/task/${id}`}>{i.task_name}</Link>
                     </div>
-                    <div className="text-gray-600 text-xs">{i.description}</div>
+                    <div className="text-gray-600 text-xs break-words">{i.description}</div>
                     <div className="flex justify-between items-center mt-5">
                         {buttonStyle(i)}
                         <button className="px-2 py-1 text-amber-500" onClick={() => handleClicked(id)}>
@@ -62,12 +62,12 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
                     </div>
 
 
-                    <div key={id} className="font-bold text-base text-gray-600 -translate-y-3" >
+                    <div key={id} className="font-bold text-base text-gray-600 -translate-y-3 break-words" >
                         <Link to={`/task/${id}`}>{i.task_name}</Link>
                     </div>
 
-                    
-                    <div className="text-gray-600 text-xs">{i.description}</div>
+
+                    <div className="text-gray-600 text-xs whitespace-normal break-words">{i.description}</div>
                     <div className="flex justify-between items-center mt-5">
                         {buttonStyle(i)}
                         <button className="px-2 py-1 text-rose-500" onClick={() => handleClicked(id)}>
@@ -269,7 +269,7 @@ function ToDoList() {
                     </div>
                 </div>
             </div>
-            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} saveFunction={handleSave}/>}</div>
+            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} saveFunction={handleSave} />}</div>
         </div>
     );
 }
