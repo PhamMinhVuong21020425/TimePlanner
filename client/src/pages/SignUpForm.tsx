@@ -3,8 +3,22 @@ import { Link, useNavigate } from 'react-router-dom';
 import request from '../utils/request';
 import { FaFacebook, FaGithub } from 'react-icons/fa';
 
+type Message = {
+    fullname: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+}
+
 function SignUpForm() {
     const [dataUser, setDataUser] = useState({
+        fullname: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
+
+    const [message, setMessage] = useState<Message>({
         fullname: '',
         email: '',
         password: '',
@@ -16,14 +30,50 @@ function SignUpForm() {
     const handleDataUserChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let name = event.target.name;
         let value = event.target.value;
+        setMessage({ ...message, [name]: '' });
         setDataUser((prevState) => ({ ...prevState, [name]: value }));
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const res = await request.post('login/signup', dataUser);
-        console.log(res);
-        navigate('/login');
+        let isValid = true;
+        let errorMessage = { ...message }
+        if (dataUser.fullname?.trim() === '') {
+            errorMessage = {
+                ...errorMessage,
+                fullname: 'Full name is not null.'
+            };
+            isValid = false;
+        }
+        if (dataUser.email?.trim() === '') {
+            errorMessage = {
+                ...errorMessage,
+                email: 'Email is not null.'
+            };
+            isValid = false;
+        }
+        if (dataUser.password.length < 3) {
+            errorMessage = {
+                ...errorMessage,
+                password: 'Password must be at least 3 characters long.'
+            };
+            isValid = false;
+        }
+        if (dataUser.password !== dataUser.confirmPassword) {
+            errorMessage = {
+                ...errorMessage,
+                confirmPassword: 'Passwords must not match.'
+            };
+            isValid = false;
+        }
+
+        if (isValid) {
+            const res = await request.post('login/signup', dataUser);
+            console.log(res);
+            navigate('/login');
+        } else {
+            setMessage(errorMessage);
+        }
     }
 
     return (
@@ -47,6 +97,10 @@ function SignUpForm() {
                             value={dataUser.fullname}
                             onChange={handleDataUserChange}
                         />
+
+                        <p className="mt-2 text-red-500 text-sm italic">
+                            {message.fullname}
+                        </p>
                     </div>
                     <div className="mb-4">
                         <label className="mb-2 block font-bold text-gray-700" htmlFor="email">
@@ -61,6 +115,11 @@ function SignUpForm() {
                             value={dataUser.email}
                             onChange={handleDataUserChange}
                         />
+
+                        <p className="mt-2 text-red-500 text-sm italic">
+                            {message.email}
+                        </p>
+
                     </div>
 
                     <div className="mb-4">
@@ -76,6 +135,11 @@ function SignUpForm() {
                             value={dataUser.password}
                             onChange={handleDataUserChange}
                         />
+
+                        <p className="mt-2 text-red-500 text-sm italic">
+                            {message.password}
+                        </p>
+
                     </div>
                     <div className="mb-6">
                         <label className="mb-2 block font-bold text-gray-700" htmlFor="confirmPassword">
@@ -90,6 +154,11 @@ function SignUpForm() {
                             value={dataUser.confirmPassword}
                             onChange={handleDataUserChange}
                         />
+
+                        <p className="mt-2 text-red-500 text-sm italic">
+                            {message.confirmPassword}
+                        </p>
+
                     </div>
 
                     <div className="flex items-center justify-center">

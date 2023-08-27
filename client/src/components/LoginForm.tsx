@@ -7,14 +7,17 @@ import { Link, useNavigate } from 'react-router-dom';
 function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [isInvalid, setIsInvalid] = useState(false);
 
     const navigate = useNavigate();
 
     const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setIsInvalid(false);
         setUsername(event.target.value);
     };
 
     const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setIsInvalid(false);
         setPassword(event.target.value);
     };
 
@@ -27,15 +30,20 @@ function LoginForm() {
             email: username,
             password: password,
         };
+
+        if (data.email === '' || data.password.length < 3) setIsInvalid(true);
+
         const res = await request.post('login', data);
-        console.log(res.data);
-        if(res.data.userId == 1) {
+        if (res.data.userId === 1) {
             navigate('/admin');
+        }
+        else if (res.data.message === 'Email or password is invalid.') {
+            setIsInvalid(true);
         }
         else {
             navigate('/');
         }
-        window.location.reload();
+        console.log(res.data.message);
     };
 
     return (
@@ -60,7 +68,7 @@ function LoginForm() {
                             onChange={handleUsernameChange}
                         />
                     </div>
-                    <div className="mb-6">
+                    <div className='mb-6'>
                         <label className="mb-2 block font-bold text-gray-700" htmlFor="password">
                             Password
                         </label>
@@ -73,6 +81,12 @@ function LoginForm() {
                             value={password}
                             onChange={handlePasswordChange}
                         />
+
+                        {isInvalid &&
+                            <p className="text-red-500 text-sm italic">
+                                Email or password is invalid.
+                            </p>
+                        }
                     </div>
                     <div className="flex items-center justify-center">
                         <button

@@ -20,6 +20,7 @@ export default function AddTaskModal({ id, isShowing, hide }: Props) {
   });
 
   const [state, dispatch] = useContext(TaskContext);
+  const [isInvalid, setIsInvalid] = useState(false);
 
   const handleDataChange = (
     event:
@@ -30,22 +31,28 @@ export default function AddTaskModal({ id, isShowing, hide }: Props) {
     let name = event.target.name;
     let value = event.target.value;
     setData((prevState) => ({ ...prevState, [name]: value }));
+    setIsInvalid(false);
   };
 
   const handleSave = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    hide();
-    const res = await request.post(`task/${id}`, data);
-    // console.log(res.data);
-    dispatch({
-      type: 'SET_TASK_INPUT',
-      payload: 'OK'
-    });
+    if (data.taskName.trim() == '') {
+      setIsInvalid(true);
+    } else {
+      hide();
+      const res = await request.post(`task/${id}`, data);
+      // console.log(res.data);
+      dispatch({
+        type: 'SET_TASK_INPUT',
+        payload: 'OK'
+      });
+    }
 
   };
 
   const handleCancel = () => {
     hide();
+    setIsInvalid(false);
   };
 
   return isShowing ? (
@@ -69,11 +76,12 @@ export default function AddTaskModal({ id, isShowing, hide }: Props) {
                   onChange={handleDataChange}
                   value={data.taskName}
                   placeholder=""
-                  required
                 />
-                <p className="text-red-500 text-xs italic">
-                  Please fill out this field.
-                </p>
+                {isInvalid &&
+                  <p className="text-red-500 text-xs italic">
+                    Please fill out this field.
+                  </p>
+                }
               </div>
               <div className="w-full md:w-1/2 px-3">
                 <label
