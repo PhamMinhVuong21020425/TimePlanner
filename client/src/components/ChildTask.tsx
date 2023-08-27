@@ -1,11 +1,10 @@
+import React, { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import Task from "../types/Tasks";
-import { useEffect, useState } from "react";
 import request from "../utils/request";
 import EditTaskModal from "./EditTaskModal";
-import { Link } from "react-router-dom";
-import AddTask from "./AddTask";
-import React from "react";
+import { TaskContext } from "../store";
 
 type Props = {
     id: string,
@@ -184,7 +183,7 @@ function ChildTask({ id }: Props) {
     // ];
     const [todo, setTodo] = useState<Task[]>();
     const [currentId, setCurrentId] = useState("0");
-    const [save, setSave] = useState(false);
+    const [state, dispatch] = useContext(TaskContext);
 
     useEffect(() => {
         request.get<Task[]>(`task/child/${id}`)
@@ -194,7 +193,7 @@ function ChildTask({ id }: Props) {
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-    }, [id, save]);
+    }, [id, state]);
 
     // function editTask(id: string, newData: Task) {
     //     // for (let i = 0; i < todo.length; i++) {
@@ -212,7 +211,10 @@ function ChildTask({ id }: Props) {
     }
 
     const handleSave = () => {
-        setSave(!save);
+        dispatch({
+            type: 'SET_TASK_INPUT',
+            payload: 'OK'
+        });
     }
 
 

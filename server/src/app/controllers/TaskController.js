@@ -196,6 +196,20 @@ class TaskController {
             res.status(200).json(results);
         })
     }
+
+    async getPriorityTask(req, res) {
+        const pool = require('./ConnectPlane');
+        const sql = "SELECT priority, COUNT(*) as count FROM Task WHERE priority IS NOT NULL AND user_id = ? AND status = ? GROUP BY priority";
+        await pool.execute(sql, [req.session.user.userId, "STOPPED"], (err, results) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send('Internal Server Error');
+                return;
+            }
+            res.status(200).json(results);
+        })
+    }
+
 }
 
 module.exports = new TaskController;

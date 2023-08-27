@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import useModal from "../utils/useModal";
 
 import ToDoList from "../components/ToDoList";
 import Calendar from "../components/Calendar";
 import Report from "../components/Report";
-import AddTask from "../components/AddTask";
+import AddTaskModal from "../components/AddTaskModal";
 import SideBar from "../components/SideBar";
 import Menu from "../components/Menu";
 import Weather from "../components/Weather";
@@ -13,7 +14,8 @@ import request from "../utils/request";
 
 const Home = () => {
   const [selectedOption, setSelectedOption] = useState("");
-  const [showAddTask, setShowAddTask] = useState(false);
+  const [isRerender, setIsRerender] = useState(false);
+  const { isShowing, toggle } = useModal();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,46 +33,31 @@ const Home = () => {
   }, [selectedOption])
 
   const handleOptionButton = (option: string) => {
-    setSelectedOption(option);
-    if (option === "AddTask") setShowAddTask(true);
+    if (option === "AddTask") {
+      toggle();
+      setIsRerender(!isRerender);
+    } else {
+      setSelectedOption(option);
+    }
   };
 
   const handleSave = () => {
     //do nothing
   }
 
-  const handleShowAddTask = () => {
-    setShowAddTask(!showAddTask);
-  };
-
   const renderContent = () => {
     // Add tasks, add projects
     switch (selectedOption) {
       case "ToDoList":
         return <ToDoList />;
-        break;
       case "Calendar":
         return <Calendar />;
-        break;
       case "Report":
         return <Report />;
-      case "AddTask":
-        return (
-          <div>
-            {showAddTask && <ToDoList />}
-            {showAddTask && (
-              <AddTask showFunction={handleShowAddTask} id={null} saveFunction={handleSave}/>
-            )}
-            {!showAddTask && <ToDoList />}
-          </div>
-        );
-        break;
       case "Weather":
         return <Weather />;
-        break;
       default:
         return <ToDoList />;
-        break;
     }
   };
 
@@ -82,6 +69,7 @@ const Home = () => {
       <div className="w-[70%]">
         <Menu handleOptionButton={handleOptionButton} showButtonAddTask={true} />
         {renderContent()}
+        <AddTaskModal id={null} isShowing={isShowing} hide={toggle} />
       </div>
     </div>
   );

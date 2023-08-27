@@ -1,14 +1,9 @@
 import { useState } from "react";
-import {
-  useParams,
-} from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-import ToDoList from "../components/ToDoList";
 import Calendar from "../components/Calendar";
 import Report from "../components/Report";
-import AddTask from "../components/AddTask";
 import SideBar from "../components/SideBar";
-import Menu from "../components/Menu";
 import Weather from "../components/Weather";
 import CurrentTask from "../components/CurrentTask";
 import ChildTask from "../components/ChildTask";

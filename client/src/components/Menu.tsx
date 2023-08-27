@@ -2,6 +2,7 @@ import { FaTasks } from "react-icons/fa";
 import { BsCalendar3 } from "react-icons/bs";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { TiWeatherPartlySunny } from "react-icons/ti";
+import { HiOutlinePlus } from "react-icons/hi";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -60,10 +61,16 @@ export default function ({ showButtonAddTask, handleOptionButton }: Props) {
       {
         showButtonAddTask &&
         <button
-          className="w-1/6 rounded-md border-2 bg-emerald-500 -400 px-4 py-2 text-white cursor-pointer mx-2"
+          className="w-1/6 rounded-md border-2 bg-rose-500 -400 px-4 py-2 text-white cursor-pointer mx-2"
           onClick={() => handleButtonClick("AddTask")}
         >
-          Add task
+          <div className="flex items-center justify-center">
+            Add task
+            <div className="ml-3 font-bold">
+              {<HiOutlinePlus />}
+            </div>
+          </div>
+
         </button>
       }
       {/* <button

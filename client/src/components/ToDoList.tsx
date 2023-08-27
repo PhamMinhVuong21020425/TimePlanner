@@ -1,9 +1,10 @@
 import { FiEdit } from "react-icons/fi";
 import Task from "../types/Tasks";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import request from "../utils/request";
 import EditTaskModal from "./EditTaskModal";
 import { Link } from "react-router-dom";
+import { TaskContext } from "../store";
 
 function taskStyle(i: Task, handleClicked: (id: string) => void) {
     const id: string = i.task_id;
@@ -180,7 +181,7 @@ function ToDoList() {
     // ];
     const [todo, setTodo] = useState<Task[]>();
     const [currentId, setCurrentId] = useState("0");
-    const [save, setSave] = useState(false);
+    const [state, dispatch] = useContext(TaskContext);
     useEffect(() => {
         request.get<Task[]>('task')
             .then(response => {
@@ -189,7 +190,7 @@ function ToDoList() {
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-    }, [save]);
+    }, [state]);
 
     // function editTask(id: string, newData: Task) {
     //     // for (let i = 0; i < todo.length; i++) {
@@ -207,7 +208,10 @@ function ToDoList() {
     }
 
     const handleSave = () => {
-        setSave(!save);
+        dispatch({
+            type: 'SET_TASK_INPUT',
+            payload: 'OK'
+        });
     }
 
     const handleCancel = () => {

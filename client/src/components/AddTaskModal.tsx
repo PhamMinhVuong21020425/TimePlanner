@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
 import request from "../utils/request";
+import { TaskContext } from "../store";
 
 type Props = {
-  showFunction: Function,
-  saveFunction: Function,
-  id: string | undefined | null
+  id: string | undefined | null,
+  isShowing: boolean,
+  hide: () => void
 };
 
-export default function AddTask({ showFunction, saveFunction, id }: Props) {
+export default function AddTaskModal({ id, isShowing, hide }: Props) {
   const [data, setData] = useState({
     taskName: "",
     parent_task_id: id,
@@ -19,7 +19,7 @@ export default function AddTask({ showFunction, saveFunction, id }: Props) {
     finishTime: "",
   });
 
-  const navigate = useNavigate();
+  const [state, dispatch] = useContext(TaskContext);
 
   const handleDataChange = (
     event:
@@ -34,18 +34,21 @@ export default function AddTask({ showFunction, saveFunction, id }: Props) {
 
   const handleSave = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    hide();
     const res = await request.post(`task/${id}`, data);
-    console.log(res.data);
-    showFunction();
-    saveFunction();
-    window.location.reload();
+    // console.log(res.data);
+    dispatch({
+      type: 'SET_TASK_INPUT',
+      payload: 'OK'
+    });
+
   };
 
   const handleCancel = () => {
-    showFunction();
+    hide();
   };
 
-  return (
+  return isShowing ? (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center font-poppins z-10">
       <div className="bg-white p-4 rounded-md">
         <div className="text-xs text-gray-500">
@@ -88,7 +91,7 @@ export default function AddTask({ showFunction, saveFunction, id }: Props) {
                     value={data.type}
                     placeholder=""
                   >
-                    <option >WORK_OR_STUDY</option>
+                    <option>WORK_OR_STUDY</option>
                     <option>ENTERTAINMENT_OR_HOBBY</option>
                     <option>BASIC_NEED</option>
                     <option>HOUSEWORK</option>
@@ -219,5 +222,5 @@ export default function AddTask({ showFunction, saveFunction, id }: Props) {
         </div>
       </div>
     </div>
-  );
+  ) : null;
 }

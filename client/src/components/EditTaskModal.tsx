@@ -1,7 +1,6 @@
 import { useEffect, useState, ChangeEvent } from "react";
 import request from "../utils/request";
 import Task from "../types/Tasks";
-import { Link, useNavigate } from "react-router-dom";
 import moment from 'moment';
 
 type Props = {
@@ -22,8 +21,6 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
         task_id: id,
         title: "",
     });
-
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {

@@ -18,7 +18,7 @@ const IconWeather: React.FC<Props> = ({ iconName }: Props) => {
         const fetchIcon = async () => {
             try {
                 const response = await request.get(`getIcon/${iconName}`);
-                setIconUrls(Array.isArray(response.data) ? response.data : [response.data]);
+                setIconUrls([...response.data]);
             } catch (error) {
                 console.log(error);
             }

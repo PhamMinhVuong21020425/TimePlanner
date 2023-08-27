@@ -1,10 +1,11 @@
 import { MdOutlineNotificationsActive } from "react-icons/md";
 import TimeLine from "./TimeLine";
 import Task from "../types/Tasks";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import request from "../utils/request";
 import UserDropDown from "./UserDropDown";
 import Notification from "./Notification";
+import { TaskContext } from "../store";
 
 // const todo: Task[] = [
 //   {
@@ -71,6 +72,9 @@ function SideBar() {
     name: '',
     email: ''
   });
+
+  const [state, dispatch] = useContext(TaskContext);
+
   useEffect(() => {
     request.get<Task[]>('task/today')
       .then(response => {
@@ -88,7 +92,7 @@ function SideBar() {
         console.error('Error fetching data:', error);
       });
 
-  }, []);
+  }, [state]);
 
   return (
     <div className="rounded-md m-3 font-poppins">

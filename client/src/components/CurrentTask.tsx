@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import Task from "../types/Tasks";
 import moment from "moment";
+import useModal from "../utils/useModal";
 
-import AddTask from "./AddTask";
+import AddTaskModal from "./AddTaskModal";
 import { FaRegKeyboard, FaTelegramPlane } from "react-icons/fa";
 import { WiSolarEclipse } from "react-icons/wi";
 import { AiOutlineHome } from "react-icons/ai";
@@ -43,9 +45,9 @@ function styleTask(i: Task, handleclicked: Function) {
                             <div className="flex items-center">
                                 <div className="flex items-center font-bold text-lg">
                                     <button>
-                                        <a href="/">
+                                        <Link to="/">
                                             <AiOutlineHome />
-                                        </a>
+                                        </Link>
                                     </button>
                                     <div className="ml-2">
                                         {i.task_name}
@@ -95,9 +97,9 @@ function styleTask(i: Task, handleclicked: Function) {
                             <div className="flex items-center">
                                 <div className="flex items-center font-bold text-lg">
                                     <button>
-                                        <a href="/">
+                                        <Link to="/">
                                             <AiOutlineHome />
-                                        </a>
+                                        </Link>
                                     </button>
                                     <div className="ml-2">
                                         {i.task_name}
@@ -147,9 +149,9 @@ function styleTask(i: Task, handleclicked: Function) {
                             <div className="flex items-center">
                                 <div className="flex items-center font-bold text-lg">
                                     <button>
-                                        <a href="/">
+                                        <Link to="/">
                                             <AiOutlineHome />
-                                        </a>
+                                        </Link>
                                     </button>
                                     <div className="ml-2">
                                         {i.task_name}
@@ -205,24 +207,11 @@ function CurrentTask({ id }: Props) {
         title: "",
     });
 
-    const childRef = useRef();
-
-    const [selectedOption, setSelectedOption] = useState("");
-
-    const handleOptionButton = (option: string) => {
-        setSelectedOption(option);
-    };
-
-    const [save, setSave] = useState(false);
-    const [showFunction, setShowFunction] = useState<boolean>(false);
+    const { isShowing, toggle } = useModal();
 
     const handleclicked = () => {
-        setShowFunction(!showFunction);
+        toggle();
     };
-
-    const handleSave = () => {
-       setSave(!save);
-    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -243,7 +232,7 @@ function CurrentTask({ id }: Props) {
     return (
         <div className="flex justify-center items-center mt-8 p-2 text-gray-600 font-poppins">
             {styleTask(data, handleclicked)}
-            {showFunction && <AddTask id={id} showFunction={handleclicked} saveFunction={handleSave}/>}
+            <AddTaskModal id={id} isShowing={isShowing} hide={toggle} />
         </div>
     );
 }
