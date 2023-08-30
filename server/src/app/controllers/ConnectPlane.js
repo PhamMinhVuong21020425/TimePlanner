@@ -1,6 +1,11 @@
-const mysql = require('mysql2');
-require('dotenv').config();
+const mysql = require("mysql2");
+require("dotenv").config();
 
-const pool = mysql.createPool(process.env.DATABASE_URL_PLANETSCALE);
+const pool = mysql.createPool({
+  uri: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: true,
+  },
+});
 
 module.exports = pool;

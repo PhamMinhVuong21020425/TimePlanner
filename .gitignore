@@ -8,6 +8,6 @@ server/node_modules/
 server/yarn.lock
 server/package-lock.json
 server/.env
+client/.env
 
 .vscode
-server/.env

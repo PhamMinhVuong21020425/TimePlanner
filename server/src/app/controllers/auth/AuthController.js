@@ -14,7 +14,7 @@ class AuthController {
     res.status(200).json({ message: "login OK" });
   }
 
-  async logPost(req, res) {
+  async logPost(req, res, next) {
     const pool = require("../ConnectPlane");
     let { email, password } = req.body;
     if (!email || !password) {
@@ -41,6 +41,17 @@ class AuthController {
         return;
       }
 
+      // const optionsCookie = {
+      //   maxAge: 60 * 60 * 1000,
+      // };
+
+      // res.cookie("user", {
+      //   userId: result[0].id,
+      //   email: req.body.email,
+      // });
+
+      // res.end("Cookie is sent!");
+
       req.session.regenerate(function (err) {
         if (err) next(err);
 
@@ -48,11 +59,10 @@ class AuthController {
           userId: result[0].id,
           email: req.body.email,
         };
-
-        res.cookie("user", req.session.user);
-
         console.log("LOGIN INFO: ", req.session.user);
 
+        // save the session before redirection to ensure page
+        // load does not happen before session is saved
         req.session.save(function (err) {
           if (err) return next(err);
           res.status(200).json(req.session.user);

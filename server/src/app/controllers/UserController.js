@@ -13,7 +13,7 @@ class UserController {
       }
 
       if (req.session.user) {
-        const currentUser = await prisma.user.findUnique({
+        const currentUser = await prisma.User.findUnique({
           where: {
             id: req.session.user.userId,
           },
