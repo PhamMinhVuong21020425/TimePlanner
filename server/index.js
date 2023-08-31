@@ -1,4 +1,3 @@
-const fs = require("fs");
 const express = require("express");
 const session = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
@@ -17,7 +16,10 @@ app.use(morgan("tiny"));
 
 app.use(
   cors({
-    origin: process.env.CLIENT_HOST,
+    origin:
+      process.env.NODE_ENV === "production"
+        ? process.env.CLIENT_HOST
+        : process.env.CLIENT_LOCAL,
     credentials: true,
   })
 );
@@ -49,16 +51,13 @@ app.use(
   session({
     cookie: {
       maxAge: 60 * 60 * 1000, // ms
-      domain: "time-planner-toshibaacer.vercel.app",
-      secure: true,
+      secure: false,
       httpOnly: true,
-      sameSite: "none",
     },
     name: process.env.SESSION_NAME,
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
-    proxy: true,
+    saveUninitialized: false,
     store: new PrismaSessionStore(new PrismaClient(), {
       checkPeriod: 2 * 60 * 1000, //ms
       dbRecordIdIsSessionId: true,
@@ -104,8 +103,7 @@ app.use(
 // });
 
 app.get("/logout", function (req, res, next) {
-  // res.clearCookie("user");
-  // res.status(200).json({ success: "Log out success!" });
+  res.clearCookie("user");
 
   req.session.user = null;
 
@@ -124,9 +122,6 @@ app.get("/logout", function (req, res, next) {
 //Handle routers
 route(app);
 
-const http = require("http");
-const server = http.createServer(app);
-
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`Time planner app is running on http://localhost:${port}`);
 });

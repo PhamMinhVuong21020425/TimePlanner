@@ -41,14 +41,18 @@ class AuthController {
         return;
       }
 
-      // const optionsCookie = {
-      //   maxAge: 60 * 60 * 1000,
-      // };
+      const optionsCookie = {
+        maxAge: 60 * 60 * 1000,
+      };
 
-      // res.cookie("user", {
-      //   userId: result[0].id,
-      //   email: req.body.email,
-      // });
+      res.cookie(
+        "user",
+        {
+          userId: result[0].id,
+          email: req.body.email,
+        },
+        optionsCookie
+      );
 
       // res.end("Cookie is sent!");
 

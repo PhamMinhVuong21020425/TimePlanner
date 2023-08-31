@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import useModal from "../utils/useModal";
 
 import ToDoList from "../components/ToDoList";
@@ -9,8 +10,6 @@ import AddTaskModal from "../components/AddTaskModal";
 import SideBar from "../components/SideBar";
 import Menu from "../components/Menu";
 import Weather from "../components/Weather";
-import request from "../utils/request";
-
 
 const Home = () => {
   const [selectedOption, setSelectedOption] = useState("");
@@ -21,7 +20,7 @@ const Home = () => {
   useEffect(() => {
     const isLogin = async () => {
       try {
-        const response = await request.get('/');
+        const response = await axios.get('http://localhost:3002/', { withCredentials: true });
         if (response.data.message === 'NotLogin') {
           navigate('/login');
         }
