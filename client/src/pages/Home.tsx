@@ -20,7 +20,7 @@ const Home = () => {
   useEffect(() => {
     const isLogin = async () => {
       try {
-        const response = await axios.get('http://localhost:3002/', { withCredentials: true });
+        const response = await axios.get('https://time-planner-server-deploy.vercel.app/', { withCredentials: true });
         if (response.data.message === 'NotLogin') {
           navigate('/login');
         }
