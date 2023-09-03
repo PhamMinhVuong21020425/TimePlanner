@@ -47,7 +47,7 @@ function getTime(text: string) {
 }
 
 const API_KEY: string = "bf0fca40ef5c3565bb0d7b06f9952fae";
-const API_URL: string = "http://api.openweathermap.org/data/2.5/forecast";
+const API_URL: string = "https://api.openweathermap.org/data/2.5/forecast";
 
 const Weather: React.FC = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
