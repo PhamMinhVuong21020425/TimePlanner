@@ -24,7 +24,7 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
                         </div>
                     </div>
                     <div key={id} className="font-bold text-base text-gray-600 -translate-y-3 z-0">
-                        <Link to={`/task/${id}`}>{i.task_name}</Link>
+                        <Link to={`/client/task/${id}`}>{i.task_name}</Link>
                     </div>
                     <div className="text-gray-600 text-xs">{i.description}</div>
                     <div className="flex justify-between items-center mt-5">
@@ -45,7 +45,7 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
                         </div>
                     </div>
                     <div key={id} className="font-bold text-base text-gray-600 -translate-y-3 z-0">
-                        <Link to={`/task/${id}`}>{i.task_name}</Link>
+                        <Link to={`/client/task/${id}`}>{i.task_name}</Link>
                     </div>
                     <div className="text-gray-600 text-xs">{i.description}</div>
                     <div className="flex justify-between items-center mt-5">
@@ -67,7 +67,7 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
                         </div>
                     </div>
                     <div key={id} className="font-bold text-base text-gray-600 -translate-y-3 z-0" >
-                        <Link to={`/task/${id}`}>{i.task_name}</Link>
+                        <Link to={`/client/task/${id}`}>{i.task_name}</Link>
                     </div>
                     <div className="text-gray-600 text-xs">{i.description}</div>
                     <div className="flex justify-between items-center mt-5">

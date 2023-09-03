@@ -28,11 +28,11 @@ const UserProfile: React.FC = () => {
         event.preventDefault();
         const res = await request.put('/user/editProfile', user);
         console.log(res);
-        navigate('/');
+        navigate('/client');
     }
 
     const handleCancel = () => {
-        navigate('/');
+        navigate('/client');
     }
 
     useEffect(() => {

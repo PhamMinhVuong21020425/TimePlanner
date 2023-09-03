@@ -42,7 +42,7 @@ export default function UserDropDown({ firstCharacter }: Props) {
         if (confirmation) {
             const res = await request.get('logout');
             if (res.data.success) {
-                navigate('/login');
+                navigate('/client/login');
             }
         }
     }
@@ -75,7 +75,7 @@ export default function UserDropDown({ firstCharacter }: Props) {
                                         'block px-4 py-2 text-sm'
                                     )}
                                 >
-                                    <Link to="/profile">
+                                    <Link to="/client/profile">
                                         Edit Profile
                                     </Link>
                                 </div>

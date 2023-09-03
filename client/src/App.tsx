@@ -19,6 +19,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
+          <Route index element={<Contact />} />
+        </Route>
+        <Route path="/client" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="contact" element={<Contact />} />
           <Route path="login" element={<LoginForm />} />

@@ -26,7 +26,7 @@ export default function ({ showButtonAddTask, handleOptionButton }: Props) {
           }`}
         onClick={() => handleButtonClick("ToDoList")}
       >
-        <Link to={'/'}>
+        <Link to={'/client'}>
           <div className="flex items-center justify-between">
             <FaTasks className="mr-3" />
             <span>Tasks</span>

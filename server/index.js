@@ -5,6 +5,7 @@ const { PrismaClient } = require("@prisma/client");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
+const path = require("path");
 const cors = require("cors");
 const route = require("./src/routes/index");
 require("dotenv").config();
@@ -23,6 +24,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

@@ -70,7 +70,7 @@ function SignUpForm() {
         if (isValid) {
             const res = await request.post('login/signup', dataUser);
             console.log(res);
-            navigate('/login');
+            navigate('/client/login');
         } else {
             setMessage(errorMessage);
         }

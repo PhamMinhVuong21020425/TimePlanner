@@ -25,13 +25,13 @@ const Header: React.FC = () => {
                 <nav className="flex items-center justify-between font-medium text-white">
                     {session ? (
                         <>
-                            <Link to="/drafts">
+                            <Link to="/client/drafts">
                                 <button className="mx-3 flex items-center rounded bg-emerald-500 py-1 px-4 text-sm font-bold text-white hover:bg-emerald-700">
                                     <RiDraftFill className="mr-1" />
                                     Drafts
                                 </button>
                             </Link>
-                            <Link to="/">
+                            <Link to="/client">
                                 <button className="mx-3 flex items-center rounded border border-emerald-500 bg-transparent py-1 px-3 font-semibold text-emerald-700 hover:border-transparent hover:bg-emerald-500 hover:text-white">
                                     <AiFillPlusSquare className="mr-1" />
                                     New Post
@@ -51,7 +51,7 @@ const Header: React.FC = () => {
                         </>
                     ) : (
                         <>
-                            <Link to="/login">
+                            <Link to="/client/login">
                                 <button className=" mx-3 flex items-center rounded bg-emerald-600 py-1 px-2 text-sm font-bold text-white hover:bg-emerald-400">
                                     <AiFillUnlock className="mr-1 text-base" />
                                     Sign in

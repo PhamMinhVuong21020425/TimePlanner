@@ -45,7 +45,7 @@ function styleTask(i: Task, handleclicked: Function) {
                             <div className="flex items-center">
                                 <div className="flex items-center font-bold text-lg">
                                     <button>
-                                        <Link to="/">
+                                        <Link to="/client">
                                             <AiOutlineHome />
                                         </Link>
                                     </button>
@@ -97,7 +97,7 @@ function styleTask(i: Task, handleclicked: Function) {
                             <div className="flex items-center">
                                 <div className="flex items-center font-bold text-lg">
                                     <button>
-                                        <Link to="/">
+                                        <Link to="/client">
                                             <AiOutlineHome />
                                         </Link>
                                     </button>
@@ -149,7 +149,7 @@ function styleTask(i: Task, handleclicked: Function) {
                             <div className="flex items-center">
                                 <div className="flex items-center font-bold text-lg">
                                     <button>
-                                        <Link to="/">
+                                        <Link to="/client">
                                             <AiOutlineHome />
                                         </Link>
                                     </button>

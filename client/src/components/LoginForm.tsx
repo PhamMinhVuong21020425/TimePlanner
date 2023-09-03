@@ -35,13 +35,13 @@ function LoginForm() {
 
         const res = await request.post('login', data);
         if (res.data.userId === 1) {
-            navigate('/admin');
+            navigate('/client/admin');
         }
         else if (res.data.message === 'Email or password is invalid.') {
             setIsInvalid(true);
         }
         else {
-            navigate('/');
+            navigate('/client');
         }
         console.log(res.data.message);
     };
@@ -100,7 +100,7 @@ function LoginForm() {
 
                     <div className="my-3 text-center text-ml">
                         Don't have an account?{' '}
-                        <Link to="/signup" className="text-blue-500">
+                        <Link to="/client/signup" className="text-blue-500">
                             Register
                         </Link>
                     </div>
