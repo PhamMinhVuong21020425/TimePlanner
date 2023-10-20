@@ -69,8 +69,10 @@ const taskReducer = (state: TaskState = initialState, action: AnyAction) => {
       return { ...state, loading: false, error: action.payload };
 
     case ActionType.EDIT_TASK_ACTION:
-      let newTasks = state.tasks.filter((element) => element.task_id !== action.payload.task_id)
-      return { ...state, loading: false, tasks: [action.payload, ...newTasks] };
+      let newTasks = [...state.tasks];
+      let indexTaskUpdate = newTasks.findIndex((element) => element.task_id === action.payload.task_id);
+      if (indexTaskUpdate !== -1) newTasks[indexTaskUpdate] = action.payload;
+      return { ...state, loading: false, tasks: newTasks };
     case ActionType.DELETE_TASK_ACTION:
       let tasksAfterDelete = state.tasks.filter((element) => element.task_id !== action.payload.task_id)
       return { ...state, loading: false, tasks: tasksAfterDelete };

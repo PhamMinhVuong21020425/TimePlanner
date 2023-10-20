@@ -799,16 +799,16 @@ const UserLineChart = () => {
       data: ['LOW', 'MEDIUM', 'HIGH'],
     },
     grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
+      left: '2%',
+      right: '3%',
+      bottom: '0%',
       containLabel: true,
     },
 
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Nov", "Dec"],
+      data: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     },
     yAxis: {
       type: 'value',

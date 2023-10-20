@@ -183,14 +183,17 @@ function ToDoList() {
     // ];
     const [currentId, setCurrentId] = useState("0");
     const dispatch = useDispatch();
-    const tasks: Task[] = useSelector((state: RootState) => state.taskState.tasks);
 
     useEffect(() => {
         dispatch(fetchTasksAction());
         dispatch(fetchIconsWeatherAction());
     }, [dispatch]);
 
-    const todo = tasks.filter(item => item.parent_task_id == null);
+    const tasks: Task[] = useSelector((state: RootState) => state.taskState.tasks);
+
+    const todo = tasks.filter(item => {
+        return Boolean(!item.parent_task_id);
+    });
 
     // function editTask(id: string, newData: Task) {
     //     // for (let i = 0; i < todo.length; i++) {

@@ -41,7 +41,10 @@ export default function AddTaskModal({ id, isShowing, hide }: Props) {
       // const res = await request.post(`task/${id}`, data);
       // console.log(res.data);
       dispatch(addTaskAction(data));
-      setData(initTask);
+      setData({
+        ...initTask,
+        parent_task_id: id
+      });
     }
 
   };

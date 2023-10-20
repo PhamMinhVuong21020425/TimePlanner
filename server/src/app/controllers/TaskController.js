@@ -1,4 +1,12 @@
 const prisma = require("./PrismaConfig");
+const crypto = require("crypto");
+
+function generateSessionId(length) {
+  return crypto
+    .randomBytes(Math.ceil(length / 2))
+    .toString("hex")
+    .slice(0, length);
+}
 
 class TaskController {
   // POST /task
@@ -19,6 +27,7 @@ class TaskController {
       if (req.session.user) {
         await prisma.Task.create({
           data: {
+            task_id: generateSessionId(25),
             user_id: req.session.user.userId,
             parent_task_id: req.body.parent_task_id,
             task_name: req.body.taskName,
@@ -194,7 +203,7 @@ class TaskController {
   async getPriorityTask(req, res) {
     const pool = require("./ConnectPlane");
     const sql = `SELECT priority, 
-              MONTH(created_at) as month, 
+              MONTH(started_time) as month, 
               COUNT(*) as count 
       FROM Task
       WHERE user_id = ?

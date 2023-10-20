@@ -8,6 +8,8 @@ const crypto = require("crypto");
 const path = require("path");
 const cors = require("cors");
 const route = require("./src/routes/index");
+const passport = require("passport");
+const FacebookStrategy = require("passport-facebook").Strategy;
 require("dotenv").config();
 
 const app = express();
@@ -73,6 +75,32 @@ app.use(
       return generateSessionId(16); // tạo session ID mới cho mỗi lần yêu cầu
     },
   })
+);
+
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      callbackURL: "http://localhost:3002/auth/facebook/callback",
+    },
+    function (accessToken, refreshToken, profile, done) {
+      // Tại đây, bạn có thể lưu thông tin người dùng vào cơ sở dữ liệu hoặc thực hiện các thao tác khác
+      return done(null, profile);
+    }
+  )
+);
+
+// Tạo route cho xác thực Facebook
+app.get("/auth/facebook", passport.authenticate("facebook"));
+
+app.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", { failureRedirect: "/check-login" }),
+  function (req, res) {
+    // Xác thực thành công, bạn có thể thực hiện các thao tác tiếp theo ở đây
+    res.redirect("/client");
+  }
 );
 
 // app.use(function (req, res, next) {
