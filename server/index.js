@@ -56,13 +56,15 @@ app.use(
       maxAge: 60 * 60 * 1000, // ms
       secure: false,
       httpOnly: true,
+      sameSite: true,
     },
     name: process.env.SESSION_NAME,
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
+    unset: "destroy",
+    saveUninitialized: true,
     store: new PrismaSessionStore(new PrismaClient(), {
-      checkPeriod: 2 * 60 * 1000, //ms
+      checkPeriod: 5 * 60 * 1000, //ms
       dbRecordIdIsSessionId: true,
       dbRecordIdFunction: undefined,
     }),
@@ -105,21 +107,35 @@ app.use(
 //   res.send("you viewed this page " + req.session.views["/foo"] + " times");
 // });
 
+// app.get("/logout", function (req, res, next) {
+//   res.clearCookie("user");
+
+//   req.session.user = null;
+
+//   req.session.save(function (err) {
+//     if (err) next(err);
+
+//     // regenerate the session, which is good practice to help
+//     // guard against forms of session fixation
+//     req.session.regenerate(function (err) {
+//       if (err) next(err);
+//       res.status(200).json({ success: "Log out success!" });
+//     });
+//   });
+// });
+
 app.get("/logout", function (req, res, next) {
-  res.clearCookie("user");
-
-  req.session.user = null;
-
-  req.session.save(function (err) {
-    if (err) next(err);
-
-    // regenerate the session, which is good practice to help
-    // guard against forms of session fixation
-    req.session.regenerate(function (err) {
-      if (err) next(err);
-      res.status(200).json({ success: "Log out success!" });
+  if (req.session) {
+    // delete session object
+    res.clearCookie(req.session.user);
+    req.session.destroy(function (err) {
+      if (err) {
+        return next(err);
+      } else {
+        return res.status(200).json({ success: "Log out success!" });
+      }
     });
-  });
+  }
 });
 
 //Handle routers

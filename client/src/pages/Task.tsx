@@ -7,6 +7,7 @@ import SideBar from "../components/SideBar";
 import Weather from "../components/Weather";
 import CurrentTask from "../components/CurrentTask";
 import ChildTask from "../components/ChildTask";
+import Menu from "../components/Menu";
 
 const Task = () => {
   const [selectedOption, setSelectedOption] = useState("");
@@ -21,9 +22,9 @@ const Task = () => {
     else { setShowCurrentTask(true); }
   };
 
-  const handleShowAddTask = () => {
-    setShowAddTask(!showAddTask);
-  };
+  // const handleShowAddTask = () => {
+  //   setShowAddTask(!showAddTask);
+  // };
 
   const renderCurrentTask = () => {
     if (task_id) {
@@ -59,7 +60,7 @@ const Task = () => {
         <SideBar />
       </div>
       <div className="w-[70%]">
-        {/* <Menu handleOptionButton={handleOptionButton} showButtonAddTask={false} /> */}
+        <Menu handleOptionButton={handleOptionButton} showButtonAddTask={false} />
         {renderCurrentTask()}
         {renderContent()}
       </div>

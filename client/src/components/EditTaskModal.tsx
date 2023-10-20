@@ -1,41 +1,33 @@
 import { useEffect, useState, ChangeEvent } from "react";
-import request from "../utils/request";
 import Task from "../types/Tasks";
+import { initTask } from "../types/Tasks";
+import { useSelector, useDispatch } from "react-redux";
 import moment from 'moment';
+import { RootState } from "../redux/reducers/rootReducer";
+import { deleteTaskAction, editTaskAction } from "../redux/actions/taskAction";
 
 type Props = {
     id: string,
-    showFunction: Function,
-    saveFunction: Function
+    showFunction: Function
 };
 
-function EditTaskModal({ id, showFunction, saveFunction }: Props) {
+function EditTaskModal({ id, showFunction }: Props) {
     const [data, setData] = useState<Task>({
-        task_name: "",
-        type: "",
-        started_time: "",
-        finished_time: "",
-        description: "",
-        priority: "LOW",
-        status: "COMPLETED",
-        task_id: id,
-        title: "",
+        ...initTask,
+        task_id: id
     });
 
+    const tasks: Task[] = useSelector((state: RootState) => state.taskState.tasks);
+    const dispatch = useDispatch();
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await request.get(`task/${id}`);
-                let result = response.data;
-                result.started_time = moment(result.started_time).format('YYYY-MM-DD HH:mm:ss');
-                result.finished_time = moment(result.finished_time).format('YYYY-MM-DD HH:mm:ss');
-                setData(result);
-                console.log(response.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchData();
+        const response = tasks.find((item) => { 
+            return item.task_id === id
+        });
+        const result = response ? response : data;
+        result.startTime = moment(result.startTime).format('YYYY-MM-DD HH:mm:ss');
+        result.finishTime = moment(result.finishTime).format('YYYY-MM-DD HH:mm:ss');
+        setData(result);
     }, []);
 
     const handleDataChange = (
@@ -48,10 +40,10 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
 
     const handleSave = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const res = await request.post(`task/update/${id}`, data);
-        console.log(res.data);
+        // const res = await request.post(`task/update/${id}`, data);
+        // console.log(res.data);
+        dispatch(editTaskAction(data));
         showFunction();
-        saveFunction();
     };
 
     const handleCancel = () => {
@@ -61,9 +53,9 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
     const handleDelete = async (event: { preventDefault: () => void; }) => {
         const confirmation: boolean = window.confirm("Are you sure want to delete this task?");
         if (confirmation) {
-            const res = await request.delete(`task/delete/${id}`);
+            // const res = await request.delete(`task/delete/${id}`);
+            dispatch(deleteTaskAction(data));
             showFunction();
-            saveFunction();
             // console.log(res.data);
         } else {
             event.preventDefault();
@@ -71,7 +63,7 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
     }
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center font-poppins">
+        <div className="z-10 fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center font-poppins">
             <div className="bg-white p-4 rounded-md">
                 <div className="text-xs text-gray-500">
                     <form onSubmit={handleSave} className="w-full max-w-lg">
@@ -87,8 +79,8 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
                                     className="text-xs block w-full bg-gray-100 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                     id="grid-first-name"
                                     type="text"
-                                    name="task_name"
-                                    value={data.task_name}
+                                    name="taskName"
+                                    value={data.taskName}
                                     onChange={handleDataChange}
                                     placeholder=""
                                     required
@@ -203,8 +195,8 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
                                     className="text-xs appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="grid-city"
                                     type="datetime-local"
-                                    name="started_time"
-                                    value={moment(data.started_time).format('YYYY-MM-DD HH:mm:ss')}
+                                    name="startTime"
+                                    value={moment(data.startTime).format('YYYY-MM-DD HH:mm:ss')}
                                     onChange={handleDataChange}
                                 />
                             </div>
@@ -249,8 +241,8 @@ function EditTaskModal({ id, showFunction, saveFunction }: Props) {
                                     className="text-xs appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     id="grid-zip"
                                     type="datetime-local"
-                                    name="finished_time"
-                                    value={moment(data.finished_time).format('YYYY-MM-DD HH:mm:ss')}
+                                    name="finishTime"
+                                    value={moment(data.finishTime).format('YYYY-MM-DD HH:mm:ss')}
                                     onChange={handleDataChange}
                                 />
                             </div>

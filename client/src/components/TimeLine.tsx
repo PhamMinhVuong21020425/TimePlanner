@@ -1,5 +1,10 @@
 import { FiEdit } from "react-icons/fi";
 import Task from "../types/Tasks";
+import { useEffect, useState } from "react";
+import EditTaskModal from "./EditTaskModal";
+import { useDispatch, useSelector } from "react-redux";
+import { getTasksTodayAction } from "../redux/actions/taskAction";
+import { RootState } from "../redux/reducers/rootReducer";
 
 function padTo2Digits(num: number) {
   return num.toString().padStart(2, "0");
@@ -11,10 +16,6 @@ function formatDate(date: Date) {
     date.getFullYear(),
   ].join("/");
 }
-
-type Props = {
-  todo: Task[] | undefined;
-};
 
 function styleButton(i: Task) {
   switch (i.status) {
@@ -49,17 +50,17 @@ function styleButton(i: Task) {
   }
 }
 
-function styleTask(i: Task) {
+function styleTask(i: Task, handleClicked: (id: string) => void) {
   switch (i.priority) {
     case "LOW":
       // TODO
       return (
         <div className="bg-emerald-50 rounded-md p-4 ml-4">
-          <div className="font-bold text-base text-gray-600 -translate-y-2 break-words">{i.task_name}</div>
+          <div className="font-bold text-base text-gray-600 -translate-y-2 break-words">{i.taskName}</div>
           <div className="text-gray-600 text-xs break-words">{i.description}</div>
           <div className="flex mt-5 justify-between items-center">
             {styleButton(i)}
-            <button className="px-2 py-1 text-emerald-500">
+            <button className="px-2 py-1 text-emerald-500" onClick={() => handleClicked(i.task_id)}>
               <FiEdit />
             </button>
           </div>
@@ -70,11 +71,11 @@ function styleTask(i: Task) {
       // TODO
       return (
         <div className="bg-amber-50 rounded-md p-4 ml-4">
-          <div className="font-bold text-base text-gray-600 -translate-y-2 break-words">{i.task_name}</div>
+          <div className="font-bold text-base text-gray-600 -translate-y-2 break-words">{i.taskName}</div>
           <div className="text-gray-600 text-xs break-words">{i.description}</div>
           <div className="flex mt-5 justify-between items-center">
             {styleButton(i)}
-            <button className="px-2 py-1 text-amber-500">
+            <button className="px-2 py-1 text-amber-500" onClick={() => handleClicked(i.task_id)} >
               <FiEdit />
             </button>
           </div>
@@ -85,11 +86,11 @@ function styleTask(i: Task) {
       // TODO
       return (
         <div className="bg-rose-50 rounded-md p-4 ml-4">
-          <div className="font-bold text-base text-gray-600 -translate-y-2 break-words">{i.task_name}</div>
+          <div className="font-bold text-base text-gray-600 -translate-y-2 break-words">{i.taskName}</div>
           <div className="text-gray-600 text-xs break-words">{i.description}</div>
           <div className="flex mt-5 justify-between items-center">
             {styleButton(i)}
-            <button className="px-2 py-1 text-rose-500">
+            <button className="px-2 py-1 text-rose-500" onClick={() => handleClicked(i.task_id)} >
               <FiEdit />
             </button>
           </div>
@@ -99,24 +100,55 @@ function styleTask(i: Task) {
   }
 }
 
-function TimeLine({ todo }: Props) {
+function TimeLine() {
+  const [currentId, setCurrentId] = useState("0");
+  const [showEditTask, setShowEditTask] = useState(false);
+  const dispatch = useDispatch();
+  const todo: Task[] = useSelector((state: RootState) => state.taskState.tasksToday);
+
+  useEffect(() => {
+    // request.get<Task[]>('task/today')
+    //   .then(response => {
+    //     setTodo(response.data);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error fetching data:', error);
+    //   });
+
+    dispatch(getTasksTodayAction());
+
+  }, [dispatch]);
+
+  
+
+  function handleClicked(id: string) {
+    setCurrentId(id);
+    setShowEditTask(true);
+    console.log(currentId);
+  }
+
+  const handleCancel = () => {
+    setShowEditTask(false);
+  };
+
   return (
     <div>
-      <div className="flex p-4 rounded-md justify-between">
-        <div className="text-sm text-center font-bold text-gray-600">To Do's List</div>
-        <div className="text-xs text-center text-gray-400">
-          Today {formatDate(new Date())}
+      <div>
+        <div className="flex p-4 rounded-md justify-between">
+          <div className="text-sm text-center font-bold text-gray-600">To Do's List</div>
+          <div className="text-xs text-center text-gray-400">
+            Today {formatDate(new Date())}
+          </div>
         </div>
-      </div>
-      {todo?.map((i) => (
-        <div>
-          <div className="flex p-4 rounded-md">
-            <div className="w-[30%]">
-              <div className="text-sm text-center text-gray-600">
-                {padTo2Digits(new Date(i.started_time).getHours()) + ":" + padTo2Digits(new Date(i.started_time).getMinutes())}
-              </div>
-              <hr />
-              {/* <div className="h-full flex items-center justify-center">
+        {todo?.map((i) => (
+          <div>
+            <div className="flex p-4 rounded-md">
+              <div className="w-[30%]">
+                <div className="text-sm text-center text-gray-600">
+                  {padTo2Digits(new Date(i.startTime).getHours()) + ":" + padTo2Digits(new Date(i.startTime).getMinutes())}
+                </div>
+                <hr />
+                {/* <div className="h-full flex items-center justify-center">
                 {i.priority === "LOW" ? (
                   <div className="bg-emerald-300 px-2 py-1 rounded-md text-emerald-700 text-xs">
                     {i.task_name}
@@ -131,16 +163,18 @@ function TimeLine({ todo }: Props) {
                   </div>
                 ) : null}
               </div> */}
+              </div>
+              <div className="w-[70%]">
+                {styleTask(i, handleClicked)}
+              </div>
             </div>
-            <div className="w-[70%]">
-              {styleTask(i)}
+            <div className="flex items-center justify-center">
+              <hr className="w-full" />
             </div>
           </div>
-          <div className="flex items-center justify-center">
-            <hr className="w-full" />
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
+      <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} />}</div>
     </div>
   );
 }

@@ -2,9 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import Task from "../types/Tasks";
-import request from "../utils/request";
 import EditTaskModal from "./EditTaskModal";
-import { TaskContext } from "../store";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../redux/reducers/rootReducer";
 
 type Props = {
     id: string,
@@ -24,7 +24,7 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
                         </div>
                     </div>
                     <div key={id} className="font-bold text-base text-gray-600 -translate-y-3 z-0">
-                        <Link to={`/client/task/${id}`}>{i.task_name}</Link>
+                        <Link to={`/client/task/${id}`}>{i.taskName}</Link>
                     </div>
                     <div className="text-gray-600 text-xs">{i.description}</div>
                     <div className="flex justify-between items-center mt-5">
@@ -45,7 +45,7 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
                         </div>
                     </div>
                     <div key={id} className="font-bold text-base text-gray-600 -translate-y-3 z-0">
-                        <Link to={`/client/task/${id}`}>{i.task_name}</Link>
+                        <Link to={`/client/task/${id}`}>{i.taskName}</Link>
                     </div>
                     <div className="text-gray-600 text-xs">{i.description}</div>
                     <div className="flex justify-between items-center mt-5">
@@ -67,7 +67,7 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
                         </div>
                     </div>
                     <div key={id} className="font-bold text-base text-gray-600 -translate-y-3 z-0" >
-                        <Link to={`/client/task/${id}`}>{i.task_name}</Link>
+                        <Link to={`/client/task/${id}`}>{i.taskName}</Link>
                     </div>
                     <div className="text-gray-600 text-xs">{i.description}</div>
                     <div className="flex justify-between items-center mt-5">
@@ -181,19 +181,24 @@ function ChildTask({ id }: Props) {
     //         status: 'COMPLETED',
     //     },
     // ];
-    const [todo, setTodo] = useState<Task[]>();
     const [currentId, setCurrentId] = useState("0");
-    const [state, dispatch] = useContext(TaskContext);
+    const [todo, setTodo] = useState<Task[]>([])
+    const dispatch = useDispatch();
+    const tasks: Task[] = useSelector((state: RootState) => state.taskState.tasks);
 
     useEffect(() => {
-        request.get<Task[]>(`task/child/${id}`)
-            .then(response => {
-                setTodo(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }, [id, state]);
+        const childTasks = tasks.filter((item => {
+            return item.parent_task_id === id;
+        }))
+        setTodo(childTasks);
+        // request.get<Task[]>(`task/child/${id}`)
+        //     .then(response => {
+        //         setTodo(response.data);
+        //     })
+        //     .catch(error => {
+        //         console.error('Error fetching data:', error);
+        //     });
+    }, [id, tasks]);
 
     // function editTask(id: string, newData: Task) {
     //     // for (let i = 0; i < todo.length; i++) {
@@ -210,12 +215,12 @@ function ChildTask({ id }: Props) {
         setShowEditTask(true);
     }
 
-    const handleSave = () => {
-        dispatch({
-            type: 'SET_TASK_INPUT',
-            payload: 'OK'
-        });
-    }
+    // const handleSave = () => {
+    //     dispatch({
+    //         type: 'SET_TASK_INPUT',
+    //         payload: 'OK'
+    //     });
+    // }
 
 
     const handleCancel = () => {
@@ -235,7 +240,7 @@ function ChildTask({ id }: Props) {
                     </div>
                 </div>
             </div>
-            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} saveFunction={handleSave} />}</div>
+            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} />}</div>
         </div>
     );
 }

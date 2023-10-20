@@ -1,10 +1,12 @@
 import { FiEdit } from "react-icons/fi";
 import Task from "../types/Tasks";
-import { useEffect, useState, useContext } from "react";
-import request from "../utils/request";
+import { useEffect, useState } from "react";
 import EditTaskModal from "./EditTaskModal";
 import { Link } from "react-router-dom";
-import { TaskContext } from "../store";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchTasksAction } from "../redux/actions/taskAction";
+import { RootState } from "../redux/reducers/rootReducer";
+import { fetchIconsWeatherAction } from "../redux/actions/otherAction";
 
 function taskStyle(i: Task, handleClicked: (id: string) => void) {
     const id: string = i.task_id;
@@ -19,7 +21,7 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
                         </div>
                     </div>
                     <div key={id} className="font-bold text-base text-gray-600 -translate-y-3 break-words">
-                        <Link to={`/client/task/${id}`}>{i.task_name}</Link>
+                        <Link to={`/client/task/${id}`}>{i.taskName}</Link>
                     </div>
                     <div className="text-gray-600 text-xs break-words">{i.description}</div>
                     <div className="flex justify-between items-center mt-5">
@@ -40,7 +42,7 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
                         </div>
                     </div>
                     <div key={id} className="font-bold text-base text-gray-600 -translate-y-3 break-words">
-                        <Link to={`/client/task/${id}`}>{i.task_name}</Link>
+                        <Link to={`/client/task/${id}`}>{i.taskName}</Link>
                     </div>
                     <div className="text-gray-600 text-xs break-words">{i.description}</div>
                     <div className="flex justify-between items-center mt-5">
@@ -64,7 +66,7 @@ function taskStyle(i: Task, handleClicked: (id: string) => void) {
 
 
                     <div key={id} className="font-bold text-base text-gray-600 -translate-y-3 break-words" >
-                        <Link to={`/client/task/${id}`}>{i.task_name}</Link>
+                        <Link to={`/client/task/${id}`}>{i.taskName}</Link>
                     </div>
 
 
@@ -179,18 +181,16 @@ function ToDoList() {
     //         status: 'COMPLETED',
     //     },
     // ];
-    const [todo, setTodo] = useState<Task[]>();
     const [currentId, setCurrentId] = useState("0");
-    const [state, dispatch] = useContext(TaskContext);
+    const dispatch = useDispatch();
+    const tasks: Task[] = useSelector((state: RootState) => state.taskState.tasks);
+
     useEffect(() => {
-        request.get<Task[]>('task')
-            .then(response => {
-                setTodo(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }, [state]);
+        dispatch(fetchTasksAction());
+        dispatch(fetchIconsWeatherAction());
+    }, [dispatch]);
+
+    const todo = tasks.filter(item => item.parent_task_id == null);
 
     // function editTask(id: string, newData: Task) {
     //     // for (let i = 0; i < todo.length; i++) {
@@ -205,14 +205,12 @@ function ToDoList() {
     function handleClicked(id: string) {
         setCurrentId(id);
         setShowEditTask(true);
+        console.log(id);
     }
 
-    const handleSave = () => {
-        dispatch({
-            type: 'SET_TASK_INPUT',
-            payload: 'OK'
-        });
-    }
+    // const handleSave = () => {
+    //     dispatch()
+    // }
 
     const handleCancel = () => {
         setShowEditTask(false);
@@ -273,7 +271,7 @@ function ToDoList() {
                     </div>
                 </div>
             </div>
-            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} saveFunction={handleSave} />}</div>
+            <div>{showEditTask && <EditTaskModal id={currentId} showFunction={handleCancel} />}</div>
         </div>
     );
 }

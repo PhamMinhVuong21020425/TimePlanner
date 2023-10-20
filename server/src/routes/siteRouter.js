@@ -3,10 +3,10 @@ const siteController = require('../app/controllers/SiteController');
 
 const router = express.Router();
 
-router.get('/getIcon/:iconName', siteController.getIcon);
+router.get('/getIcon', siteController.getIcon);
 router.post('/deleteUser', siteController.deleteUser);
 router.get('/users/:userID', siteController.users);
-router.get('/', siteController.home);
+router.get('/check-login', siteController.home);
 
 
 // router.get('/plans', siteController.testPlane);

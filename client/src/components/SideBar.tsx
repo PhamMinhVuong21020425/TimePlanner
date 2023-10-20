@@ -1,11 +1,12 @@
 import { MdOutlineNotificationsActive } from "react-icons/md";
 import TimeLine from "./TimeLine";
-import Task from "../types/Tasks";
-import { useEffect, useState, useContext } from "react";
-import request from "../utils/request";
+import { useEffect, useState } from "react";
 import UserDropDown from "./UserDropDown";
 import Notification from "./Notification";
-import { TaskContext } from "../store";
+import { useSelector, useDispatch } from "react-redux";
+import { getCurrentUserAction } from "../redux/actions/userAction";
+import { RootState } from "../redux/reducers/rootReducer";
+import User from "../types/Users";
 
 // const todo: Task[] = [
 //   {
@@ -63,46 +64,38 @@ import { TaskContext } from "../store";
 // ];
 
 function SideBar() {
-  // Query data
-  // TODO:
-  // const todo: Task[] = ...
-  const [todo, setTodo] = useState<Task[]>();
-  const [userInfo, setUserInfo] = useState({
-    userId: 0,
-    name: '',
-    email: ''
-  });
-
-  const [state, dispatch] = useContext(TaskContext);
+  const currentUser: User = useSelector((state: RootState) => state.userState.currentUser);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    request.get<Task[]>('task/today')
-      .then(response => {
-        setTodo(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+    // request.get<Task[]>('task/today')
+    //   .then(response => {
+    //     setTodo(response.data);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error fetching data:', error);
+    //   });
 
-    request.get('user')
-      .then(response => {
-        setUserInfo(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+    // request.get('user')
+    //   .then(response => {
+    //     setUserInfo(response.data);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error fetching data:', error);
+    //   });
+    dispatch(getCurrentUserAction());
+  }, []);
 
-  }, [state]);
 
   return (
     <div className="rounded-md m-3 font-poppins">
       <div className="flex items-center justify-between my-3 px-4 mx-2">
         <div className="">
-          <UserDropDown firstCharacter={userInfo.name.slice(0, 1)} />
+          <UserDropDown firstCharacter={currentUser.name.slice(0, 1)} />
         </div>
         <div className="w-[50%] pl-4">
-          <div className="text-sm mb-1 text-gray-600">{userInfo.name}</div>
-          <div className="text-xs text-gray-500">{userInfo.email}</div>
+          <div className="text-sm mb-1 text-gray-600">{currentUser.name}</div>
+          <div className="text-xs text-gray-500">{currentUser.email}</div>
         </div>
         <div className="w-[25%] flex items-center text-gray-600 justify-center text-xl">
           <Notification />
@@ -113,7 +106,7 @@ function SideBar() {
       </div>
 
       <div className="p-4">
-        <TimeLine todo={todo} />
+        <TimeLine />
       </div>
     </div>
   );

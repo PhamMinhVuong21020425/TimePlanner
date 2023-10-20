@@ -1,6 +1,9 @@
-import React, { useState, useContext } from "react";
-import request from "../utils/request";
-import { TaskContext } from "../store";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { addTaskAction } from "../redux/actions/taskAction";
+import Task from "../types/Tasks";
+import { initTask } from "../types/Tasks";
+import moment from "moment";
 
 type Props = {
   id: string | undefined | null,
@@ -9,18 +12,13 @@ type Props = {
 };
 
 export default function AddTaskModal({ id, isShowing, hide }: Props) {
-  const [data, setData] = useState({
-    taskName: "",
+  const [data, setData] = useState<Task>({
+    ...initTask,
     parent_task_id: id,
-    type: "BASIC_NEED",
-    description: "",
-    startTime: "",
-    priority: "LOW",
-    finishTime: "",
   });
 
-  const [state, dispatch] = useContext(TaskContext);
   const [isInvalid, setIsInvalid] = useState(false);
+  const dispatch = useDispatch();
 
   const handleDataChange = (
     event:
@@ -40,12 +38,10 @@ export default function AddTaskModal({ id, isShowing, hide }: Props) {
       setIsInvalid(true);
     } else {
       hide();
-      const res = await request.post(`task/${id}`, data);
+      // const res = await request.post(`task/${id}`, data);
       // console.log(res.data);
-      dispatch({
-        type: 'SET_TASK_INPUT',
-        payload: 'OK'
-      });
+      dispatch(addTaskAction(data));
+      setData(initTask);
     }
 
   };
@@ -56,7 +52,7 @@ export default function AddTaskModal({ id, isShowing, hide }: Props) {
   };
 
   return isShowing ? (
-    <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center font-poppins z-10">
+    <div className="z-10 fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center font-poppins">
       <div className="bg-white p-4 rounded-md">
         <div className="text-xs text-gray-500">
           <form onSubmit={handleSave} className="w-full max-w-lg">
@@ -162,7 +158,7 @@ export default function AddTaskModal({ id, isShowing, hide }: Props) {
                   type="datetime-local"
                   name="startTime"
                   onChange={handleDataChange}
-                  value={data.startTime}
+                  value={moment(data.startTime).format('YYYY-MM-DD HH:mm:ss')}
                   placeholder="Albuquerque"
                 />
               </div>
@@ -209,7 +205,7 @@ export default function AddTaskModal({ id, isShowing, hide }: Props) {
                   type="datetime-local"
                   name="finishTime"
                   onChange={handleDataChange}
-                  value={data.finishTime}
+                  value={moment(data.finishTime).format('YYYY-MM-DD HH:mm:ss')}
                   placeholder="90210"
                 />
               </div>

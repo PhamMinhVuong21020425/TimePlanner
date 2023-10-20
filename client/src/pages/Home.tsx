@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import request from "../utils/request";
 import useModal from "../utils/useModal";
 
 import ToDoList from "../components/ToDoList";
@@ -20,7 +20,7 @@ const Home = () => {
   useEffect(() => {
     const isLogin = async () => {
       try {
-        const response = await axios.get('https://time-planner-app-deploy.vercel.app/', { withCredentials: true });
+        const response = await request.get('check-login');
         if (response.data.message === 'NotLogin') {
           navigate('/client/login');
         }
@@ -29,7 +29,7 @@ const Home = () => {
       }
     };
     isLogin();
-  }, [selectedOption])
+  }, [navigate, selectedOption])
 
   const handleOptionButton = (option: string) => {
     if (option === "AddTask") {
@@ -39,10 +39,6 @@ const Home = () => {
       setSelectedOption(option);
     }
   };
-
-  const handleSave = () => {
-    //do nothing
-  }
 
   const renderContent = () => {
     // Add tasks, add projects

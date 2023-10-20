@@ -8,6 +8,7 @@ function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isInvalid, setIsInvalid] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -23,6 +24,7 @@ function LoginForm() {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setIsLoading(true);
         const data: {
             email: string;
             password: string;
@@ -31,7 +33,11 @@ function LoginForm() {
             password: password,
         };
 
-        if (data.email === '' || data.password.length < 3) setIsInvalid(true);
+        if (data.email === '' || data.password.length < 3) {
+            setIsInvalid(true);
+            setIsLoading(false);
+            return;
+        }
 
         const res = await request.post('login', data);
         if (res.data.userId === 1) {
@@ -43,7 +49,8 @@ function LoginForm() {
         else {
             navigate('/client');
         }
-        console.log(res.data.message);
+        // console.log(res.data.message);
+        setIsLoading(false);
     };
 
     return (
@@ -92,8 +99,9 @@ function LoginForm() {
                         <button
                             className="focus:shadow-outline w-full rounded bg-emerald-400 py-2 px-4 font-bold text-white hover:bg-emerald-500 focus:outline-none"
                             type="submit"
+                            disabled={isLoading}
                         >
-                            Sign In
+                            {isLoading ? "Loading..." : "Sign In"}
                         </button>
                     </div>
                     <div className="my-3 text-center text-sm text-emerald-400">Forgot Password?</div>

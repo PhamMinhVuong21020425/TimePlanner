@@ -6,7 +6,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import IconWeather from "./IconWeather";
 import { FaLongArrowAltDown, FaLongArrowAltUp } from "react-icons/fa";
-import UserProfile from "./UserProfile";
 
 interface WeatherData {
   list: {
@@ -153,7 +152,7 @@ const Weather: React.FC = () => {
             <div>
               {
                 weatherData ?
-                  <div className="flex justify-between">
+                  (<div className="flex justify-between">
                     {weatherData.list.slice(1, 9).map((weatherDay) => (
                       <div className="mx-2">
                         <div className="text-center text-sm font-bold">{getTime(weatherDay.dt_txt)}</div>
@@ -161,7 +160,7 @@ const Weather: React.FC = () => {
                         <div className="text-xs text-center text-gray-500 font-bold">{weatherDay.weather[0].description}</div>
                       </div>
                     ))}
-                  </div> : null
+                  </div>) : null
               }
               <div>
                 {

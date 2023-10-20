@@ -2,18 +2,24 @@ import { FiEdit } from "react-icons/fi";
 import User from "../types/Users";
 import { useEffect, useState } from "react";
 import request from "../utils/request";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../redux/reducers/rootReducer";
+import { fetchUsersAction } from "../redux/actions/userAction";
 
 export default function AdminPeople() {
-    const [users, setUsers] = useState<User[]>();
+    // const [users, setUsers] = useState<User[]>();
+    const users: User[] = useSelector((state:RootState) => state.userState.users);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        request.get<User[]>('user/getAllUser')
-            .then(response => {
-                setUsers(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+        // request.get<User[]>('user/getAllUser')
+        //     .then(response => {
+        //         setUsers(response.data);
+        //     })
+        //     .catch(error => {
+        //         console.error('Error fetching data:', error);
+        //     });
+        dispatch(fetchUsersAction());
     }, []);
 
     function getRandomColor() {
@@ -42,7 +48,7 @@ export default function AdminPeople() {
 
     return (
         <div className="flex justify-center items-center h-screen">
-            <div className="w-[70%] border-[1.5px] h-96 p-4 rounded-md font-poppins text-gray-500">
+            <div className="w-[70%] border-[1.5px] h-auto p-4 rounded-md font-poppins text-gray-500">
                 <div className="font-bold mb-2">User Leaderboard</div>
                 <hr />
                 {

@@ -45,7 +45,10 @@ class TaskController {
         const tasks = await prisma.Task.findMany({
           where: {
             user_id: req.session.user.userId,
-            parent_task_id: null,
+            // parent_task_id: null,
+          },
+          orderBy: {
+            created_at: "desc",
           },
         });
         res.status(200).json(tasks);
@@ -154,11 +157,11 @@ class TaskController {
             task_id: req.params.task_id,
           },
           data: {
-            task_name: req.body.task_name,
+            task_name: req.body.taskName,
             description: req.body.description,
             //location: req.body.location,
-            started_time: new Date(req.body.started_time),
-            finished_time: new Date(req.body.finished_time),
+            started_time: new Date(req.body.startTime),
+            finished_time: new Date(req.body.finishTime),
             status: req.body.status,
             priority: req.body.priority,
             type: req.body.type,

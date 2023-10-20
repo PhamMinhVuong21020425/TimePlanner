@@ -25,6 +25,8 @@ function SignUpForm() {
         confirmPassword: ''
     });
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const navigate = useNavigate();
 
     const handleDataUserChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +38,7 @@ function SignUpForm() {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setIsLoading(true);
         let isValid = true;
         let errorMessage = { ...message }
         if (dataUser.fullname?.trim() === '') {
@@ -74,6 +77,7 @@ function SignUpForm() {
         } else {
             setMessage(errorMessage);
         }
+        setIsLoading(false);
     }
 
     return (
@@ -165,8 +169,9 @@ function SignUpForm() {
                         <button
                             className="focus:shadow-outline w-full rounded bg-emerald-400 py-2 px-4 font-bold text-white hover:bg-emerald-500 focus:outline-none"
                             type="submit"
+                            disabled={isLoading}
                         >
-                            Create Account
+                            { isLoading ? "Loading..." : "Create Account" }
                         </button>
                     </div>
 

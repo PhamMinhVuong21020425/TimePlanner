@@ -4,7 +4,14 @@ const siteRouter = require("./siteRouter");
 const authRouter = require("./authRouter");
 const taskRouter = require("./taskRouter");
 function route(app) {
-  app.use("/", siteRouter);
+  app.use(
+    "/",
+    function isAuthenticated(req, res, next) {
+      if (req.session.user) next();
+      else next("route");
+    },
+    siteRouter
+  );
 
   app.use("/user", userRouter);
 

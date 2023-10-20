@@ -1,17 +1,19 @@
 const prisma = require("./PrismaConfig");
 class SiteController {
-  // GET /
+  // GET "/"
   async home(req, res) {
     console.log("SESSIONID: ", req.session.user);
     console.log("COOKIE: ", req.cookies);
     // console.log('Signed Cookies: ', req.signedCookies);
     const isLoggedIn = req.session.user;
-    if (!isLoggedIn) {
-      res.json({ message: "NotLogin" });
+    if (isLoggedIn) {
+      console.log("Logined");
+      res.status(200).json({ message: "Logined" });
       return;
     }
-
-    res.json({ message: "Logined" });
+    
+    console.log("NotLogin");
+    res.status(200).json({ message: "NotLogin" });
 
     // Lưu một cookie có tên 'username' với giá trị 'John'
     //res.cookie('username', 'John');
@@ -95,11 +97,7 @@ class SiteController {
 
   async getIcon(req, res) {
     try {
-      const icon = await prisma.Weather.findMany({
-        where: {
-          iconName: req.params.iconName,
-        },
-      });
+      const icon = await prisma.Weather.findMany();
       res.status(200).json(icon);
     } catch (e) {
       res.status(500).json({ message: "Internal Server Error" });

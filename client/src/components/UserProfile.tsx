@@ -2,19 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import request from "../utils/request";
-import User from "../types/Users";
+import User, { initUser } from "../types/Users";
 
 const UserProfile: React.FC = () => {
-    const [user, setUser] = useState<User>({
-        id: 0,
-        name: "",
-        age: "",
-        email: "",
-        image: "",
-        address: "",
-        company: "",
-        job: "",
-    });
+    const [user, setUser] = useState<User>(initUser);
 
     const navigate = useNavigate();
 

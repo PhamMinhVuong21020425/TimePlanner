@@ -5,16 +5,17 @@ import './App.css';
 import "react-datepicker/dist/react-datepicker.css";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { TaskProvider } from './store';
+import store from './redux/store';
+import { Provider } from 'react-redux';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <TaskProvider>
+    <Provider store={store}>
       <App />
-    </TaskProvider>
+    </Provider>
   </React.StrictMode>
 );
 

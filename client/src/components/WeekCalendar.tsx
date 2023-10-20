@@ -4,13 +4,15 @@ import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import React, { useEffect, useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../App.css"
 import "../styles/Calendar.css"
 import Task from "../types/Tasks";
-import request from "../utils/request";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchTasksAction } from "../redux/actions/taskAction";
+import { RootState } from "../redux/reducers/rootReducer";
 
 const locales = {
     //"en-US": require("date-fns/locale/en-US"),
@@ -56,16 +58,23 @@ function WeekCalendar() {
     //     start: new Date(),
     //     end: new Date(),
     // });
-    const [allTasks, setAllTasks] = useState<Task[]>();
+    const dispatch = useDispatch();
+
     useEffect(() => {
-        request.get<Task[]>('task')
-            .then(response => {
-                setAllTasks(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+        dispatch(fetchTasksAction());
     }, []);
+
+    const allTasks: Task[] = useSelector((state: RootState) => state.taskState.tasks);
+    
+    // useEffect(() => {
+    //     request.get<Task[]>('task')
+    //         .then(response => {
+    //             setAllTasks(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error('Error fetching data:', error);
+    //         });
+    // }, []);
 
 
     // function handleAddTask() {
@@ -128,9 +137,9 @@ function WeekCalendar() {
             <Calendar
                 localizer={localizer}
                 events={allTasks}
-                titleAccessor={(event) => { return event.task_name }}
-                startAccessor={(event) => { return new Date(event.started_time) }}
-                endAccessor={(event) => { return new Date(event.finished_time) }}
+                titleAccessor={(event) => { return event.taskName }}
+                startAccessor={(event) => { return new Date(event.startTime) }}
+                endAccessor={(event) => { return new Date(event.finishTime) }}
                 style={{ height: 500, margin: "50px", color: "gray", backgroundColor: "white", fontFamily: "sans-serif", fontSize: "13px" }}
                 className="my-calendar"
             />

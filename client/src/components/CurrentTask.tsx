@@ -8,7 +8,9 @@ import AddTaskModal from "./AddTaskModal";
 import { FaRegKeyboard, FaTelegramPlane } from "react-icons/fa";
 import { WiSolarEclipse } from "react-icons/wi";
 import { AiOutlineHome } from "react-icons/ai";
-import request from "../utils/request";
+import { TfiAlarmClock } from "react-icons/tfi";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/reducers/rootReducer";
 
 type Props = {
     id: string,
@@ -50,7 +52,7 @@ function styleTask(i: Task, handleclicked: Function) {
                                         </Link>
                                     </button>
                                     <div className="ml-2">
-                                        {i.task_name}
+                                        {i.taskName}
                                     </div>
                                 </div>
                                 <div className="bg-emerald-500 text-white px-2 py-[2px] rounded-md text-xs font-bold ml-4 -translate-y-3">{i.priority}</div>
@@ -62,7 +64,14 @@ function styleTask(i: Task, handleclicked: Function) {
                                 <FaTelegramPlane />
                                 <div className="ml-2">Started Time :</div>
                             </div>
-                            <div className="ml-2">{i.started_time}</div>
+                            <div className="ml-2">{moment(i.startTime).format('YYYY-MM-DD HH:mm:ss')}</div>
+                        </div>
+                        <div className="flex items-center text-xs my-1 text-orange-400">
+                            <div className="flex items-center">
+                                <TfiAlarmClock />
+                                <div className="ml-2">Finish Time :</div>
+                            </div>
+                            <div className="ml-2">{moment(i.finishTime).format('YYYY-MM-DD HH:mm:ss')}</div>
                         </div>
                         <hr className="border-[1px]  mt-4 border-gray-400" />
                         <div className="flex items-center my-2">
@@ -102,7 +111,7 @@ function styleTask(i: Task, handleclicked: Function) {
                                         </Link>
                                     </button>
                                     <div className="ml-2">
-                                        {i.task_name}
+                                        {i.taskName}
                                     </div>
                                 </div>
                                 <div className="bg-amber-500 text-white px-2 py-[2px] rounded-md text-xs font-bold ml-4 -translate-y-3">{i.priority}</div>
@@ -114,7 +123,14 @@ function styleTask(i: Task, handleclicked: Function) {
                                 <FaTelegramPlane />
                                 <div className="ml-2">Started Time :</div>
                             </div>
-                            <div className="ml-2">{i.started_time}</div>
+                            <div className="ml-2">{moment(i.startTime).format('YYYY-MM-DD HH:mm:ss')}</div>
+                        </div>
+                        <div className="flex items-center text-xs my-1 text-orange-400">
+                            <div className="flex items-center">
+                                <TfiAlarmClock />
+                                <div className="ml-2">Finish Time :</div>
+                            </div>
+                            <div className="ml-2">{moment(i.finishTime).format('YYYY-MM-DD HH:mm:ss')}</div>
                         </div>
                         <hr className="border-[1px]  mt-4 border-gray-400" />
                         <div className="flex items-center my-2">
@@ -154,7 +170,7 @@ function styleTask(i: Task, handleclicked: Function) {
                                         </Link>
                                     </button>
                                     <div className="ml-2">
-                                        {i.task_name}
+                                        {i.taskName}
                                     </div>
                                 </div>
                                 <div className="bg-rose-500 text-white px-2 py-[2px] rounded-md text-xs font-bold ml-4 -translate-y-3">{i.priority}</div>
@@ -166,7 +182,14 @@ function styleTask(i: Task, handleclicked: Function) {
                                 <FaTelegramPlane />
                                 <div className="ml-2">Started Time :</div>
                             </div>
-                            <div className="ml-2">{i.started_time}</div>
+                            <div className="ml-2">{moment(i.startTime).format('YYYY-MM-DD HH:mm:ss')}</div>
+                        </div>
+                        <div className="flex items-center text-xs my-1 text-orange-400">
+                            <div className="flex items-center">
+                                <TfiAlarmClock />
+                                <div className="ml-2">Finish Time :</div>
+                            </div>
+                            <div className="ml-2">{moment(i.finishTime).format('YYYY-MM-DD HH:mm:ss')}</div>
                         </div>
                         <hr className="border-[1px]  mt-4 border-gray-400" />
                         <div className="flex items-center my-4">
@@ -196,38 +219,45 @@ function styleTask(i: Task, handleclicked: Function) {
 
 function CurrentTask({ id }: Props) {
     const [data, setData] = useState<Task>({
-        task_name: "",
-        type: "",
-        started_time: "",
-        finished_time: "",
+        task_id: id,
+        parent_task_id: "",
+        startTime: "",
+        finishTime: "",
+        taskName: "",
+        title: "",
         description: "",
         priority: "LOW",
-        status: "COMPLETED",
-        task_id: id,
-        title: "",
+        status: "INPROGRESS",
+        type: "BASIC_NEED"
     });
 
     const { isShowing, toggle } = useModal();
 
+    const tasks: Task[] = useSelector((state: RootState) => state.taskState.tasks);
+
+    useEffect(() => {
+        let currentTask = tasks.find((item) => item.task_id === id);
+        currentTask = currentTask ? currentTask : data;
+        setData(currentTask);
+        // const fetchData = async () => {
+        //     try {
+        //         const response = await request.get(`task/${id}`);
+        //         let result = response.data;
+        //         result.started_time = moment(result.started_time).format('YYYY-MM-DD HH:mm:ss');
+        //         result.finished_time = moment(result.finished_time).format('YYYY-MM-DD HH:mm:ss');
+        //         setData(result);
+        //         console.log(response.data);
+
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // };
+        // fetchData();
+    }, [id]);
+
     const handleclicked = () => {
         toggle();
     };
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await request.get(`task/${id}`);
-                let result = response.data;
-                result.started_time = moment(result.started_time).format('YYYY-MM-DD HH:mm:ss');
-                result.finished_time = moment(result.finished_time).format('YYYY-MM-DD HH:mm:ss');
-                setData(result);
-                console.log(response.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchData();
-    }, [id]);
 
     return (
         <div className="flex justify-center items-center mt-8 p-2 text-gray-600 font-poppins">
