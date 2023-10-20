@@ -2,10 +2,10 @@ const prisma = require("./PrismaConfig");
 class SiteController {
   // GET "/"
   async home(req, res) {
-    console.log("SESSIONID: ", req.session.user);
+    console.log("SESSIONID: ", req.session?.user);
     console.log("COOKIE: ", req.cookies);
     // console.log('Signed Cookies: ', req.signedCookies);
-    const isLoggedIn = req.session.user;
+    const isLoggedIn = req.session?.user;
     if (isLoggedIn) {
       console.log("Logined");
       res.status(200).json({ message: "Logined" });

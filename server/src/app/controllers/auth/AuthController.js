@@ -42,7 +42,7 @@ class AuthController {
       }
 
       const optionsCookie = {
-        maxAge: 60 * 60 * 1000,
+        maxAge: 3 * 3600 * 1000,
       };
 
       res.cookie(
@@ -56,7 +56,7 @@ class AuthController {
 
       // res.end("Cookie is sent!");
 
-      req.session.regenerate(function (err) {
+      req.session?.regenerate(function (err) {
         if (err) next(err);
 
         req.session.user = {

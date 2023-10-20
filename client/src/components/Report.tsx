@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import {
   Chart as ChartJS, ArcElement, Tooltip, Legend,
   CategoryScale,
@@ -8,11 +8,11 @@ import {
   BarElement,
   Title,
 } from "chart.js";
-import { Pie, Doughnut, Bar, Line } from "react-chartjs-2";
+// import { Pie, Doughnut, Bar, Line } from "react-chartjs-2";
 import { Colors } from "chart.js";
 //Echarts for react
 import ReactECharts from 'echarts-for-react';
-import { useFormState } from "react-hook-form";
+// import { useFormState } from "react-hook-form";
 import request from "../utils/request";
 // import { ClassNames } from '@emotion/react';
 
@@ -250,15 +250,15 @@ const UserBarChart = () => {
     "OTHERS": 0,
   };
   const [count, setCount] = useState<number[]>([]);
-  let cnt: number[] = [];
   useEffect(() => {
     request.get('task/getTypeTask')
       .then(response => {
-        response.data?.map((i: countType) => {
+        response.data?.forEach((i: countType) => {
           myDict[i.type] = i.count;
-          console.log(myDict[i.type]);
+          // console.log(myDict[i.type]);
         })
 
+        let cnt: number[] = [];
         while (cnt.length < 8) {
           cnt.push(myDict["BASIC_NEED"]);
           cnt.push(myDict["ENTERTAINMENT_OR_HOBBY"]);
@@ -268,7 +268,6 @@ const UserBarChart = () => {
           cnt.push(myDict["SPORT_OR_WORKOUT"]);
           cnt.push(myDict["WASTED_TIME"]);
           cnt.push(myDict["WORK_OR_STUDY"]);
-
         }
 
         setCount(cnt);
@@ -495,6 +494,7 @@ interface PieChartOptions {
     left: string;
     data: string[];
   };
+  color: string[];
   series: {
     name: string;
     type: string;
@@ -511,15 +511,35 @@ interface PieChartOptions {
   }[];
 }
 
+type StatusCount = {
+  priority: "HIGH" | "MEDIUM" | "LOW",
+  count: number
+}
+
 const FirstUserPieChart = () => {
+  // Fetch data
+  const [data, setData] = useState<number[]>([]);
+  useEffect(() => {
+    request.get('task/getStatusTask/INPROGRESS')
+      .then(response => {
+        const inprogressCount: number[] = response.data?.map((i: StatusCount) => {
+          return i.count;
+        })
+        setData(inprogressCount);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
   const option: PieChartOptions = {
     title: {
-      text: 'IN_PROGRESS',
+      text: 'IN PROGRESS',
       x: 'center',
     },
     tooltip: {
       trigger: 'item',
-      formatter: '{a} <br/>{b} : {c}%',
+      formatter: '{a} <br/>{b} : {c} Task',
     },
     legend: {
       orient: 'vertical',
@@ -530,16 +550,17 @@ const FirstUserPieChart = () => {
         'HIGH',
       ],
     },
+    color: ['#34d399', 'orange', '#FF6666'],
     series: [
       {
-        name: 'IN_PROGRESS',
+        name: 'IN PROGRESS',
         type: 'pie',
         radius: '55%',
         center: ['50%', '60%'],
         data: [
-          { value: mydata.pieChartData.inprogress[0], name: 'LOW' },
-          { value: mydata.pieChartData.inprogress[1], name: 'MEDIUM' },
-          { value: mydata.pieChartData.inprogress[2], name: 'HIGH' },
+          { value: data[0], name: 'LOW' },
+          { value: data[1], name: 'MEDIUM' },
+          { value: data[2], name: 'HIGH' },
         ],
         itemStyle: {
           emphasis: {
@@ -560,6 +581,20 @@ const FirstUserPieChart = () => {
 }
 
 const SecondUserPieChart = () => {
+  const [data, setData] = useState<number[]>([]);
+  useEffect(() => {
+    request.get('task/getStatusTask/STOPPED')
+      .then(response => {
+        const stoppedCount: number[] = response.data?.map((i: StatusCount) => {
+          return i.count;
+        })
+        setData(stoppedCount);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
   const option: PieChartOptions = {
     title: {
       text: 'STOPPED',
@@ -567,7 +602,7 @@ const SecondUserPieChart = () => {
     },
     tooltip: {
       trigger: 'item',
-      formatter: '{a} <br/>{b} : {c}%',
+      formatter: '{a} <br/>{b} : {c} Task',
     },
     legend: {
       orient: 'vertical',
@@ -578,6 +613,7 @@ const SecondUserPieChart = () => {
         'HIGH',
       ],
     },
+    color: ['#34d399', 'orange', '#FF6666'],
     series: [
       {
         name: 'STOPPED',
@@ -585,9 +621,9 @@ const SecondUserPieChart = () => {
         radius: '55%',
         center: ['50%', '60%'],
         data: [
-          { value: mydata.pieChartData.stopped[0], name: 'LOW' },
-          { value: mydata.pieChartData.stopped[1], name: 'MEDIUM' },
-          { value: mydata.pieChartData.stopped[2], name: 'HIGH' },
+          { value: data[0], name: 'LOW' },
+          { value: data[1], name: 'MEDIUM' },
+          { value: data[2], name: 'HIGH' },
         ],
         itemStyle: {
           emphasis: {
@@ -608,6 +644,20 @@ const SecondUserPieChart = () => {
 }
 
 const ThirdUserPieChart = () => {
+  const [data, setData] = useState<number[]>([]);
+  useEffect(() => {
+    request.get('task/getStatusTask/COMPLETED')
+      .then(response => {
+        const completedCount: number[] = response.data?.map((i: StatusCount) => {
+          return i.count;
+        })
+        setData(completedCount);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
   const option: PieChartOptions = {
     title: {
       text: 'COMPLETED',
@@ -615,7 +665,7 @@ const ThirdUserPieChart = () => {
     },
     tooltip: {
       trigger: 'item',
-      formatter: '{a} <br/>{b} : {c}%',
+      formatter: '{a} <br/>{b} : {c} Task',
     },
     legend: {
       orient: 'vertical',
@@ -626,6 +676,7 @@ const ThirdUserPieChart = () => {
         'HIGH',
       ],
     },
+    color: ['#34d399', 'orange', '#FF6666'],
     series: [
       {
         name: 'COMPLETED',
@@ -633,9 +684,9 @@ const ThirdUserPieChart = () => {
         radius: '55%',
         center: ['50%', '60%'],
         data: [
-          { value: mydata.pieChartData.completed[0], name: 'LOW' },
-          { value: mydata.pieChartData.completed[1], name: 'MEDIUM' },
-          { value: mydata.pieChartData.completed[2], name: 'HIGH' },
+          { value: data[0], name: 'LOW' },
+          { value: data[1], name: 'MEDIUM' },
+          { value: data[2], name: 'HIGH' },
         ],
         itemStyle: {
           emphasis: {
@@ -689,16 +740,62 @@ interface LineChartOptions {
   }[];
 }
 
+type PriorityCount = {
+  priority: string,
+  month: number,
+  count: number
+}
+
+type PriorityFormat = {
+  low: number[],
+  medium: number[],
+  high: number[],
+}
+
 const UserLineChart = () => {
+  // Fetch data low, medium, high task
+  const [lineChartData, setLineChartData] = useState<PriorityFormat>({
+    low: [],
+    medium: [],
+    high: [],
+  });
+
+  useEffect(() => {
+    request.get('task/getPriorityTask')
+      .then(response => {
+        const data: PriorityCount[] = response.data;
+
+        let formattedData: PriorityFormat = {
+          low: Array(12).fill(0),
+          medium: Array(12).fill(0),
+          high: Array(12).fill(0),
+        }
+
+        data.forEach(row => {
+          const priority = row.priority;
+          const monthIndex = row.month - 1;
+          if (priority === "LOW") formattedData.low[monthIndex] = row.count;
+          if (priority === "MEDIUM") formattedData.medium[monthIndex] = row.count;
+          if (priority === "HIGH") formattedData.high[monthIndex] = row.count;
+        });
+
+        setLineChartData(formattedData);
+
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+  console.log(lineChartData);
+
   const option: LineChartOptions = {
     title: {
-      text: '',
+      text: (new Date()).getFullYear().toString(),
     },
     tooltip: {
       trigger: 'axis',
     },
     legend: {
-
       data: ['LOW', 'MEDIUM', 'HIGH'],
     },
     grid: {
@@ -720,24 +817,24 @@ const UserLineChart = () => {
       {
         name: 'LOW',
         type: 'line',
-        stack: 'TOTAL',
-        data: mydata.lineChartData.low,
+        stack: '',
+        data: lineChartData.low,
         smooth: false,
         color: '#34d399',
       },
       {
         name: 'MEDIUM',
         type: 'line',
-        stack: 'TOTAL',
-        data: mydata.lineChartData.medium,
+        stack: '',
+        data: lineChartData.medium,
         smooth: false,
         color: '#fbbf24',
       },
       {
         name: 'HIGH',
         type: 'line',
-        stack: 'TOTAL',
-        data: mydata.lineChartData.high,
+        stack: '',
+        data: lineChartData.high,
         smooth: false,
         color: '#fb7185',
       },
@@ -751,7 +848,7 @@ const UserLineChart = () => {
   );
 }
 
-export default function Report() {
+function Report() {
   return (
     // <div className="flex items-center justify-center rounded-md m-3">
     //   <div className="w-1/2 h-1/2">
@@ -819,3 +916,5 @@ export default function Report() {
     </div>
   );
 }
+
+export default memo(Report);

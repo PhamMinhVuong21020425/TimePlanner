@@ -18,9 +18,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Contact />} />
-        </Route>
         <Route path="/client" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="contact" element={<Contact />} />
@@ -29,6 +26,10 @@ function App() {
           <Route path="admin" element={<Admin />} />
           <Route path="profile" element={<Setting />} />
           <Route path="task/:task_id" element={<Task />} />
+        </Route>
+        
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

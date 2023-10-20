@@ -190,4 +190,4 @@ const Weather: React.FC = () => {
   );
 }
 
-export default Weather;
+export default React.memo(Weather);
