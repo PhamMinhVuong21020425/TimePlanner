@@ -36,7 +36,7 @@ class SiteController {
       }
 
       // Trả về kết quả truy vấn dưới dạng JSON, bao gồm tên cột và dữ liệu
-      res.json(results);
+      res.status(200).json(results);
     });
   }
 

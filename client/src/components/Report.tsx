@@ -1,23 +1,54 @@
 import { useEffect, useState, memo } from "react";
+import { Chart as ChartJS } from "chart.js";
 import {
-  Chart as ChartJS, ArcElement, Tooltip, Legend,
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
-  BarElement,
-  Title,
+  BarElement
 } from "chart.js";
 // import { Pie, Doughnut, Bar, Line } from "react-chartjs-2";
-import { Colors } from "chart.js";
+import { Colors, ArcElement, Tooltip, Legend } from "chart.js";
 //Echarts for react
 import ReactECharts from 'echarts-for-react';
 // import { useFormState } from "react-hook-form";
 import request from "../utils/request";
 // import { ClassNames } from '@emotion/react';
+import { useQuery } from 'react-query';
+import Loading from "./Loading";
+
+interface CountType {
+  type: string;
+  count: number;
+}
+
+const fetchTypeTask = async (): Promise<CountType[]> => {
+  const response = await request.get<CountType[]>('task/getTypeTask');
+  return response.data;
+};
+
+type PriorityCount = {
+  priority: string,
+  month: number,
+  count: number
+}
+
+const fetchPriorityTask = async (): Promise<PriorityCount[]> => {
+  const response = await request.get<PriorityCount[]>('task/getPriorityTask');
+  return response.data;
+};
+
+type StatusCount = {
+  priority: "HIGH" | "MEDIUM" | "LOW",
+  count: number
+}
+
+const fetchStatusTask = async (status: string): Promise<StatusCount[]> => {
+  const response = await request.get<StatusCount[]>(`task/getStatusTask/${status}`);
+  return response.data;
+};
 
 ChartJS.register(ArcElement, Tooltip, Legend, Colors, CategoryScale, LinearScale, PointElement, BarElement, LineElement);
-
 
 const mydata = {
   "lineChartData": {
@@ -233,11 +264,6 @@ interface BarChartOptions {
   }[],
 }
 
-interface countType {
-  type: string;
-  count: number;
-}
-
 const UserBarChart = () => {
   let myDict: { [key: string]: number } = {
     "WORK_OR_STUDY": 0,
@@ -250,32 +276,29 @@ const UserBarChart = () => {
     "OTHERS": 0,
   };
   const [count, setCount] = useState<number[]>([]);
+  const { data: responseData, isLoading } = useQuery<CountType[], Error>('type', fetchTypeTask);
+
   useEffect(() => {
-    request.get('task/getTypeTask')
-      .then(response => {
-        response.data?.forEach((i: countType) => {
-          myDict[i.type] = i.count;
-          // console.log(myDict[i.type]);
-        })
+    responseData?.forEach((i: CountType) => {
+      myDict[i.type] = i.count;
+      // console.log(myDict[i.type]);
+    })
 
-        let cnt: number[] = [];
-        while (cnt.length < 8) {
-          cnt.push(myDict["BASIC_NEED"]);
-          cnt.push(myDict["ENTERTAINMENT_OR_HOBBY"]);
-          cnt.push(myDict["HOUSEWORK"]);
-          cnt.push(myDict["OTHERS"]);
-          cnt.push(myDict["SOCIAL_ACTIVITY"]);
-          cnt.push(myDict["SPORT_OR_WORKOUT"]);
-          cnt.push(myDict["WASTED_TIME"]);
-          cnt.push(myDict["WORK_OR_STUDY"]);
-        }
+    let cnt: number[] = [];
+    while (cnt.length < 8) {
+      cnt.push(myDict["BASIC_NEED"]);
+      cnt.push(myDict["ENTERTAINMENT_OR_HOBBY"]);
+      cnt.push(myDict["HOUSEWORK"]);
+      cnt.push(myDict["OTHERS"]);
+      cnt.push(myDict["SOCIAL_ACTIVITY"]);
+      cnt.push(myDict["SPORT_OR_WORKOUT"]);
+      cnt.push(myDict["WASTED_TIME"]);
+      cnt.push(myDict["WORK_OR_STUDY"]);
+    }
 
-        setCount(cnt);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+    setCount(cnt);
+
+  }, [responseData]);
 
   const option: BarChartOptions = {
     title: {
@@ -323,9 +346,7 @@ const UserBarChart = () => {
   };
 
   return (
-    <>
-      <ReactECharts option={option} style={{ height: 400 }} />
-    </>
+      isLoading ? <Loading /> : <ReactECharts option={option} style={{ height: 400 }} />
   );
 
 }
@@ -511,26 +532,16 @@ interface PieChartOptions {
   }[];
 }
 
-type StatusCount = {
-  priority: "HIGH" | "MEDIUM" | "LOW",
-  count: number
-}
-
 const FirstUserPieChart = () => {
   // Fetch data
   const [data, setData] = useState<number[]>([]);
+  const { data: responseData, isLoading } = useQuery<StatusCount[], Error>('statusInprogress', () => fetchStatusTask("INPROGRESS"));
   useEffect(() => {
-    request.get('task/getStatusTask/INPROGRESS')
-      .then(response => {
-        const inprogressCount: number[] = response.data?.map((i: StatusCount) => {
+        const inprogressCount = responseData?.map((i: StatusCount) => {
           return i.count;
         })
-        setData(inprogressCount);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+    if (inprogressCount) setData(inprogressCount);
+  }, [responseData]);
 
   const option: PieChartOptions = {
     title: {
@@ -574,26 +585,19 @@ const FirstUserPieChart = () => {
   };
 
   return (
-    <>
-      <ReactECharts option={option} />
-    </>
+      isLoading ? <Loading /> : <ReactECharts option={option} />
   );
 }
 
 const SecondUserPieChart = () => {
   const [data, setData] = useState<number[]>([]);
+  const { data: responseData, isLoading } = useQuery<StatusCount[], Error>('statusStopped', () => fetchStatusTask("STOPPED"));
   useEffect(() => {
-    request.get('task/getStatusTask/STOPPED')
-      .then(response => {
-        const stoppedCount: number[] = response.data?.map((i: StatusCount) => {
-          return i.count;
-        })
-        setData(stoppedCount);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+    const stoppedCount = responseData?.map((i: StatusCount) => {
+      return i.count;
+    })
+    if (stoppedCount) setData(stoppedCount);
+  }, [responseData]);
 
   const option: PieChartOptions = {
     title: {
@@ -637,26 +641,19 @@ const SecondUserPieChart = () => {
   };
 
   return (
-    <>
-      <ReactECharts option={option} />
-    </>
+    isLoading ? <Loading /> : <ReactECharts option={option} />
   );
 }
 
 const ThirdUserPieChart = () => {
   const [data, setData] = useState<number[]>([]);
+  const { data: responseData, isLoading } = useQuery<StatusCount[], Error>('statusCompleted', () => fetchStatusTask("COMPLETED"));
   useEffect(() => {
-    request.get('task/getStatusTask/COMPLETED')
-      .then(response => {
-        const completedCount: number[] = response.data?.map((i: StatusCount) => {
-          return i.count;
-        })
-        setData(completedCount);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+    const completedCount = responseData?.map((i: StatusCount) => {
+      return i.count;
+    })
+    if (completedCount) setData(completedCount);
+  }, [responseData]);
 
   const option: PieChartOptions = {
     title: {
@@ -700,9 +697,7 @@ const ThirdUserPieChart = () => {
   };
 
   return (
-    <>
-      <ReactECharts option={option} />
-    </>
+      isLoading ? <Loading /> : <ReactECharts option={option} />
   );
 }
 
@@ -740,12 +735,6 @@ interface LineChartOptions {
   }[];
 }
 
-type PriorityCount = {
-  priority: string,
-  month: number,
-  count: number
-}
-
 type PriorityFormat = {
   low: number[],
   medium: number[],
@@ -760,33 +749,26 @@ const UserLineChart = () => {
     high: [],
   });
 
+  const { data: responseData, isLoading } = useQuery<PriorityCount[], Error>('priority', fetchPriorityTask);
+
   useEffect(() => {
-    request.get('task/getPriorityTask')
-      .then(response => {
-        const data: PriorityCount[] = response.data;
+    let formattedData: PriorityFormat = {
+      low: Array(12).fill(0),
+      medium: Array(12).fill(0),
+      high: Array(12).fill(0),
+    }
 
-        let formattedData: PriorityFormat = {
-          low: Array(12).fill(0),
-          medium: Array(12).fill(0),
-          high: Array(12).fill(0),
-        }
+    responseData?.forEach((row: PriorityCount) => {
+      const priority = row.priority;
+      const monthIndex = row.month - 1;
+      if (priority === "LOW") formattedData.low[monthIndex] = row.count;
+      if (priority === "MEDIUM") formattedData.medium[monthIndex] = row.count;
+      if (priority === "HIGH") formattedData.high[monthIndex] = row.count;
+    });
 
-        data.forEach(row => {
-          const priority = row.priority;
-          const monthIndex = row.month - 1;
-          if (priority === "LOW") formattedData.low[monthIndex] = row.count;
-          if (priority === "MEDIUM") formattedData.medium[monthIndex] = row.count;
-          if (priority === "HIGH") formattedData.high[monthIndex] = row.count;
-        });
-
-        setLineChartData(formattedData);
-
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
-  console.log(lineChartData);
+    setLineChartData(formattedData);
+  }, [responseData]);
+  // console.log(lineChartData);
 
   const option: LineChartOptions = {
     title: {
@@ -842,9 +824,7 @@ const UserLineChart = () => {
   };
 
   return (
-    <>
-      <ReactECharts option={option} />
-    </>
+      isLoading ? <Loading /> : <ReactECharts option={option} />
   );
 }
 

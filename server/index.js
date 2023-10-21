@@ -1,18 +1,29 @@
 const express = require("express");
 const session = require("express-session");
-const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
-const { PrismaClient } = require("@prisma/client");
+// const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
+// const { PrismaClient } = require("@prisma/client");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
 const path = require("path");
+const MySQLStore = require("express-mysql-session")(session);
 const cors = require("cors");
+const mysql = require("mysql2");
 const route = require("./src/routes/index");
 const passport = require("passport");
 const FacebookStrategy = require("passport-facebook").Strategy;
 require("dotenv").config();
 
 const app = express();
+
+// Passport session setup.
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
 
 // HTTP logger
 app.use(morgan("tiny"));
@@ -50,26 +61,46 @@ const port = process.env.PORT || 8080;
 //   },
 // });
 // connection.end();
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  ssl: {
+    rejectUnauthorized: true, // tắt xác thực SSL
+  },
+});
+
+const options = {
+  expiration: 3 * 3600 * 1000,
+  createDatabaseTable: true,
+  schema: {
+    tableName: "Sessions",
+    columnNames: {
+      session_id: "session_id",
+      expires: "expires",
+      data: "data",
+    },
+  },
+  url: process.env.DATABASE_URL,
+};
+
+const sessionStore = new MySQLStore(options, connection);
 
 app.set("trust proxy", 1);
 app.use(
   session({
-    cookie: {
-      maxAge: 3 * 3600 * 1000, // ms
-      secure: false,
-      httpOnly: true,
-      sameSite: true,
-    },
-    name: process.env.SESSION_NAME,
     secret: process.env.SESSION_SECRET,
     resave: false,
-    unset: "destroy",
     saveUninitialized: true,
-    store: new PrismaSessionStore(new PrismaClient(), {
-      checkPeriod: 5 * 60 * 1000, //ms
-      dbRecordIdIsSessionId: true,
-      dbRecordIdFunction: undefined,
-    }),
+    unset: "destroy",
+    store: sessionStore,
+    name: process.env.SESSION_NAME,
+    cookie: {
+      secure: false,
+      maxAge: 3 * 3600 * 1000, //3h
+      sameSite: true,
+    },
     genid: (req) => {
       // Returns a random string to be used as a session ID
       return generateSessionId(16); // tạo session ID mới cho mỗi lần yêu cầu
@@ -82,26 +113,20 @@ passport.use(
     {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: "http://localhost:3002/auth/facebook/callback",
+      callbackURL: process.env.CALLBACK_URL,
     },
     function (accessToken, refreshToken, profile, done) {
-      // Tại đây, bạn có thể lưu thông tin người dùng vào cơ sở dữ liệu hoặc thực hiện các thao tác khác
-      return done(null, profile);
+      process.nextTick(function () {
+        console.log(accessToken, refreshToken, profile, done);
+        return done(null, profile);
+      });
     }
   )
 );
 
-// Tạo route cho xác thực Facebook
-app.get("/auth/facebook", passport.authenticate("facebook"));
-
-app.get(
-  "/auth/facebook/callback",
-  passport.authenticate("facebook", { failureRedirect: "/check-login" }),
-  function (req, res) {
-    // Xác thực thành công, bạn có thể thực hiện các thao tác tiếp theo ở đây
-    res.redirect("/client");
-  }
-);
+// app.use(session({ secret: "keyboard cat", key: "sid" }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // app.use(function (req, res, next) {
 //   if (!req.session.views) {
@@ -152,7 +177,35 @@ app.get(
 //   });
 // });
 
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/login");
+}
+
+app.get("/account", ensureAuthenticated, function (req, res) {
+ console.log("FACEBOOK INFO: ", req.user);
+ res.status(200).json({message: "Login with FB success"});
+});
+
+app.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", { scope: "email" })
+);
+app.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", {
+    successRedirect: "/login",
+    failureRedirect: "/check-login",
+  }),
+  function (req, res) {
+    res.status(200).json({ user: req.user });
+  }
+);
+
 app.get("/logout", function (req, res, next) {
+  // req.logout();
   if (req.session) {
     // delete session object
     res.clearCookie(req.session.user);

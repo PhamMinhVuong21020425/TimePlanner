@@ -57,10 +57,14 @@ class UserController {
             name: req.body.name,
             age: req.body.age,
             email: req.body.email,
+            about: req.body.about,
+            country: req.body.country,
             image: req.body.image,
             address: req.body.address,
             company: req.body.company,
             job: req.body.job,
+            phone_number: req.body.phone_number,
+            university: req.body.university,
           },
         });
 

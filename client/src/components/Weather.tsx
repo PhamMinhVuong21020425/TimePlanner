@@ -1,4 +1,3 @@
-import { TiWeatherCloudy } from "react-icons/ti"
 import { IoWaterSharp } from "react-icons/io5"
 import { WiCloudyWindy } from "react-icons/wi"
 import { HiMagnifyingGlass } from "react-icons/hi2"

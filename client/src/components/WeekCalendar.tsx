@@ -62,7 +62,7 @@ function WeekCalendar() {
 
     useEffect(() => {
         dispatch(fetchTasksAction());
-    }, []);
+    }, [dispatch]);
 
     const allTasks: Task[] = useSelector((state: RootState) => state.taskState.tasks);
     

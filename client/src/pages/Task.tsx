@@ -11,13 +11,11 @@ import Menu from "../components/Menu";
 
 const Task = () => {
   const [selectedOption, setSelectedOption] = useState("");
-  const [showAddTask, setShowAddTask] = useState(false);
   const [showCurrentTask, setShowCurrentTask] = useState(true);
   const { task_id } = useParams();
 
   const handleOptionButton = (option: string) => {
     setSelectedOption(option);
-    if (option === "AddTask") setShowAddTask(true);
     if (option === "Calendar" || option === "Weather" || option === "Report") setShowCurrentTask(false);
     else { setShowCurrentTask(true); }
   };

@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import request from "../utils/request";
 import useModal from "../utils/useModal";
-
-import ToDoList from "../components/ToDoList";
-import Calendar from "../components/Calendar";
-import Report from "../components/Report";
-import AddTaskModal from "../components/AddTaskModal";
-import SideBar from "../components/SideBar";
-import Menu from "../components/Menu";
+import Loading from "../components/Loading";
 import Weather from "../components/Weather";
+const ToDoList = lazy(() => import("../components/ToDoList"));
+const SideBar = lazy(() => import("../components/SideBar"));
+const Menu = lazy(() => import("../components/Menu"));
+const AddTaskModal = lazy(() => import("../components/AddTaskModal"));
+const Calendar = lazy(() => import("../components/Calendar"));
+const Report = lazy(() => import('../components/Report'));
 
 const Home = () => {
   const [selectedOption, setSelectedOption] = useState("");
@@ -57,16 +57,18 @@ const Home = () => {
   };
 
   return (
-    <div className="flex">
-      <div className="w-[30%]">
-        <SideBar />
+    <Suspense fallback={<Loading />}>
+      <div className="flex">
+        <div className="w-[30%]">
+          <SideBar />
+        </div>
+        <div className="w-[70%]">
+          <Menu handleOptionButton={handleOptionButton} showButtonAddTask={true} />
+          {renderContent()}
+          <AddTaskModal id={null} isShowing={isShowing} hide={toggle} />
+        </div>
       </div>
-      <div className="w-[70%]">
-        <Menu handleOptionButton={handleOptionButton} showButtonAddTask={true} />
-        {renderContent()}
-        <AddTaskModal id={null} isShowing={isShowing} hide={toggle} />
-      </div>
-    </div>
+    </Suspense>
   );
 };
 

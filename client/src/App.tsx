@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import Contact from "./pages/Contact";
@@ -8,7 +7,6 @@ import Task from "./pages/Task";
 import LoginForm from "./components/LoginForm";
 import SignUpForm from "./pages/SignUpForm";
 import Admin from "./pages/Admin";
-import UserProfile from "./components/UserProfile";
 import "./index.css";
 import "react-datepicker/dist/react-datepicker.css";
 import "./App.css"
@@ -27,7 +25,6 @@ function App() {
           <Route path="profile" element={<Setting />} />
           <Route path="task/:task_id" element={<Task />} />
         </Route>
-        
         <Route path="/" element={<Layout />}>
           <Route index element={<Contact />} />
           <Route path="*" element={<NotFound />} />

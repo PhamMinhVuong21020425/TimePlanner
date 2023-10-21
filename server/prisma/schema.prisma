@@ -75,9 +75,12 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   password      String?
+  about         String? @db.Text
   image         String?
   address       String?
   phone_number  String?
+  country       String?
+  university    String?
   company       String?
   job           String?
   gender        Gender?
@@ -99,7 +102,7 @@ model Session {
 }
 
 model Sessions {
-  session_id String  @id @db.VarChar(128)
+  session_id String  @id @db.VarChar(255)
   expires    Int     @db.UnsignedInt
   data       String? @db.MediumText
 }

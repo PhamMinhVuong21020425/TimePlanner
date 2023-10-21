@@ -27,7 +27,6 @@ class TaskController {
       if (req.session.user) {
         await prisma.Task.create({
           data: {
-            task_id: generateSessionId(25),
             user_id: req.session.user.userId,
             parent_task_id: req.body.parent_task_id,
             task_name: req.body.taskName,
