@@ -1,3 +1,4 @@
+import moment from "moment";
 interface Task {
   task_id: string;
   parent_task_id: string | undefined | null;
@@ -14,8 +15,8 @@ interface Task {
 export const initTask: Task = {
   task_id: "",
   parent_task_id: "",
-  startTime: Date(),
-  finishTime: Date(),
+  startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+  finishTime: moment().format('YYYY-MM-DD HH:mm:ss'),
   taskName: "",
   title: "",
   description: "",

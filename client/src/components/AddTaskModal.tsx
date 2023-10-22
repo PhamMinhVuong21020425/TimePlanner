@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTaskAction } from "../redux/actions/taskAction";
 import Task from "../types/Tasks";
 import { initTask } from "../types/Tasks";
-import moment from "moment";
 
 type Props = {
   id: string | undefined | null,
@@ -15,6 +14,7 @@ export default function AddTaskModal({ id, isShowing, hide }: Props) {
   const [data, setData] = useState<Task>({
     ...initTask,
     parent_task_id: id,
+    
   });
 
   const [isInvalid, setIsInvalid] = useState(false);
@@ -161,7 +161,7 @@ export default function AddTaskModal({ id, isShowing, hide }: Props) {
                   type="datetime-local"
                   name="startTime"
                   onChange={handleDataChange}
-                  value={moment(data.startTime).format('YYYY-MM-DD HH:mm:ss')}
+                  value={data.startTime}
                   placeholder="Albuquerque"
                 />
               </div>
@@ -208,7 +208,7 @@ export default function AddTaskModal({ id, isShowing, hide }: Props) {
                   type="datetime-local"
                   name="finishTime"
                   onChange={handleDataChange}
-                  value={moment(data.finishTime).format('YYYY-MM-DD HH:mm:ss')}
+                  value={data.finishTime}
                   placeholder="90210"
                 />
               </div>

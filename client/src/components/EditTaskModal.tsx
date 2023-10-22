@@ -25,8 +25,8 @@ function EditTaskModal({ id, showFunction }: Props) {
             return item.task_id === id
         });
         const result = response ? response : data;
-        // result.startTime = moment(result.startTime).format('YYYY-MM-DD HH:mm:ss');
-        // result.finishTime = moment(result.finishTime).format('YYYY-MM-DD HH:mm:ss');
+        result.startTime = moment(result.startTime).format('YYYY-MM-DD HH:mm:ss');
+        result.finishTime = moment(result.finishTime).format('YYYY-MM-DD HH:mm:ss');
         setData(result);
     }, []);
 
@@ -196,7 +196,7 @@ function EditTaskModal({ id, showFunction }: Props) {
                                     id="grid-city"
                                     type="datetime-local"
                                     name="startTime"
-                                    value={moment(data.startTime).format('YYYY-MM-DD HH:mm:ss')}
+                                    value={data.startTime}
                                     onChange={handleDataChange}
                                 />
                             </div>
@@ -242,7 +242,7 @@ function EditTaskModal({ id, showFunction }: Props) {
                                     id="grid-zip"
                                     type="datetime-local"
                                     name="finishTime"
-                                    value={moment(data.finishTime).format('YYYY-MM-DD HH:mm:ss')}
+                                    value={data.finishTime}
                                     onChange={handleDataChange}
                                 />
                             </div>
