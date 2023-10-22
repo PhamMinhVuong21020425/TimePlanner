@@ -5,6 +5,7 @@ import EditTaskModal from "./EditTaskModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getTasksTodayAction } from "../redux/actions/taskAction";
 import { RootState } from "../redux/reducers/rootReducer";
+import moment from "moment";
 
 function padTo2Digits(num: number) {
   return num.toString().padStart(2, "0");
@@ -124,7 +125,7 @@ function TimeLine() {
   function handleClicked(id: string) {
     setCurrentId(id);
     setShowEditTask(true);
-    console.log(currentId);
+    // console.log(currentId);
   }
 
   const handleCancel = () => {
@@ -145,7 +146,7 @@ function TimeLine() {
             <div className="flex p-4 rounded-md">
               <div className="w-[30%]">
                 <div className="text-sm text-center text-gray-600">
-                  {padTo2Digits(new Date(i.startTime).getHours()) + ":" + padTo2Digits(new Date(i.startTime).getMinutes())}
+                  {padTo2Digits(new Date(moment(i.startTime).format('YYYY-MM-DD HH:mm:ss')).getHours()) + ":" + padTo2Digits(new Date(moment(i.startTime).format('YYYY-MM-DD HH:mm:ss')).getMinutes())}
                 </div>
                 <hr />
                 {/* <div className="h-full flex items-center justify-center">

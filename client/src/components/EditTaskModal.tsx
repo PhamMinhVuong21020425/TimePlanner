@@ -25,8 +25,8 @@ function EditTaskModal({ id, showFunction }: Props) {
             return item.task_id === id
         });
         const result = response ? response : data;
-        result.startTime = moment(result.startTime).format('YYYY-MM-DD HH:mm:ss');
-        result.finishTime = moment(result.finishTime).format('YYYY-MM-DD HH:mm:ss');
+        // result.startTime = moment(result.startTime).format('YYYY-MM-DD HH:mm:ss');
+        // result.finishTime = moment(result.finishTime).format('YYYY-MM-DD HH:mm:ss');
         setData(result);
     }, []);
 
