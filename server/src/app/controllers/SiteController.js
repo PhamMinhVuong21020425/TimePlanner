@@ -1,6 +1,6 @@
 const prisma = require("./PrismaConfig");
 class SiteController {
-  // GET "/"
+  // GET "/check-login"
   async home(req, res) {
     console.log("SESSIONID: ", req.session?.user);
     console.log("COOKIE: ", req.cookies);
@@ -22,6 +22,10 @@ class SiteController {
     //res.send('Cookie saved');
     //res.sendStatus(200)
     //res.status(200).send('Connect success...')
+  }
+
+  rootPage(req, res) {
+    res.render("app");
   }
 
   async users(req, res) {

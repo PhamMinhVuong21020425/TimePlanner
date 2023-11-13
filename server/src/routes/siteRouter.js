@@ -7,7 +7,7 @@ router.get('/getIcon', siteController.getIcon);
 router.post('/deleteUser', siteController.deleteUser);
 router.get('/users/:userID', siteController.users);
 router.get('/check-login', siteController.home);
-
+router.get("/", siteController.rootPage);
 
 // router.get('/plans', siteController.testPlane);
 // router.post('/plans', siteController.postPlane);

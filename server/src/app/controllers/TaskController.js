@@ -1,12 +1,4 @@
 const prisma = require("./PrismaConfig");
-const crypto = require("crypto");
-
-function generateSessionId(length) {
-  return crypto
-    .randomBytes(Math.ceil(length / 2))
-    .toString("hex")
-    .slice(0, length);
-}
 
 class TaskController {
   // POST /task

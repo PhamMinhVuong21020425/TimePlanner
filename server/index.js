@@ -13,6 +13,8 @@ const route = require("./src/routes/index");
 const passport = require("passport");
 const FacebookStrategy = require("passport-facebook").Strategy;
 require("dotenv").config();
+// const webpack = require("webpack");
+// const webpackDevMiddleware = require("webpack-dev-middleware");
 
 const app = express();
 
@@ -40,10 +42,24 @@ app.use(
 
 app.use(express.static(path.join(__dirname, "public")));
 
+app.set("views", path.join(__dirname, "src/views"));
+app.set("view engine", "ejs");
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(cookieParser());
+
+// const config = require("./webpack.config.js");
+// const compiler = webpack(config);
+
+// // Tell express to use the webpack-dev-middleware and use the webpack.config.js
+// // configuration file as a base.
+// app.use(
+//   webpackDevMiddleware(compiler, {
+//     publicPath: config.output.publicPath,
+//   })
+// );
 
 function generateSessionId(length) {
   return crypto
@@ -52,7 +68,7 @@ function generateSessionId(length) {
     .slice(0, length);
 }
 // Nếu process.env.PORT không được định nghĩa (undefined) thì sẽ lấy giá trị là 8080
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8000;
 
 // const connection = mysql.createConnection({
 //   uri: process.env.DATABASE_URL,
@@ -67,7 +83,7 @@ const connection = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   ssl: {
-    rejectUnauthorized: true, // tắt xác thực SSL
+    rejectUnauthorized: false, // tắt xác thực SSL
   },
 });
 
@@ -108,25 +124,25 @@ app.use(
   })
 );
 
-passport.use(
-  new FacebookStrategy(
-    {
-      clientID: process.env.FACEBOOK_APP_ID,
-      clientSecret: process.env.FACEBOOK_APP_SECRET,
-      callbackURL: process.env.CALLBACK_URL,
-    },
-    function (accessToken, refreshToken, profile, done) {
-      process.nextTick(function () {
-        console.log(accessToken, refreshToken, profile, done);
-        return done(null, profile);
-      });
-    }
-  )
-);
+// passport.use(
+//   new FacebookStrategy(
+//     {
+//       clientID: process.env.FACEBOOK_APP_ID,
+//       clientSecret: process.env.FACEBOOK_APP_SECRET,
+//       callbackURL: process.env.CALLBACK_URL,
+//     },
+//     function (accessToken, refreshToken, profile, done) {
+//       process.nextTick(function () {
+//         console.log(accessToken, refreshToken, profile, done);
+//         return done(null, profile);
+//       });
+//     }
+//   )
+// );
 
-// app.use(session({ secret: "keyboard cat", key: "sid" }));
-app.use(passport.initialize());
-app.use(passport.session());
+// // app.use(session({ secret: "keyboard cat", key: "sid" }));
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // app.use(function (req, res, next) {
 //   if (!req.session.views) {
@@ -177,32 +193,32 @@ app.use(passport.session());
 //   });
 // });
 
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect("/login");
-}
+// function ensureAuthenticated(req, res, next) {
+//   if (req.isAuthenticated()) {
+//     return next();
+//   }
+//   res.redirect("/login");
+// }
 
-app.get("/account", ensureAuthenticated, function (req, res) {
- console.log("FACEBOOK INFO: ", req.user);
- res.status(200).json({message: "Login with FB success"});
-});
+// app.get("/account", ensureAuthenticated, function (req, res) {
+//  console.log("FACEBOOK INFO: ", req.user);
+//  res.status(200).json({message: "Login with FB success"});
+// });
 
-app.get(
-  "/auth/facebook",
-  passport.authenticate("facebook", { scope: "email" })
-);
-app.get(
-  "/auth/facebook/callback",
-  passport.authenticate("facebook", {
-    successRedirect: "/login",
-    failureRedirect: "/check-login",
-  }),
-  function (req, res) {
-    res.status(200).json({ user: req.user });
-  }
-);
+// app.get(
+//   "/auth/facebook",
+//   passport.authenticate("facebook", { scope: "email" })
+// );
+// app.get(
+//   "/auth/facebook/callback",
+//   passport.authenticate("facebook", {
+//     successRedirect: "/login",
+//     failureRedirect: "/check-login",
+//   }),
+//   function (req, res) {
+//     res.status(200).json({ user: req.user });
+//   }
+// );
 
 app.get("/logout", function (req, res, next) {
   // req.logout();
