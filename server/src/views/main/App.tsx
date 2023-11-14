@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
@@ -24,9 +24,6 @@ function App() {
           <Route path="admin" element={<Admin />} />
           <Route path="profile" element={<Setting />} />
           <Route path="task/:task_id" element={<Task />} />
-        </Route>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
