@@ -20,11 +20,11 @@ require("dotenv").config();
 const app = express();
 
 // Passport session setup.
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user);
 });
 
-passport.deserializeUser(function(obj, done) {
+passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
@@ -128,26 +128,64 @@ app.use(
 // SET STORAGE UPLOAD
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/uploads/'); // Thư mục để lưu trữ các file đã upload
+    cb(null, "public/uploads/"); // Thư mục để lưu trữ các file đã upload
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '_' + file.originalname); // Đặt tên file
-  }
+    cb(null, Date.now() + "_" + file.originalname); // Đặt tên file
+  },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: multer.memoryStorage() });
 
-app.post("/upload", upload.single("avatar"), (req, res, next) => {
-  const file = req.file;
-  if (!file) {
+const giveCurrentDateTime = () => {
+  const { format } = require('date-fns');
+  const today = new Date();
+  const dateTime = format(today, 'yyyy-MM-dd_HH:mm:ss');
+  return dateTime;
+}
+
+app.post("/upload", upload.single("avatar"), async (req, res, next) => {
+  const imageFile = req.file;
+  if (!imageFile) {
     const error = new Error("Please upload a file");
     error.httpStatusCode = 400;
     return next(error);
   }
-  res.json({
-    success: true,
-    image: file.path,
-  });
+  try {
+    if (req.session.user) {
+      const { ref, uploadBytesResumable, getDownloadURL } = require("firebase/storage");
+      const { storage } = require("./src/firebase/config");
+
+      const dateTime = giveCurrentDateTime();
+      const storageRef = ref(
+        storage,
+        `images/${dateTime + '_' + imageFile.originalname}`
+      );
+
+      // Create file metadata including the content type
+      const metadata = {
+        contentType: req.file.mimetype,
+      };
+
+      // Upload the file in the bucket storage
+      const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
+      // by using uploadBytesResumable we can control the progress of uploading like pause, resume, cancel
+
+      // Grab the public url
+      const downloadURL = await getDownloadURL(snapshot.ref);
+
+      console.log('File successfully uploaded.');
+
+      res.json({
+        success: true,
+        image: downloadURL,
+      });
+    }
+  } catch (e) {
+    res.status(500).json({ message: "Internal Server Error" });
+    console.log(e.code);
+    throw e;
+  }
 });
 
 // passport.use(
