@@ -1,5 +1,4 @@
 const prisma = require("./PrismaConfig");
-
 class UserController {
   // GET /user
   async index(req, res) {
@@ -49,6 +48,9 @@ class UserController {
   async editProfile(req, res) {
     try {
       if (req.session.user) {
+        // format image to static path /uploads/filename.png
+        const path_image = req.body.image.replace("public", "");
+
         const updateProfile = await prisma.User.update({
           where: {
             id: req.session.user.userId,
@@ -59,7 +61,7 @@ class UserController {
             email: req.body.email,
             about: req.body.about,
             country: req.body.country,
-            image: req.body.image,
+            image: path_image,
             address: req.body.address,
             company: req.body.company,
             job: req.body.job,

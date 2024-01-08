@@ -13,7 +13,7 @@ let HtmlWebpackPlugin = require("html-webpack-plugin");
  */
 
 mix
-  .ts("src/views/main/index.tsx", "js")
+  .ts("src/views/main/index.tsx", "public/js")
   .react()
   .postCss("src/views/main/index.css", "public/css", [require("tailwindcss")])
   .extract()

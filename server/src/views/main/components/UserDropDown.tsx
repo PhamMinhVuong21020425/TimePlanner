@@ -2,6 +2,9 @@ import React from 'react';
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useSelector } from "react-redux"
+import { RootState } from "../redux/reducers/rootReducer"
+import User from "../types/Users";
 import request from '../utils/request'
 
 function classNames(...classes: string[]) {
@@ -37,6 +40,8 @@ type Props = {
 }
 
 export default function UserDropDown({ firstCharacter }: Props) {
+    const currentUser: User = useSelector((state: RootState) => state.userState.currentUser);
+
     const navigate = useNavigate();
     const handleLogout = async () => {
         const confirmation: any = window.confirm("Are you sure want to log out?");
@@ -51,10 +56,15 @@ export default function UserDropDown({ firstCharacter }: Props) {
     return (
         <Menu as="div" className="relative inline-block text-left">
             <div>
-                <Menu.Button className={`flex items-center justify-center w-[50px] h-[50px] gap-x-1.5 rounded-full bg-orange-400 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300`}>
-                    {firstCharacter}
-                    {/* <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" /> */}
-                </Menu.Button>
+                {currentUser.image ?
+                    <Menu.Button className='flex items-center justify-center px-3 py-2'>
+                        <img src={currentUser.image} alt='avatar' width="50" height="50" className='rounded-full' />
+                        {/* <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" /> */}
+                    </Menu.Button> :
+                    <Menu.Button className={`flex items-center justify-center w-[50px] h-[50px] gap-x-1.5 rounded-full bg-orange-400 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300`}>
+                        {firstCharacter}
+                    </Menu.Button>
+                }
             </div>
 
             <Transition

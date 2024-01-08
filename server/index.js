@@ -10,6 +10,7 @@ const MySQLStore = require("express-mysql-session")(session);
 const cors = require("cors");
 const mysql = require("mysql2");
 const route = require("./src/routes/index");
+const multer = require("multer");
 const passport = require("passport");
 const FacebookStrategy = require("passport-facebook").Strategy;
 require("dotenv").config();
@@ -123,6 +124,31 @@ app.use(
     },
   })
 );
+
+// SET STORAGE UPLOAD
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads/'); // Thư mục để lưu trữ các file đã upload
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '_' + file.originalname); // Đặt tên file
+  }
+});
+
+const upload = multer({ storage: storage });
+
+app.post("/upload", upload.single("avatar"), (req, res, next) => {
+  const file = req.file;
+  if (!file) {
+    const error = new Error("Please upload a file");
+    error.httpStatusCode = 400;
+    return next(error);
+  }
+  res.json({
+    success: true,
+    image: file.path,
+  });
+});
 
 // passport.use(
 //   new FacebookStrategy(
