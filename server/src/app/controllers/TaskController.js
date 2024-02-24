@@ -179,51 +179,66 @@ class TaskController {
 
   async getTypeTask(req, res) {
     const pool = require("./ConnectPlane");
-    const sql =
-      "SELECT type, COUNT(*) as count FROM \"Task\" WHERE type IS NOT NULL AND user_id = $1 GROUP BY type ORDER BY type";
-    await pool.query(sql, [req.session.user?.userId], (err, results) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send("Internal Server Error");
-        return;
-      }
-      res.status(200).json(results.rows);
-    });
+    const client = await pool.connect();
+    try {
+      const sql =
+        "SELECT type, COUNT(*) as count FROM \"Task\" WHERE type IS NOT NULL AND user_id = $1 GROUP BY type ORDER BY type";
+      await client.query(sql, [req.session.user?.userId], (err, results) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send("Internal Server Error");
+          return;
+        }
+        res.status(200).json(results.rows);
+      });
+    } finally {
+      if (client) client.release();
+    }
   }
 
   async getPriorityTask(req, res) {
     const pool = require("./ConnectPlane");
-    const sql = `SELECT priority,
+    const client = await pool.connect();
+    try {
+      const sql = `SELECT priority,
         EXTRACT(MONTH FROM started_time) AS month,
         COUNT(*) AS count
     FROM "Task"
     WHERE user_id = $1
     GROUP BY priority, month
     ORDER BY priority, month;`;
-    await pool.query(sql, [req.session.user?.userId], (err, results) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send("Internal Server Error");
-        return;
-      }
-      res.status(200).json(results.rows);
-    });
+      await client.query(sql, [req.session.user?.userId], (err, results) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send("Internal Server Error");
+          return;
+        }
+        res.status(200).json(results.rows);
+      });
+    } finally {
+      if (client) client.release();
+    }
   }
 
   async getStatusTask(req, res) {
     const pool = require("./ConnectPlane");
-    const sql = `SELECT priority, COUNT(*) AS count FROM "Task" 
+    const client = await pool.connect();
+    try {
+      const sql = `SELECT priority, COUNT(*) AS count FROM "Task" 
     WHERE user_id = $1 AND status = $2
     GROUP BY priority
     ORDER BY priority DESC;`;
-    await pool.query(sql, [req.session.user?.userId, req.params?.status], (err, results) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send("Internal Server Error");
-        return;
-      }
-      res.status(200).json(results.rows);
-    });
+      await client.query(sql, [req.session.user?.userId, req.params?.status], (err, results) => {
+        if (err) {
+          console.log(err);
+          res.status(500).send("Internal Server Error");
+          return;
+        }
+        res.status(200).json(results.rows);
+      });
+    } finally {
+      if (client) client.release();
+    }
   }
 }
 

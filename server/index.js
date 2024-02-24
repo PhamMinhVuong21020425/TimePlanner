@@ -81,9 +81,9 @@ const port = process.env.PORT || 8000;
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false // tắt xác thực SSL (chỉ nên làm điều này trong môi trường phát triển)
-  }
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
 });
 
 // const connection = mysql.createConnection({

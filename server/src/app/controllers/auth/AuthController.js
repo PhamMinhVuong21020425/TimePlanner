@@ -1,3 +1,4 @@
+const { fi } = require("date-fns/locale");
 const prisma = require("../PrismaConfig");
 class AuthController {
   static createHash(password) {
@@ -18,57 +19,62 @@ class AuthController {
 
   async logPost(req, res, next) {
     const pool = require("../ConnectPlane");
-    let { email, password } = req.body;
+    const client = await pool.connect();
+    try {
+      let { email, password } = req.body;
 
-    const que = "SELECT id, password FROM \"User\" WHERE email = $1";
-    await pool.query(que, [email], async (err, result) => {
-      if (
-        !Boolean(result.rows?.length) ||
-        !result.rows[0]?.password ||
-        !AuthController.comparePassword(password, result.rows[0]?.password)
-      ) {
-        res.status(200).json({ message: "Email or password is invalid." });
-        return;
-      }
+      const que = "SELECT id, password FROM \"User\" WHERE email = $1";
+      await client.query(que, [email], async (err, result) => {
+        if (
+          !Boolean(result.rows?.length) ||
+          !result.rows[0]?.password ||
+          !AuthController.comparePassword(password, result.rows[0]?.password)
+        ) {
+          res.status(200).json({ message: "Email or password is invalid." });
+          return;
+        }
 
-      // const optionsCookie = {
-      //   maxAge: 3 * 3600 * 1000,
-      // };
+        // const optionsCookie = {
+        //   maxAge: 3 * 3600 * 1000,
+        // };
 
-      // res.cookie(
-      //   "user",
-      //   {
-      //     userId: result.rows[0].id,
-      //     email: req.body.email,
-      //   },
-      //   optionsCookie
-      // );
+        // res.cookie(
+        //   "user",
+        //   {
+        //     userId: result.rows[0].id,
+        //     email: req.body.email,
+        //   },
+        //   optionsCookie
+        // );
 
-      // res.end("Cookie is sent!");
+        // res.end("Cookie is sent!");
 
-      req.session?.regenerate(function (err) {
-        if (err) next(err);
+        req.session?.regenerate(function (err) {
+          if (err) next(err);
 
-        req.session.user = {
-          userId: result.rows[0].id,
-          email: req.body.email,
-        };
-        console.log("LOGIN INFO: ", req.session.user);
+          req.session.user = {
+            userId: result.rows[0].id,
+            email: req.body.email,
+          };
+          console.log("LOGIN INFO: ", req.session.user);
 
-        // save the session before redirection to ensure page
-        // load does not happen before session is saved
-        req.session.save(function (err) {
-          if (err) return next(err);
-          res.status(200).json(req.session.user);
+          // save the session before redirection to ensure page
+          // load does not happen before session is saved
+          req.session.save(function (err) {
+            if (err) return next(err);
+            res.status(200).json(req.session.user);
+          });
         });
-      });
 
-      if (err) {
-        console.log("ERROR: " + err);
-        res.status(500).json({ message: "Internal Server Error" });
-        return;
-      }
-    });
+        if (err) {
+          console.log("ERROR: " + err);
+          res.status(500).json({ message: "Internal Server Error" });
+          return;
+        }
+      });
+    } finally {
+      if (client) client.release();
+    }
   }
 
   // GET

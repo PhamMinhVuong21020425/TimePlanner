@@ -30,34 +30,44 @@ class SiteController {
 
   async users(req, res) {
     const pool = require("./ConnectPlane");
-    const userID = req.params.userID;
-    const sql = "SELECT * FROM \"User\" WHERE id = $1";
-    await pool.query(sql, [userID], function (err, results, fields) {
-      if (err) {
-        console.log(err);
-        res.status(500).json({ message: "Internal Server Error" });
-        return;
-      }
+    const client = await pool.connect();
+    try {
+      const userID = req.params.userID;
+      const sql = "SELECT * FROM \"User\" WHERE id = $1";
+      await client.query(sql, [userID], function (err, results, fields) {
+        if (err) {
+          console.log(err);
+          res.status(500).json({ message: "Internal Server Error" });
+          return;
+        }
 
-      // Trả về kết quả truy vấn dưới dạng JSON, bao gồm tên cột và dữ liệu
-      res.status(200).json(results);
-    });
+        // Trả về kết quả truy vấn dưới dạng JSON, bao gồm tên cột và dữ liệu
+        res.status(200).json(results);
+      });
+    } finally {
+      if (client) client.release();
+    }
   }
 
   async deleteUser(req, res) {
     const userID = req.body.id;
     const pool = require("./ConnectPlane");
-    const sql = "DELETE FROM \"User\" WHERE id = $1";
-    await pool.query(sql, [userID], function (err, results, fields) {
-      if (err) {
-        console.log(err);
-        res.status(500).json({ message: "Internal Server Error" });
-        return;
-      }
+    const client = await pool.connect();
+    try {
+      const sql = "DELETE FROM \"User\" WHERE id = $1";
+      await client.query(sql, [userID], function (err, results, fields) {
+        if (err) {
+          console.log(err);
+          res.status(500).json({ message: "Internal Server Error" });
+          return;
+        }
 
-      // Trả về kết quả truy vấn dưới dạng JSON, bao gồm tên cột và dữ liệu
-      res.redirect("/");
-    });
+        // Trả về kết quả truy vấn dưới dạng JSON, bao gồm tên cột và dữ liệu
+        res.redirect("/");
+      });
+    } finally {
+      if (client) client.release();
+    }
   }
   async testPlane(req, res) {
     const pool = require("./ConnectPlane");
