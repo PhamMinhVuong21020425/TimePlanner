@@ -1,3 +1,4 @@
+const prisma = require("../PrismaConfig");
 class AuthController {
   static createHash(password) {
     const bcrypt = require("bcrypt");
@@ -19,12 +20,12 @@ class AuthController {
     const pool = require("../ConnectPlane");
     let { email, password } = req.body;
 
-    const que = "SELECT id, password FROM User WHERE email = ?";
-    await pool.execute(que, [email], async (err, result) => {
+    const que = "SELECT id, password FROM \"User\" WHERE email = $1";
+    await pool.query(que, [email], async (err, result) => {
       if (
-        !Boolean(result?.length) ||
-        !result[0]?.password ||
-        !AuthController.comparePassword(password, result[0]?.password)
+        !Boolean(result.rows?.length) ||
+        !result.rows[0]?.password ||
+        !AuthController.comparePassword(password, result.rows[0]?.password)
       ) {
         res.status(200).json({ message: "Email or password is invalid." });
         return;
@@ -37,7 +38,7 @@ class AuthController {
       // res.cookie(
       //   "user",
       //   {
-      //     userId: result[0].id,
+      //     userId: result.rows[0].id,
       //     email: req.body.email,
       //   },
       //   optionsCookie
@@ -49,7 +50,7 @@ class AuthController {
         if (err) next(err);
 
         req.session.user = {
-          userId: result[0].id,
+          userId: result.rows[0].id,
           email: req.body.email,
         };
         console.log("LOGIN INFO: ", req.session.user);
@@ -76,8 +77,6 @@ class AuthController {
   }
 
   async signPost(req, res) {
-    const pool = require("../ConnectPlane");
-
     let { fullname, email, password, confirmPassword } = req.body;
 
     console.log(req.body);
@@ -87,19 +86,22 @@ class AuthController {
       return;
     }
 
-    const sql = "INSERT INTO User(name, email, password) VALUES (?, ?, ?)";
-    await pool.execute(
-      sql,
-      [fullname, email, AuthController.createHash(password)],
-      (err, results) => {
-        if (err) {
-          console.log("ERROR SIGN UP: " + err);
-          res.status(500).json({ message: "Internal Server Error" });
-          return;
-        }
-        res.status(200).json({ success: "Sign up success!!" });
-      }
-    );
+    try {
+      const hashedPassword = AuthController.createHash(password);
+
+      await prisma.User.create({
+        data: {
+          name: fullname,
+          email: email,
+          password: hashedPassword,
+        },
+      });
+
+      res.status(200).json({ success: "Sign up success!!" });
+    } catch (error) {
+      console.log("ERROR SIGN UP: " + error.message);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
   }
 }
 

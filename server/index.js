@@ -6,9 +6,9 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
 const path = require("path");
-const MySQLStore = require("express-mysql-session")(session);
+const PostgreSQLStore = require("connect-pg-simple")(session);
 const cors = require("cors");
-const mysql = require("mysql2");
+const { Pool } = require("pg");
 const route = require("./src/routes/index");
 const multer = require("multer");
 const passport = require("passport");
@@ -78,31 +78,47 @@ const port = process.env.PORT || 8000;
 //   },
 // });
 // connection.end();
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false, // tắt xác thực SSL
-  },
+    rejectUnauthorized: false // tắt xác thực SSL (chỉ nên làm điều này trong môi trường phát triển)
+  }
 });
 
+// const connection = mysql.createConnection({
+//   host: process.env.DB_HOST,
+//   user: process.env.DB_USER,
+//   password: process.env.DB_PASSWORD,
+//   database: process.env.DB_NAME,
+//   ssl: {
+//     rejectUnauthorized: false, // tắt xác thực SSL
+//   },
+// });
+
+// const options = {
+//   expiration: 3 * 3600 * 1000,
+//   createDatabaseTable: true,
+//   schema: {
+//     tableName: "Sessions",
+//     columnNames: {
+//       session_id: "session_id",
+//       expires: "expires",
+//       data: "data",
+//     },
+//   },
+//   url: process.env.DATABASE_URL,
+// };
+
+// const sessionStore = new MySQLStore(options, connection);
+
 const options = {
+  pool: pool,
+  tableName: "Session",
   expiration: 3 * 3600 * 1000,
-  createDatabaseTable: true,
-  schema: {
-    tableName: "Sessions",
-    columnNames: {
-      session_id: "session_id",
-      expires: "expires",
-      data: "data",
-    },
-  },
-  url: process.env.DATABASE_URL,
 };
 
-const sessionStore = new MySQLStore(options, connection);
+const sessionStore = new PostgreSQLStore(options);
 
 app.set("trust proxy", 1);
 app.use(
@@ -115,7 +131,8 @@ app.use(
     name: process.env.SESSION_NAME,
     cookie: {
       secure: false,
-      maxAge: 3 * 3600 * 1000, //3h
+      maxAge: 3 * 3600 * 1000, // 3h
+      httpOnly: true,
       sameSite: true,
     },
     genid: (req) => {

@@ -11,7 +11,7 @@ class SiteController {
       res.status(200).json({ message: "Logined" });
       return;
     }
-    
+
     console.log("NotLogin");
     res.status(200).json({ message: "NotLogin" });
 
@@ -31,8 +31,8 @@ class SiteController {
   async users(req, res) {
     const pool = require("./ConnectPlane");
     const userID = req.params.userID;
-    const sql = "SELECT * FROM user WHERE id = ?";
-    await pool.execute(sql, [userID], function (err, results, fields) {
+    const sql = "SELECT * FROM \"User\" WHERE id = $1";
+    await pool.query(sql, [userID], function (err, results, fields) {
       if (err) {
         console.log(err);
         res.status(500).json({ message: "Internal Server Error" });
@@ -47,8 +47,8 @@ class SiteController {
   async deleteUser(req, res) {
     const userID = req.body.id;
     const pool = require("./ConnectPlane");
-    const sql = "DELETE FROM user WHERE id = ?";
-    await pool.execute(sql, [userID], function (err, results, fields) {
+    const sql = "DELETE FROM \"User\" WHERE id = $1";
+    await pool.query(sql, [userID], function (err, results, fields) {
       if (err) {
         console.log(err);
         res.status(500).json({ message: "Internal Server Error" });
@@ -62,7 +62,7 @@ class SiteController {
   async testPlane(req, res) {
     const pool = require("./ConnectPlane");
     const sql = "Select * from Project";
-    await pool.execute(sql, (err, results) => {
+    await pool.query(sql, (err, results) => {
       if (err) {
         console.log(err);
         res.status(500).send("Internal Server Error");
@@ -84,8 +84,8 @@ class SiteController {
       finished_time,
       started_time,
     } = req.body;
-    const sql = "INSERT INTO Project VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    await pool.execute(
+    const sql = "INSERT INTO Project VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
+    await pool.query(
       sql,
       [id, user_id, name, status, priority, des, finished_time, started_time],
       (err, results) => {
