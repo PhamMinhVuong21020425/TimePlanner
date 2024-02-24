@@ -115,7 +115,7 @@ const pool = new Pool({
 const options = {
   pool: pool,
   tableName: "Session",
-  expiration: 3 * 3600 * 1000,
+  schemaName: "public"
 };
 
 const sessionStore = new PostgreSQLStore(options);
